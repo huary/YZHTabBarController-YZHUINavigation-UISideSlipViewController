@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "9200413c-414e-46ce-a3b3-e17276296fd2++4453",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "9200413c-414e-46ce-a3b3-e17276296fd2++4453" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9200413c-414e-46ce-a3b3-e17276296fd2++4453" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FA729219-6A1D-4182-8185-E50BDBF461FD",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9200413c-414e-46ce-a3b3-e17276296fd2++4453" : "SDK"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "YZHUINavigationController",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "self\/YZHUINavigation\/YZHUINavigationController.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/127.0.0.1",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9200413c-414e-46ce-a3b3-e17276296fd2++4453"
+    }
+  ]
+}
