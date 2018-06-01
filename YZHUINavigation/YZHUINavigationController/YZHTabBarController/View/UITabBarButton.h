@@ -21,6 +21,8 @@ typedef NS_ENUM(NSInteger,NSBadgeType)
 
 @class UITabBarButton;
 
+typedef void(^TabBarEventActionBlock)(UITabBarButton *button);
+
 //返回需要显示的badgeValue和badgeType
 typedef NSString*(^TabBarBadgeBlock)(UITabBarButton *button, NSString *badgeValue, NSBadgeType *badgeType);
 

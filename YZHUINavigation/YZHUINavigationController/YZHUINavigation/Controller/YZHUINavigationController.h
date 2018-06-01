@@ -25,6 +25,12 @@
 
 #define MIN_ALPHA_TO_HIDDEN  (0.01)
 
+
+UIKIT_EXTERN NSNotificationName const YZHUINavigationBarAttributeChangNotification;
+
+UIKIT_EXTERN NSString * const YZHUINavigationBarBoundsKey;
+UIKIT_EXTERN NSString * const YZHUINavigationBarCenterPointKey;
+
 typedef NS_ENUM(NSInteger, UINavigationControllerBarAndItemStyle)
 {
     //系统默认的导航栏和item

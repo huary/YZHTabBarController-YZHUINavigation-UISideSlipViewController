@@ -8,7 +8,7 @@
 
 #import "UITabBarButton.h"
 #import "YZHTabBarController.h"
-#import "YZHUIGraphicsImageModel.h"
+#import "YZHUIGraphicsImage.h"
 #import "UITabBarView.h"
 
 static float defautlTextFontSize = 12;
@@ -254,11 +254,13 @@ static float tabBarImageRatio = 0.65;
     
     [self _updateTitleFontAndColor];
     
+    //这里不能更新image和title了
+    
 }
 
 -(UIFont*)_tabBarButtonTextFont
 {
-    if ([self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
+    if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
         if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
             UIFont *font = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemTitleTextFontKey];
             if (font) {
@@ -277,7 +279,7 @@ static float tabBarImageRatio = 0.65;
 
 -(UIColor*)_tabBarButtonTitleNormalColor
 {
-    if ([self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
+    if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
         if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
             UIColor *color = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemTitleNormalColorKey];
             if (color) {
@@ -297,7 +299,7 @@ static float tabBarImageRatio = 0.65;
 
 -(UIColor*)_tabBarButtonTitleSelectedColor
 {
-    if ([self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
+    if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
         if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
             UIColor *color = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemTitleSelectedColorKey];
             if (color) {
@@ -316,7 +318,7 @@ static float tabBarImageRatio = 0.65;
 
 -(UIColor*)_tabBarButtonNormalBackgroundColor
 {
-    if ([self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
+    if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
         return CLEAR_COLOR;
     }
     else {
@@ -330,7 +332,7 @@ static float tabBarImageRatio = 0.65;
 
 -(UIColor*)_tabBarButtonSelectedBackgroundColor
 {
-    if ([self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
+    if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
         if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
             UIColor *color = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemSelectedBackgroundColorKey];
             if (color) {
@@ -351,7 +353,7 @@ static float tabBarImageRatio = 0.65;
 
 -(UIColor*)_tabBarButtonHighlightedBackgroundColor
 {
-    if ([self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
+    if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
         if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
             UIColor *color = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemHighlightedBackgroundColorKey];
             if (color) {

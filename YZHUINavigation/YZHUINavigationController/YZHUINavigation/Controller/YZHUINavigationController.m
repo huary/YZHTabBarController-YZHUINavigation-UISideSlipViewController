@@ -17,6 +17,12 @@
 #define MIN_PERCENT_PUSH_VIEWCONTROLLER     (0.15)
 #define MIN_PERCENT_POP_VIEWCONTROLLER      (0.2)
 
+NSNotificationName const YZHUINavigationBarAttributeChangNotification = TYPE_STR(YZHUINavigationBarAttributeChangNotification);
+
+NSString * const YZHUINavigationBarBoundsKey = TYPE_STR(YZHUINavigationBarBoundsKey);
+NSString * const YZHUINavigationBarCenterPointKey = TYPE_STR(YZHUINavigationBarCenterPointKey);
+
+
 typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationController *navigationController);
 
 
@@ -155,6 +161,50 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }
     
     [self _createPanGestureAction];
+    
+    [self _addObserverNavigationBar:YES];
+}
+
+-(void)_addObserverNavigationBar:(BOOL)add
+{
+    if (add) {
+        [self.navigationBar addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
+        
+        [self.navigationBar addObserver:self forKeyPath:@"transform" options:NSKeyValueObservingOptionNew context:nil];
+        
+        [self.navigationBar addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew context:nil];
+        
+        [self.navigationBar addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
+    }
+    else {
+        [self.navigationBar removeObserver:self forKeyPath:@"frame"];
+        [self.navigationBar removeObserver:self forKeyPath:@"transform"];
+        [self.navigationBar removeObserver:self forKeyPath:@"center"];
+        [self.navigationBar removeObserver:self forKeyPath:@"bounds"];
+    }
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+//    NSLog(@"keyPath=%@,change=%@",keyPath,change);
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if ([keyPath isEqualToString:@"center"]) {
+        CGPoint center = [[change objectForKey:NSKeyValueChangeNewKey] CGPointValue];
+        if (center.y > 0) {
+            if (self.navigationControllerBarAndItemStyle == UINavigationControllerBarAndItemViewControllerBarItemStyle) {
+                self.navigationBar.hidden = YES;
+            }
+            else if (self.navigationControllerBarAndItemStyle == UINavigationControllerBarAndItemViewControllerBarWithDefaultItemStyle) {
+            }
+        }
+        [userInfo setObject:[NSValue valueWithCGPoint:center] forKey:YZHUINavigationBarCenterPointKey];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:YZHUINavigationBarAttributeChangNotification object:nil userInfo:userInfo];
+    }
+    else if ([keyPath isEqualToString:@"bounds"]) {
+        CGRect bounds = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
+        [userInfo setObject:[NSValue valueWithCGRect:bounds] forKey:YZHUINavigationBarBoundsKey];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:YZHUINavigationBarAttributeChangNotification object:nil userInfo:userInfo];
 }
 
 -(void)resetNavigationBarAndItemViewFrame:(CGRect)frame
@@ -694,6 +744,11 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)dealloc
+{
+    [self _addObserverNavigationBar:NO];
 }
 
 

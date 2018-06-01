@@ -57,22 +57,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUINavigationController.m"
-            timestampString = "546600746.539246"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "484"
-            endingLineNumber = "484"
-            landmarkName = "-addNewNavigationItemViewForViewController:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/Model/YZHDefaultAnimatedTransition.m"
             timestampString = "547401623.719456"
             startingColumnNumber = "9223372036854775807"
@@ -90,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/View/UINavigationItemView.m"
-            timestampString = "546600746.5395859"
+            timestampString = "549506918.489236"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "284"
@@ -106,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/View/UINavigationItemView.m"
-            timestampString = "546600746.539673"
+            timestampString = "549506918.489333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "141"
@@ -122,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/View/UINavigationItemView.m"
-            timestampString = "546600746.5397331"
+            timestampString = "549506918.489408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "283"
@@ -138,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/View/UINavigationItemView.m"
-            timestampString = "546600746.539811"
+            timestampString = "549506918.489477"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "251"
@@ -154,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/Style1_2ViewController.m"
-            timestampString = "546600746.5399131"
+            timestampString = "549477367.9591269"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "31"
@@ -170,12 +154,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-            timestampString = "546600746.539989"
+            timestampString = "549506918.489659"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "428"
-            endingLineNumber = "428"
-            landmarkName = "-_createButtonItemWithImage:title:color:target:action:"
+            startingLineNumber = "491"
+            endingLineNumber = "491"
+            landmarkName = "-_createNavigationItemImageForView:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,12 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-            timestampString = "546600746.540072"
+            timestampString = "549506918.489749"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "399"
-            endingLineNumber = "399"
-            landmarkName = "-_createNavigationItemImageForImage:"
+            startingLineNumber = "462"
+            endingLineNumber = "462"
+            landmarkName = "-_createLeftBackImageForColor:width:"
             landmarkType = "7">
             <Locations>
                <Location
@@ -234,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-            timestampString = "546600746.540139"
+            timestampString = "549506918.489859"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "406"
-            endingLineNumber = "406"
+            startingLineNumber = "469"
+            endingLineNumber = "469"
             landmarkName = "-_createNavigationItemImageForImage:"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,12 +234,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-            timestampString = "546600746.540251"
+            timestampString = "549506918.489941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
-            landmarkName = "-_createButtonItemWithImage:title:color:target:action:"
+            startingLineNumber = "494"
+            endingLineNumber = "494"
+            landmarkName = "-_createNavigationItemImageForView:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -266,12 +250,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-            timestampString = "546600746.5403661"
+            timestampString = "549506918.490032"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "500"
-            endingLineNumber = "500"
-            landmarkName = "-_createNavigationButtonItemsWithImageNames:target:action:"
+            startingLineNumber = "563"
+            endingLineNumber = "563"
+            landmarkName = "-_createNavigationButtonItemsWithTitles:target:action:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -282,44 +266,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-            timestampString = "546600746.5404381"
+            timestampString = "549506918.490123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "398"
-            endingLineNumber = "398"
+            startingLineNumber = "461"
+            endingLineNumber = "461"
+            landmarkName = "-_createLeftBackImageForColor:width:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+            timestampString = "549506918.490213"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
             landmarkName = "-_createNavigationItemImageForImage:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-            timestampString = "546600746.5405281"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "403"
-            endingLineNumber = "403"
-            landmarkName = "-_createNavigationItemImageForImage:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-            timestampString = "546600746.540625"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "-viewWillLayoutSubviews"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -330,12 +298,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUINavigationController.m"
-            timestampString = "546600746.5407079"
+            timestampString = "547747784.309429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "-_setupDefaultValue"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -361,61 +329,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YZHUINavigationController/YZHTabBarController/View/UITabBarItem+UIButton.m"
-            timestampString = "546514470.215615"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "-imageRange"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "YZHUINavigationController/YZHTabBarController/View/UITabBarItem+UIButton.m"
-            timestampString = "546514470.2158149"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "-imageRange"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHTabBarController/View/UITabBarView.m"
-            timestampString = "546600746.541088"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "-_updateLayout"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "YZHUINavigationController/YZHTabBarController/View/UITabBarView.m"
-            timestampString = "546600746.541177"
+            timestampString = "548093470.4139659"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "103"
             endingLineNumber = "103"
-            landmarkName = "-_updateLayout"
+            landmarkName = "-_setupChildView"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -426,13 +346,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHTabBarController/View/UITabBarView.m"
-            timestampString = "546600746.5412821"
+            timestampString = "548093470.416103"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "-_updateLayout"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "-_setupChildView"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHUINavigationController/YZHTabBarController/View/UITabBarView.m"
+            timestampString = "548093470.41653"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "UITabBarView()"
+            landmarkType = "2">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -442,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/Style3ViewController.m"
-            timestampString = "546600746.5413719"
+            timestampString = "549506918.490504"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "-setUpChildView"
             landmarkType = "7">
          </BreakpointContent>
@@ -457,116 +393,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-            timestampString = "546600746.541463"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
-            landmarkName = "-viewWillLayoutSubviews"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
-                  moduleName = "YZHUINavigationController"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-                  timestampString = "546570348.849416"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "5850">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
-                  moduleName = "YZHUINavigationController"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-                  timestampString = "546570348.85207"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "6854">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
-                  moduleName = "YZHUINavigationController"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-                  timestampString = "546570348.85454"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "6920">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
-                  moduleName = "YZHUINavigationController"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-                  timestampString = "546570348.856802"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "7290">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
-                  moduleName = "YZHUINavigationController"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-                  timestampString = "546570348.859035"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "7502">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
-                  moduleName = "YZHUINavigationController"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
-                  timestampString = "546570348.86121"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "7851">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHUINavigation/View/UINavigationItemView.m"
-            timestampString = "546600746.541563"
+            timestampString = "549506918.490567"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "289"
@@ -581,29 +409,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YZHUINavigationController/AppDelegate.m"
-            timestampString = "547402364.300442"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
-            landmarkName = "-tabBarController:shouldSelectFrom:to:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "YZHUINavigationController/YZHTabBarController/View/UITabBarView.m"
-            timestampString = "546600746.541793"
+            timestampString = "548093470.417345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
-            landmarkName = "-_tabBarClick:"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
+            landmarkName = "-_tapAction:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -620,6 +432,362 @@
             startingLineNumber = "700"
             endingLineNumber = "700"
             landmarkName = "-gestureRecognizerShouldBegin:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+            timestampString = "549506918.490697"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "-_setUpNavigationBarAndItemView"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.4385591"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "496">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.4416879"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "1494">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.443972"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "1560">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.4462301"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "1930">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.449792"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "2142">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.4531291"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "2491">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+            timestampString = "549506918.490787"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "-viewWillLayoutSubviews"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.462973"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "5850">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.465467"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "6854">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.468454"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "6920">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.470727"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "7290">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.473078"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "7502">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController viewWillLayoutSubviews]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.475457"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
+                  offsetFromSymbolStart = "7851">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+            timestampString = "549506918.490855"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "-_setUpNavigationBarAndItemView"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.487458"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "4892">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.490891"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "5896">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.49344"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "5962">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.4956501"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "6332">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.49783"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "6544">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHUIViewController _setUpNavigationBarAndItemView]"
+                  moduleName = "YZHUINavigationController"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHUINavigation/YZHUINavigation/YZHUINavigationController/YZHUINavigation/Controller/YZHUIViewController.m"
+                  timestampString = "547616767.500556"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "6893">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHUINavigationController/Style5ViewController.m"
+            timestampString = "549506918.490939"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "-setUpChildView"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHUINavigationController/Style4ViewController.m"
+            timestampString = "549506918.491339"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "-setUpChildView"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

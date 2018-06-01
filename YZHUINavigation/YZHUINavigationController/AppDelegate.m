@@ -32,7 +32,7 @@
     YZHTabBarController *rootVC = [[YZHTabBarController alloc] init];
     rootVC.tabBarDelegate = self;
     
-#if 0
+#if 1
     Style1ViewController *style1  = [[Style1ViewController alloc] init];
     [rootVC setupChildViewController:style1 withTitle:@"系统默认" imageName:@"TarBar_home_NM" selectedImageName:@"TarBar_home_HL" navigationControllerBarAndItemStyle:UINavigationControllerBarAndItemDefaultStyle];
     
@@ -46,7 +46,7 @@
 //    CGFloat w = rootVC.tabBar.bounds.size.height;
 //    CGFloat h = w;
 //    CGFloat x = (itemW - w)/2;
-//    CGFloat y = -h/2;
+//    CGFloat y = 0;
 //    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, h)];
 //    customView.layer.cornerRadius = h/2;
 //    customView.layer.masksToBounds = YES;
@@ -58,17 +58,17 @@
     Style4ViewController *style4 = [[Style4ViewController alloc] init];
     [rootVC setupChildViewController:style4 withTitle:@"自定义VC导航和Item" imageName:@"TarBar_VR_NM" selectedImageName:@"TarBar_VR_HL" navigationControllerBarAndItemStyle:UINavigationControllerBarAndItemViewControllerBarItemStyle];
     
-//    w = rootVC.tabBar.bounds.size.height;
-//    h = w;
-//    x = (itemW - w)/2;
-//    y = -h/2;
-//    customView = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, h)];
+//    CGFloat w = rootVC.tabBar.bounds.size.height;
+//    CGFloat h = w;
+//    CGFloat x = (itemW - w)/2;
+//    CGFloat y = 0;
+//    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, h)];
 //    customView.layer.cornerRadius = h/2;
 //    customView.layer.masksToBounds = YES;
 //    customView.backgroundColor = RAND_COLOR;
 //
 //    [rootVC resetChildViewController:nil customItemView:customView navigationControllerBarAndItemStyle:UINavigationControllerBarAndItemGlobalBarWithDefaultItemStyle atIndex:3];
-//
+
 //    [rootVC resetChildViewController:style4 withTitle:@"自定义VC导航和Item" imageName:@"TarBar_VR_NM" selectedImageName:@"TarBar_VR_HL" navigationControllerBarAndItemStyle:UINavigationControllerBarAndItemViewControllerBarItemStyle atIndex:3];
     
     Style5ViewController *style5 = [[Style5ViewController alloc] init];
@@ -106,7 +106,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+
     [[UINavigationBar appearance] setBarTintColor:BROWN_COLOR];
     [[UINavigationBar appearance] setTintColor:WHITE_COLOR];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:WHITE_COLOR,NSFontAttributeName:NAVIGATION_ITEM_TITLE_FONT}];
@@ -149,5 +149,10 @@
 //        return NO;
 //    }
     return YES;
+}
+
+-(void)tabBarController:(YZHTabBarController *)tabBarController doubleClickAtIndex:(NSInteger)index
+{
+    NSLog(@"doubleClickAtIndex=%ld",index);
 }
 @end

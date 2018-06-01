@@ -27,6 +27,8 @@
     [self _initUIData];
     
     [self _setUpNavigationBarAndItemView];
+    
+    [self _addNavigationObserver:YES];
 }
 
 -(void)_initUIData
@@ -71,7 +73,6 @@
                         
             CGRect frame = CGRectMake(0, 0, w, STATUS_NAV_BAR_HEIGHT);
             self.navigationBarView = [[UINavigationBarView alloc] initWithFrame:frame];
-//            self.navigationBarView.frame = frame;
             [self.view addSubview:self.navigationBarView];
             
             self.navigationItemView = [[UINavigationItemView alloc] init];
@@ -91,6 +92,43 @@
         }
     }
 }
+
+-(void)_addNavigationObserver:(BOOL)add
+{
+    if (add) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_navigationBarNotificationAction:) name:YZHUINavigationBarAttributeChangNotification object:nil];
+    }
+    else {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:YZHUINavigationBarAttributeChangNotification object:nil];
+    }
+}
+
+-(void)_navigationBarNotificationAction:(NSNotification*)notification
+{
+    NSValue *centerPointValue = [notification.userInfo objectForKey:YZHUINavigationBarCenterPointKey];
+    if (!centerPointValue) {
+        return;
+    }
+    CGPoint center = [centerPointValue CGPointValue];
+    if ([self.navigationController isKindOfClass:[YZHUINavigationController class]]) {
+        YZHUINavigationController *navigationController = (YZHUINavigationController*)self.navigationController;
+        UINavigationControllerBarAndItemStyle barAndItemStyle = navigationController.navigationControllerBarAndItemStyle;
+        
+        if (barAndItemStyle == UINavigationControllerBarAndItemViewControllerBarItemStyle) {
+            if (center.y > 0) {
+                center.y = self.navigationBarView.bounds.size.height/2;
+            }
+            else {
+                center.y = -self.navigationBarView.bounds.size.height/2;
+            }
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                self.navigationBarView.center = center;
+            }];
+        }
+    }
+}
+
 -(void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
@@ -111,9 +149,11 @@
         self.navigationBarView.frame = frame;
     }
     _layoutTopY = CGRectGetMaxY(self.navigationBarView.frame);
-    if (self.title) {
-        self.title = self.title;
-    }
+    NSLog(@"navititle=%@",self.navigationTitle);
+    self.navigationTitle = self.navigationTitle;
+//    if (self.title) {
+//        self.title = self.title;
+//    }
 }
 
 -(void)setNavigationBarViewBackgroundColor:(UIColor *)navigationBarViewBackgroundColor
@@ -175,29 +215,52 @@
     }
 }
 
--(void)setTitle:(NSString *)title
+-(void)setNavigationTitle:(NSString *)navigationTitle
 {
+    _navigationTitle = navigationTitle;
     if ([self.navigationController isKindOfClass:[YZHUINavigationController class]]) {
         YZHUINavigationController *navigationController = (YZHUINavigationController*)self.navigationController;
         UINavigationControllerBarAndItemStyle barAndItemStyle = navigationController.navigationControllerBarAndItemStyle;
         if (IS_CUSTOM_GLOBAL_UINAVIGATIONCONTROLLER_ITEM_STYLE(barAndItemStyle)) {
-            [navigationController setNavigationItemTitle:title forViewController:self];
+            [navigationController setNavigationItemTitle:navigationTitle forViewController:self];
         }
         else if (IS_CUSTOM_VIEWCONTROLLER_UINAVIGATIONCONTROLLER_ITEM_STYLE(barAndItemStyle))
         {
-            [self.navigationItemView setTitle:title];
+            [self.navigationItemView setTitle:navigationTitle];
         }
-        else
-        {
-            self.navigationItem.titleView = nil;
-            super.title = title;
+        else {
+            self.navigationItem.title = navigationTitle;
         }
     }
-    else
-    {
-        super.title = title;
+    else {
+        self.navigationItem.title = navigationTitle;
     }
-//    super.title = title;
+}
+
+-(void)setTitle:(NSString *)title
+{
+    super.title = title;
+    self.navigationTitle = title;
+//    if ([self.navigationController isKindOfClass:[YZHUINavigationController class]]) {
+//        YZHUINavigationController *navigationController = (YZHUINavigationController*)self.navigationController;
+//        UINavigationControllerBarAndItemStyle barAndItemStyle = navigationController.navigationControllerBarAndItemStyle;
+//        if (IS_CUSTOM_GLOBAL_UINAVIGATIONCONTROLLER_ITEM_STYLE(barAndItemStyle)) {
+//            [navigationController setNavigationItemTitle:title forViewController:self];
+//        }
+//        else if (IS_CUSTOM_VIEWCONTROLLER_UINAVIGATIONCONTROLLER_ITEM_STYLE(barAndItemStyle))
+//        {
+//            [self.navigationItemView setTitle:title];
+//        }
+//        else
+//        {
+//            self.navigationItem.titleView = nil;
+//            super.title = title;
+//        }
+//    }
+//    else
+//    {
+//        super.title = title;
+//    }
 }
 
 -(void)setNavigationBarViewAlpha:(CGFloat)navigationBarViewAlpha

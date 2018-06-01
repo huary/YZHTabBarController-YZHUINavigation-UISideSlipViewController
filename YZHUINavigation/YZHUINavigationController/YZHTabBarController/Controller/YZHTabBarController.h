@@ -22,6 +22,7 @@ UIKIT_EXTERN NSString *const YZHTabBarItemHighlightedBackgroundColorKey;
 
 @optional
 -(BOOL)tabBarController:(YZHTabBarController*)tabBarController shouldSelectFrom:(NSInteger)from to:(NSInteger)to;
+-(void)tabBarController:(YZHTabBarController *)tabBarController doubleClickAtIndex:(NSInteger)index;
 
 @end
 

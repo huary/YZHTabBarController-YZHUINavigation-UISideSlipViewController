@@ -16,10 +16,59 @@ NSString *const YZHTabBarItemTitleTextFontKey = TYPE_STR(YZHTabBarItemTitleTextF
 NSString *const YZHTabBarItemSelectedBackgroundColorKey = TYPE_STR(YZHTabBarItemSelectedBackgroundColorKey);
 NSString *const YZHTabBarItemHighlightedBackgroundColorKey = TYPE_STR(YZHTabBarItemHighlightedBackgroundColorKey);
 
+
+/**************************************************************************
+ *NSItemChildVCInfo
+ **************************************************************************/
+@interface NSItemChildVCInfo : NSObject
+
+/** item的Index，这个是在TabBarView上面的Index */
+@property (nonatomic, assign) NSInteger itemIndex;
+
+/** childVCIndex,这个是在TabBarController上面的Index*/
+@property (nonatomic, assign) NSInteger childVCIndex;
+
+/** ChildVC */
+@property (nonatomic, weak) UIViewController *childVC;
+
+@end
+
+@implementation NSItemChildVCInfo
+-(instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self _setupDefaultValue];
+    }
+    return self;
+}
+
+-(instancetype)initWithItemIndex:(NSInteger)itemIndex childVC:(UIViewController*)childVC
+{
+    self = [super init];
+    if (self) {
+        [self _setupDefaultValue];
+        self.itemIndex = itemIndex;
+        self.childVC = childVC;
+    }
+    return self;
+}
+
+-(void)_setupDefaultValue
+{
+    self.childVCIndex = -1;
+}
+@end
+
+
+/**************************************************************************
+ *YZHTabBarController
+ **************************************************************************/
+
 @interface YZHTabBarController () <UITabBarViewDelegate>
 
 @property (nonatomic, strong) UITabBarView *tabBarView;
-@property (nonatomic, strong) NSMutableDictionary<NSNumber*, UIViewController*> *indexChildVC;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSItemChildVCInfo*> *itemChildVCInfo;
 
 @end
 
@@ -70,12 +119,12 @@ static YZHTabBarController *shareTabBarController_s = NULL;
     return self.tabBarView;
 }
 
--(NSMutableDictionary<NSNumber*, UIViewController*>*)indexChildVC
+-(NSMutableDictionary<NSNumber*, NSItemChildVCInfo*>*)itemChildVCInfo
 {
-    if (_indexChildVC == nil) {
-        _indexChildVC = [NSMutableDictionary dictionary];
+    if (_itemChildVCInfo == nil) {
+        _itemChildVCInfo = [NSMutableDictionary dictionary];
     }
-    return _indexChildVC;
+    return _itemChildVCInfo;
 }
 
 -(void)_setupTabBar
@@ -83,6 +132,7 @@ static YZHTabBarController *shareTabBarController_s = NULL;
     UITabBarView *tabBarView = [[UITabBarView alloc] init];
     tabBarView.delegate  = self;
     tabBarView.frame = self.tabBar.bounds;
+//    NSLog(@"frame=%@,safe=%f",NSStringFromCGRect(tabBarView.frame),SAFE_BOTTOM);
     tabBarView.backgroundColor = WHITE_COLOR;
     
     [self _hiddenTabBarSubView];
@@ -109,9 +159,21 @@ static YZHTabBarController *shareTabBarController_s = NULL;
         shouldSelect = [self.tabBarDelegate tabBarController:self shouldSelectFrom:from to:to];
     }
     if (shouldSelect) {
-        self.selectedIndex = to;
+        NSItemChildVCInfo *childVCInfo = [self.itemChildVCInfo objectForKey:@(to)];
+        NSInteger childVCIndex = childVCInfo.childVCIndex;
+        if (childVCInfo && childVCIndex >= 0 && childVCIndex < self.childViewControllers.count) {
+//            NSLog(@"to=%ld,childVCIndex=%ld",to,childVCIndex);
+            self.selectedIndex = childVCIndex;
+        }
     }
     return shouldSelect;
+}
+
+-(void)tabBarView:(UITabBarView *)tabBarView doubleClickAtIndex:(NSInteger)index
+{
+    if ([self.tabBarDelegate respondsToSelector:@selector(tabBarController:doubleClickAtIndex:)]) {
+        [self.tabBarDelegate tabBarController:self doubleClickAtIndex:index];
+    }
 }
 
 #pragma mark end
@@ -121,73 +183,78 @@ static YZHTabBarController *shareTabBarController_s = NULL;
     [self.tabBarView doSelectTo:toIndex];
 }
 
--(void)_addChildVC:(UIViewController*)viewController atIndex:(NSInteger)index
+-(void)_addChildVC:(UIViewController*)viewController atItemIndex:(NSInteger)itemIndex
 {
+    NSItemChildVCInfo *itemChildVCInfo = [[NSItemChildVCInfo alloc] initWithItemIndex:itemIndex childVC:viewController];
+    [self.itemChildVCInfo setObject:itemChildVCInfo forKey:@(itemIndex)];
     if (viewController == nil) {
         return;
     }
     [self addChildViewController:viewController];
-    [self.indexChildVC setObject:viewController forKey:@(index)];
+    itemChildVCInfo.childVCIndex = self.viewControllers.count - 1;
 }
 
--(NSInteger)_getChildVCIndexAtIndex:(NSInteger)index
+-(NSInteger)_getChildVCIndexAtItemIndex:(NSInteger)itemIndex
 {
-    NSInteger childVCIndex = index;
-    for (NSInteger i = 0; i < index; ++i) {
-        if (![self.indexChildVC objectForKey:@(i)]) {
-            --childVCIndex;
-        }
+    NSItemChildVCInfo *childVCInfo = [self.itemChildVCInfo objectForKey:@(itemIndex)];
+    if (childVCInfo.childVC) {
+        return childVCInfo.childVCIndex;
     }
-    return childVCIndex;
-
+    return -1;
 }
 
--(void)_updateChildVC:(UIViewController*)viewController atIndex:(NSInteger)index
+-(void)_updateChildVC:(UIViewController*)viewController atItemIndex:(NSInteger)itemIndex
 {
-    if (viewController == nil) {
+    NSItemChildVCInfo *childVCInfo = [self.itemChildVCInfo objectForKey:@(itemIndex)];
+    if (childVCInfo == nil) {
         return;
     }
-    
-    NSInteger childVCIndex = [self _getChildVCIndexAtIndex:index];
-    if ([self.indexChildVC objectForKey:@(index)]) {
-        if (childVCIndex < 0 || childVCIndex >= self.viewControllers.count) {
-            return;
-        }
-        
-        NSMutableArray *childVCArray = [self.viewControllers mutableCopy];
-        childVCArray[childVCIndex] = viewController;
-        self.viewControllers = childVCArray;
-        [self.indexChildVC setObject:viewController forKey:@(index)];
+    NSInteger findIndex = -1;
+    NSMutableArray *VCS = [self.viewControllers mutableCopy];
+    if (childVCInfo.childVC) {
+        //重新再来求一遍childVCIndex
+        findIndex = [self.viewControllers indexOfObject:childVCInfo.childVC];
     }
     else {
-        if (childVCIndex >= self.viewControllers.count) {
-            [self _addChildVC:viewController atIndex:index];
-        }
-        else {
-            NSMutableArray *childVCArray = [self.viewControllers mutableCopy];
-            [childVCArray insertObject:viewController atIndex:childVCIndex];
-            self.viewControllers = childVCArray;
-            [self.indexChildVC setObject:viewController forKey:@(index)];
+        __block NSInteger findIndex = -1;
+        [self.itemChildVCInfo enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSItemChildVCInfo * _Nonnull obj, BOOL * _Nonnull stop) {
+            if ([key integerValue] < itemIndex) {
+                findIndex = MAX(findIndex, obj.childVCIndex);
+            }
+        }];
+        findIndex += 1;
+        if (findIndex < 0 || findIndex >= VCS.count) {
+            [self.itemChildVCInfo removeObjectForKey:@(itemIndex)];
+            return;
         }
     }
-    
+    if (viewController) {
+        VCS[findIndex] = viewController;
+    }
+    else {
+        [VCS removeObjectAtIndex:findIndex];
+        findIndex = -1;
+    }
+    self.viewControllers = VCS;
+    childVCInfo.childVCIndex = findIndex;
+    childVCInfo.childVC = viewController;
 }
 
--(void)_removeChildVCAtIndex:(NSInteger)index
+-(void)_removeChildVCAtItemIndex:(NSInteger)itemIndex
 {
-    NSInteger childVCIndex = [self _getChildVCIndexAtIndex:index];
-    if (childVCIndex < 0 || childVCIndex >= self.viewControllers.count) {
+    NSItemChildVCInfo *childVCInfo = [self.itemChildVCInfo objectForKey:@(itemIndex)];
+    if (!childVCInfo) {
         return;
     }
-    NSMutableArray *childVCArray = [self.viewControllers mutableCopy];
-    UIViewController *childVC = [childVCArray objectAtIndex:childVCIndex];
+    NSMutableArray *VCS = [self.viewControllers mutableCopy];
+    UIViewController *childVC = childVCInfo.childVC;
     childVC.title = nil;
     childVC.tabBarItem.title = nil;
     childVC.tabBarItem.image = nil;
     childVC.tabBarItem.selectedImage = nil;
-    [childVCArray removeObjectAtIndex:childVCIndex];
-    self.viewControllers = childVCArray;
-    [self.indexChildVC removeObjectForKey:@(index)];
+    [VCS removeObject:childVC];
+    self.viewControllers= VCS;
+    [self.itemChildVCInfo removeObjectForKey:@(itemIndex)];
 }
 
 -(void)setupChildViewController:(UIViewController *)childVC
@@ -204,7 +271,7 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
     childVC.tabBarItem.selectedImage = selectedImage;
     YZHUINavigationController *nav = [[YZHUINavigationController alloc] initWithRootViewController:childVC navigationControllerBarAndItemStyle:barAndItemStyle];
     NSInteger index = [self.tabBarView currentIndex];
-    [self _addChildVC:nav atIndex:index];
+    [self _addChildVC:nav atItemIndex:index];
     UITabBarButton *button = [self.tabBarView addTabBarItem:childVC.tabBarItem];
     childVC.tabBarButton = button;
 }
@@ -229,8 +296,8 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
     }
     if (childVC) {
         YZHUINavigationController *nav = [[YZHUINavigationController alloc] initWithRootViewController:childVC navigationControllerBarAndItemStyle:barAndItemStyle];
-        NSInteger index = [self.tabBarView currentIndex];
-        [self _addChildVC:nav atIndex:index];
+        NSInteger itemIndex = [self.tabBarView currentIndex];
+        [self _addChildVC:nav atItemIndex:itemIndex];
     }
     [self.tabBarView addTabBarWithCustomView:customItemView];
 }
@@ -246,7 +313,7 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
         obj.tabBarButton = nil;
     }];
     [self.tabBarView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    self.indexChildVC = nil;
+    self.itemChildVCInfo = nil;
 }
 
 -(void)resetChildViewController:(UIViewController*)childVC
@@ -267,7 +334,7 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
     childVC.tabBarItem.image = image;
     childVC.tabBarItem.selectedImage = selectedImage;
     YZHUINavigationController *nav = [[YZHUINavigationController alloc] initWithRootViewController:childVC navigationControllerBarAndItemStyle:barAndItemStyle];
-    [self _updateChildVC:nav atIndex:index];
+    [self _updateChildVC:nav atItemIndex:index];
     [self.tabBarView resetTabBarItem:childVC.tabBarItem atIndex:index];
 }
 
@@ -293,10 +360,10 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
 //    }
     if (childVC) {
         YZHUINavigationController *nav = [[YZHUINavigationController alloc] initWithRootViewController:childVC navigationControllerBarAndItemStyle:barAndItemStyle];
-        [self _updateChildVC:nav atIndex:index];
+        [self _updateChildVC:nav atItemIndex:index];
     }
     else {
-        [self _removeChildVCAtIndex:index];
+        [self _removeChildVCAtItemIndex:index];
     }
     [self.tabBarView resetTabBarWithCustomView:customItemView atIndex:index];
 }
@@ -315,9 +382,7 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
 {
     [super viewWillLayoutSubviews];
     [self _hiddenTabBarSubView];
-    CGSize size = self.tabBar.bounds.size;
-    self.tabBarView.frame = CGRectMake(0, 0, size.width, TAB_BAR_HEIGHT);
-    self.tabBarView.backgroundColor = WHITE_COLOR;
+    self.tabBarView.frame = self.tabBar.bounds;
     for (UIView *child in self.tabBar.subviews) {
         if ([child isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
             [child removeFromSuperview];

@@ -29,6 +29,8 @@ typedef NS_ENUM(NSInteger, UITabBarViewUseFor)
 
 @optional
 -(BOOL)tabBarView:(UITabBarView*)tabBarView didSelectFrom:(NSInteger)from to:(NSInteger)to;
+
+-(void)tabBarView:(UITabBarView*)tabBarView doubleClickAtIndex:(NSInteger)index;
 @end
 
 @interface UITabBarView : UIView
@@ -42,7 +44,13 @@ typedef NS_ENUM(NSInteger, UITabBarViewUseFor)
 //default is NO
 @property (nonatomic, assign) BOOL scrollContent;
 
+//创建UITabBarView的TabBarItem
 -(UITabBarButton*)addTabBarItem:(UITabBarItem*)tabBarItem;
+//创建了一个自定义的Layout的UITabBarButton,
+-(UITabBarButton*)addCustomLayoutTabBarItem:(UITabBarItem *)tabBarItem;
+//仅仅创建一个自定义的Single的button，但是不加入到UITabBarView中
+-(UITabBarButton*)createSingleTabBarItem:(UITabBarItem *)tabBarItem forControlEvents:(UIControlEvents)controlEvents actionBlock:(TabBarEventActionBlock)actionBlock;
+
 -(UITabBarButton*)resetTabBarItem:(UITabBarItem *)tabBarItem atIndex:(NSInteger)index;
 
 -(void)addTabBarWithCustomView:(UIView*)customView;

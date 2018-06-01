@@ -43,6 +43,9 @@ CGRangeEqualToZero(CGRange r)
 
 @property (nonatomic, assign) NSButtonImageTitleStyle buttonStyle;
 
+//这个一般不用设置的。
+@property (nonatomic, assign) CGPoint buttonItemOrigin;
+
 @property (nonatomic, assign) CGSize buttonItemSize;
 
 @property (nonatomic, assign) CGRange imageRange;

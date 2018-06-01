@@ -31,6 +31,16 @@
     return [objc_getAssociatedObject(self, _cmd) integerValue];
 }
 
+-(void)setButtonItemOrigin:(CGPoint)buttonItemOrigin
+{
+    objc_setAssociatedObject(self, @selector(buttonItemOrigin), [NSValue valueWithCGPoint:buttonItemOrigin], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(CGPoint)buttonItemOrigin
+{
+    return [objc_getAssociatedObject(self, _cmd) CGPointValue];
+}
+
 -(void)setButtonItemSize:(CGSize)buttonItemSize
 {
     objc_setAssociatedObject(self, @selector(buttonItemSize), [NSValue valueWithCGSize:buttonItemSize], OBJC_ASSOCIATION_RETAIN_NONATOMIC);

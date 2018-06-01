@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "UINavigationBarView.h"
-#import "YZHUIGraphicsImageModel.h"
+#import "YZHUIGraphicsImage.h"
 
 @interface YZHUIViewController : UIViewController
+
+/** 注释 */
+@property (nonatomic, strong) NSString *navigationTitle;
 
 //设置navigationBarView的backgroundColor
 @property (nonatomic, copy) UIColor *navigationBarViewBackgroundColor;

@@ -8,6 +8,7 @@
 
 #import <pthread.h>
 #import "UIView+UIViewController.h"
+#import "YZHTabBarController.h"
 
 #ifndef Macro_h
 #define Macro_h
@@ -89,7 +90,6 @@
 #define TAB_BAR_FRAME                          [YZHTabBarController shareTabBarController].tabBar.frame
 
 #define STATUS_BAR_HEIGHT                      [[UIApplication sharedApplication] statusBarFrame].size.height
-#define CONST_STATUS_BAR_HEIGHT                 (20)
 
 
 #define CONST_NAV_BAR_HEIGHT                   (44)
@@ -101,10 +101,10 @@
 #define NAV_IMAGE_ITEM_WIDTH_WITH_HEIGHT_RATIO (0.8)
 
 
-#define TAB_BAR_HEIGHT                         (TAB_BAR_FRAME.size.height - SAFE_BOTTOM)
+#define TAB_BAR_HEIGHT                         (TAB_BAR_FRAME.size.height)
+#define SAFE_TAB_BAR_HEIGHT                    (TAB_BAR_HEIGHT - SAFE_BOTTOM)
 
 #define STATUS_NAV_BAR_HEIGHT                  (STATUS_BAR_HEIGHT + NAV_BAR_HEIGHT)
-#define CONST_STATUS_NAV_BAR_HEIGHT            (64)
 #define STATUS_NAV_TAB_BAR_HEIGHT              (STATUS_NAV_BAR_HEIGHT + TAB_BAR_HEIGHT)
 #define VIEW_VISIBLE_HEIGHT                    (SCREEN_HEIGHT - STATUS_NAV_TAB_BAR_HEIGHT)
 
