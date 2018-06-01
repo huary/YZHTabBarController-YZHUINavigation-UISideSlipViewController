@@ -149,11 +149,7 @@
         self.navigationBarView.frame = frame;
     }
     _layoutTopY = CGRectGetMaxY(self.navigationBarView.frame);
-    NSLog(@"navititle=%@",self.navigationTitle);
     self.navigationTitle = self.navigationTitle;
-//    if (self.title) {
-//        self.title = self.title;
-//    }
 }
 
 -(void)setNavigationBarViewBackgroundColor:(UIColor *)navigationBarViewBackgroundColor
