@@ -697,7 +697,8 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }
     else
     {
-        self.title = title;
+//        self.title = title;
+        self.navigationItem.title = title;
     }
 }
 

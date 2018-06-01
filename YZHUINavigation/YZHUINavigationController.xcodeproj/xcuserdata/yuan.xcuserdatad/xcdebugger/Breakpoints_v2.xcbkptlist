@@ -175,7 +175,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "462"
             endingLineNumber = "462"
-            landmarkName = "-_createLeftBackImageForColor:width:"
+            landmarkName = "-_createNavigationItemImageForImage:"
             landmarkType = "7">
             <Locations>
                <Location
@@ -239,7 +239,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "494"
             endingLineNumber = "494"
-            landmarkName = "-_createNavigationItemImageForView:"
+            landmarkName = "-_createButtonItemWithImage:title:color:target:action:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -271,7 +271,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "461"
             endingLineNumber = "461"
-            landmarkName = "-_createLeftBackImageForColor:width:"
+            landmarkName = "-_createNavigationItemImageForImage:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
