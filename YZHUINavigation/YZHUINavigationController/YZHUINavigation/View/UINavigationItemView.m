@@ -100,13 +100,17 @@ typedef NS_ENUM(NSInteger, UICenterItemViewSubviewsTag)
 
 -(void)setBackgroundColor:(UIColor *)backgroundColor
 {
-    self.leftItemView.backgroundColor = backgroundColor;
-    self.rightItemView.backgroundColor = backgroundColor;
-    self.centerItemView.backgroundColor = backgroundColor;
+    [super setBackgroundColor:backgroundColor];
+    if (backgroundColor) {
+        self.leftItemView.backgroundColor = backgroundColor;
+        self.rightItemView.backgroundColor = backgroundColor;
+        self.centerItemView.backgroundColor = backgroundColor;
+    }
 }
 
 -(void)setAlpha:(CGFloat)alpha
 {
+    [super setAlpha:alpha];
     self.leftItemView.alpha = alpha;
     self.centerItemView.alpha = alpha;
     self.rightItemView.alpha = alpha;
@@ -164,6 +168,9 @@ typedef NS_ENUM(NSInteger, UICenterItemViewSubviewsTag)
     UIColor *titleBGColor = [[[UINavigationBar appearance] titleTextAttributes] objectForKey:NSBackgroundColorAttributeName];
     if ([self.titleTextAttributes objectForKey:NSBackgroundColorAttributeName]) {
         titleBGColor = [self.titleTextAttributes objectForKey:NSBackgroundColorAttributeName];
+    }
+    if (titleBGColor == nil) {
+        titleBGColor = CLEAR_COLOR;
     }
     return titleBGColor;
 }
