@@ -101,11 +101,12 @@ typedef NS_ENUM(NSInteger, UICenterItemViewSubviewsTag)
 -(void)setBackgroundColor:(UIColor *)backgroundColor
 {
     [super setBackgroundColor:backgroundColor];
-    if (backgroundColor) {
-        self.leftItemView.backgroundColor = backgroundColor;
-        self.rightItemView.backgroundColor = backgroundColor;
-        self.centerItemView.backgroundColor = backgroundColor;
+    if (backgroundColor == nil) {
+        backgroundColor = CLEAR_COLOR;
     }
+    self.leftItemView.backgroundColor = backgroundColor;
+    self.rightItemView.backgroundColor = backgroundColor;
+    self.centerItemView.backgroundColor = backgroundColor;
 }
 
 -(void)setAlpha:(CGFloat)alpha

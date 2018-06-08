@@ -206,6 +206,8 @@
 #define NSDICTIONARY_SAFE_GET_NONULL_VAL(VAL)   (VAL) ? (VAL) : (@{})
 #define NSDICTIONARY_SAFE_RET_NONULL_VAL(VAL)   return ((VAL) ? (VAL) : (@{}))
 
+#define IS_IN_ARRAY_FOR_INDEX(ARRAY,INDEX)      (IS_AVAILABLE_NSSET_OBJ(ARRAY) ? (INDEX >= 0 && INDEX < ARRAY.count) : NO)
+
 //获取class的string的互转
 #define NSSTRING_FROM_CLASS(CLASS_NAME)         NSStringFromClass([CLASS_NAME class])
 #define NSCLASS_FROM_STRING(CLASS_STRING)       NSClassFromString(CLASS_STRING)
@@ -228,6 +230,20 @@
 //字体
 #define FONT(F_S)                               [UIFont systemFontOfSize:(F_S)]
 #define BOLD_FONT(F_S)                          [UIFont boldSystemFontOfSize:(F_S)]
+
+#define F1_FONT                                 FONT(32)
+#define F2_FONT                                 FONT(30)
+#define F3_FONT                                 FONT(28)
+#define F4_FONT                                 FONT(26)
+#define F5_FONT                                 FONT(24)
+#define F6_FONT                                 FONT(22)
+#define F7_FONT                                 FONT(20)
+#define F8_FONT                                 FONT(18)
+#define F9_FONT                                 FONT(16)
+#define FA_FONT                                 FONT(14)
+#define FB_FONT                                 FONT(13)
+#define FC_FONT                                 FONT(12)
+
 
 //弱引用
 #define WEAK_NSOBJ(NSOBJ,WEAK_NAME)             __weak __typeof(&*NSOBJ) WEAK_NAME = NSOBJ
@@ -401,6 +417,7 @@
 #define CGRECT_ACREAGE(RECT)                         (RECT.size.width * RECT.size.height)
 #define CGRECT_LFT_RECT(RECT)                        CGRectMake(RECT.origin.x,RECT.origin.y,RECT.size.width/2,RECT.size.height)
 #define CGRECT_RGT_RECT(RECT)                        CGRectMake(CGRectGetMidX(RECT),RECT.origin.y,RECT.size.width/2,RECT.size.height)
+#define CGRECT_N_TIMES(RECT,N_T)                     CGRectMake(RECT.origin.x * N_T,RECT.origin.y * N_T, RECT.size.width * N_T, RECT.size.height * N_T)
 
 //易学习需要的宏定义
 #define AT_ALL_FRIEND_STR                               @"All"
@@ -443,6 +460,10 @@
 #define BlueSpecialColor    RGB_WITH_INT_WITH_NO_ALPHA(0x008dd8)
 #define LightBlueSpecialColor   RGB_WITH_INT_WITH_NO_ALPHA(0xedf9ff)
 
+#define BLACK_C1_COLOR      RGB_WITH_INT_WITH_NO_ALPHA(0x333333)
+#define BLACK_C2_COLOR      RGB_WITH_INT_WITH_NO_ALPHA(0x666666)
+#define BLACK_C3_COLOR      RGB_WITH_INT_WITH_NO_ALPHA(0x999999)
+#define BLACK_C4_COLOR      RGB_WITH_INT_WITH_NO_ALPHA(0xefefef)
 
 //易打分
 #define NET_REQUEST_TIME_OUT_INTERVAL           (30)
@@ -582,10 +603,7 @@
 #define UI_SIZE(SIZE)       CGSizeMake(UI_WIDTH(SIZE.width),UI_HEIGHT(SIZE.height))
 #define UI_RECT(RECT)       CGRectMake(UI_WIDTH(RECT.origin.x),UI_HEIGHT(RECT.origin.y),UI_WIDTH(RECT.size.width),UI_HEIGHT(RECT.size.height))
 
-//#define UI_LNE_WIDTH        (_UI_D_LINE_WIDTH * SCREEN_WIDTH /_UI_D_WIDTH)
-
-#define SINGLE_LINE_WIDTH           (1 / SCREEN_SCALE)
-#define SINGLE_LINE_ADJUST_OFFSET   ((1 / SCREEN_SCALE) / 2)
+#define UI_FONT_SIZE(F)     ((F)/_UI_D_RATIO)
 
 
 #define PROJ_MAIN_COLOR      MainColor //RGB_WITH_INT_WITH_NO_ALPHA(0X00DAAA)
@@ -593,6 +611,7 @@
 
 #define SINGLE_LINE_WIDTH           (1 / SCREEN_SCALE)
 #define SINGLE_LINE_ADJUST_OFFSET   ((1 / SCREEN_SCALE) / 2)
+#define SINGLE_LINE_COLOR           RGB_WITH_INT_WITH_NO_ALPHA(0xdddddd)
 
 static inline void dispatch_async_in_main_queue(void (^block)(void)) {
     if (pthread_main_np()) {
@@ -602,6 +621,9 @@ static inline void dispatch_async_in_main_queue(void (^block)(void)) {
     }
 }
 
+static inline void dispatch_after_in_main_queue(NSTimeInterval after ,void (^block)(void)) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, after * NSEC_PER_SEC), dispatch_get_main_queue(), block);
+}
 
 #endif /* Macro_h */
 
