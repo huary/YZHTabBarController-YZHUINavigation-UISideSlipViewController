@@ -132,7 +132,6 @@ static YZHTabBarController *shareTabBarController_s = NULL;
     UITabBarView *tabBarView = [[UITabBarView alloc] init];
     tabBarView.delegate  = self;
     tabBarView.frame = self.tabBar.bounds;
-//    NSLog(@"frame=%@,safe=%f",NSStringFromCGRect(tabBarView.frame),SAFE_BOTTOM);
     tabBarView.backgroundColor = WHITE_COLOR;
     
     [self _hiddenTabBarSubView];

@@ -89,36 +89,6 @@
     return r;
 }
 
-//-(void)setTitleTextFont:(UIFont *)titleTextFont
-//{
-//    objc_setAssociatedObject(self, @selector(titleTextFont), titleTextFont, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//}
-//
-//-(UIFont*)titleTextFont
-//{
-//    return objc_getAssociatedObject(self, _cmd);
-//}
-//
-//-(void)setTitleNormalColor:(UIColor *)titleNormalColor
-//{
-//    objc_setAssociatedObject(self, @selector(titleNormalColor), titleNormalColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//}
-//
-//-(UIColor*)titleNormalColor
-//{
-//    return objc_getAssociatedObject(self, _cmd);
-//}
-//
-//-(void)setTitleSelectedColor:(UIColor *)titleSelectedColor
-//{
-//    objc_setAssociatedObject(self, @selector(titleSelectedColor), titleSelectedColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//}
-//
-//-(UIColor*)titleSelectedColor
-//{
-//    return objc_getAssociatedObject(self, _cmd);
-//}
-
 -(void)setNormalBackgroundColor:(UIColor *)normalBackgroundColor
 {
     objc_setAssociatedObject(self, @selector(normalBackgroundColor), normalBackgroundColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -148,5 +118,6 @@
 {
     return objc_getAssociatedObject(self, _cmd);
 }
+
 
 @end

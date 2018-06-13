@@ -32,8 +32,7 @@ static float tabBarImageRatio = 0.65;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = CLEAR_COLOR;
-        self.imageView.contentMode = UIViewContentModeCenter;
-        self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [self _updateContentModel];
         
         [self _setupDefaultValue];
     }
@@ -53,6 +52,10 @@ static float tabBarImageRatio = 0.65;
     
     CGFloat height = self.bounds.size.height;
     CGFloat itemHeight = height * tabBarImageRatio;
+    CGRange range = self.tabBarItem.imageRange;
+    if (!CGRangeEqualToZero(range)) {
+        itemHeight = height * range.length;
+    }
     CGFloat itemWidth = itemHeight;
     
     CGFloat imageRatio = imageSize.width/imageSize.height;
@@ -182,7 +185,7 @@ static float tabBarImageRatio = 0.65;
 
 -(UIColor*)_badgeColor
 {
-    if (self.tabBarItem.badgeColor == nil) {
+    if (![self.tabBarItem respondsToSelector:@selector(badgeColor)] || self.tabBarItem.badgeColor == nil) {
         return RED_COLOR;
     }
     return self.tabBarItem.badgeColor;
@@ -242,15 +245,23 @@ static float tabBarImageRatio = 0.65;
     return color;
 }
 
+-(UIViewContentMode)_imageViewContentModel
+{
+    return UIViewContentModeCenter;
+}
+
+-(NSTextAlignment)_textAlignment
+{
+    return NSTextAlignmentCenter;
+}
+
 -(void)layoutSubviews
 {
     [super layoutSubviews];
     CGRect imageRect = [self _getImageRectForContentRect:self.bounds];
     self.imageView.frame = imageRect;
-//    self.imageView.backgroundColor = PURPLE_COLOR;
     CGRect titleRect = [self _getTitleRectForContentRect:self.bounds];
     self.titleLabel.frame = titleRect;
-//    self.titleLabel.backgroundColor = RED_COLOR;
     
     [self _updateTitleFontAndColor];
     
@@ -372,6 +383,12 @@ static float tabBarImageRatio = 0.65;
     return CLEAR_COLOR;
 }
 
+-(void)_updateContentModel
+{
+    self.imageView.contentMode = [self _imageViewContentModel];
+    self.titleLabel.textAlignment = [self _textAlignment];
+}
+
 -(void)_updateTarbarImageTitle:(UITabBarItem*)item
 {
     CGRect frame = CGRectZero;
@@ -379,7 +396,7 @@ static float tabBarImageRatio = 0.65;
     UIImage *selectedImage = [self _createTabBarItemImageForImage:item.selectedImage imageFrame:NULL];
     
     self.graphicsImageFrame = frame;
-    
+        
     [self setImage:image forState:UIControlStateNormal];
     [self setImage:image forState:UIControlStateHighlighted];
     [self setImage:selectedImage forState:UIControlStateSelected];

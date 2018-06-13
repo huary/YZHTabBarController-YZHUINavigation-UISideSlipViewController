@@ -35,7 +35,7 @@ CGRangeEqualToRange(CGRange r1, CGRange r2)
 CG_INLINE bool
 CGRangeEqualToZero(CGRange r)
 {
-    return r.offset <= 0.00001 && r.length <= 0.00001;
+    return r.offset <= CGFLOAT_MIN && r.length <= CGFLOAT_MIN;
 }
 
 
@@ -51,13 +51,7 @@ CGRangeEqualToZero(CGRange r)
 @property (nonatomic, assign) CGRange imageRange;
 @property (nonatomic, assign) CGRange titleRange;
 
-//@property (nonatomic, strong) UIFont *titleTextFont;
-//@property (nonatomic, strong) UIColor *titleNormalColor;
-//@property (nonatomic, strong) UIColor *titleSelectedColor;
-
 @property (nonatomic, strong) UIColor *normalBackgroundColor;
 @property (nonatomic, strong) UIColor *selectedBackgroundColor;
 @property (nonatomic, strong) UIColor *highlightedBackgroundColor;
-
-
 @end

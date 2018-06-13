@@ -255,6 +255,12 @@
 //获取系统的版本号
 #define SYSTEMVERSION_NUMBER                    [[UIDevice currentDevice].systemVersion floatValue]
 
+#define ON_IOS_VERSION(V)                       (SYSTEMVERSION_NUMBER == V)
+#define LATER_IOS_VERSION(V)                    (SYSTEMVERSION_NUMBER > V)
+#define BEFORE_IOS_VERSION(V)                   (SYSTEMVERSION_NUMBER <  V)
+#define ON_LATER_IOS_VERSION(V)                 (SYSTEMVERSION_NUMBER >= V)
+#define ON_BEFORE_IOS_VERSION(V)                (SYSTEMVERSION_NUMBER <= V)
+
 //在主线程工作
 #define DISPATCH_MAIN_THREAD_SYNC(BLOCK)        do{ \
                                                     if ([NSThread isMainThread]) \
