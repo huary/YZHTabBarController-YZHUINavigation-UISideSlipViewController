@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import <YZHUINavigation/YZHUINavigationController.h>
 #import "YZHUINavigationController.h"
 
 UIKIT_EXTERN NSString *const YZHTabBarItemTitleTextFontKey;
@@ -31,10 +30,7 @@ UIKIT_EXTERN NSString *const YZHTabBarItemHighlightedBackgroundColorKey;
 @property (nonatomic, copy) NSDictionary *tabBarAttributes;
 @property (nonatomic, weak) id<YZHTabBarControllerDelegate> tabBarDelegate;
 
-
 +(YZHTabBarController*)shareTabBarController;
-
--(UIView*)customTarBarView;
 
 -(void)doSelectTo:(NSInteger)toIndex;
 

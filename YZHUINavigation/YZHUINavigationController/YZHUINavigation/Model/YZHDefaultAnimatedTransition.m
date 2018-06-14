@@ -8,11 +8,57 @@
 
 #import "YZHDefaultAnimatedTransition.h"
 #import "UIViewController+NavigationBarAndItemView.h"
-#import "YZHTabBarController.h"
+#import "UITabBarController+UITabBarView.h"
+#import "UIView+Snapshot.h"
+#import <objc/runtime.h>
 
 static const CGFloat navigationItemViewAlphaPushChangeDurationWithTotalDurationRatio = 0.5;//0.2;
 static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRatio = 0.5;//0.3;
 
+
+/**************************************************************************
+ *UITabBarController (UITabBarTransitionView)
+ **************************************************************************/
+@interface UITabBarController (UITabBarTransitionView)
+
+/** tabBarTransitionView,主要用于NavigationController上进行交互使用的，不要使用此属性 */
+@property (nonatomic, strong) UIView *tabBarTransitionView;
+
+@end
+
+@implementation UITabBarController (UITabBarTransitionView)
+
+-(void)setTabBarTransitionView:(UIView *)tabBarTransitionView
+{
+    objc_setAssociatedObject(self, @selector(tabBarTransitionView), tabBarTransitionView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(UIView*)tabBarTransitionView
+{
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+-(UIView*)createTabBarTransitionView
+{
+    BOOL hidden = self.tabBar.hidden;
+    self.tabBar.hidden = NO;
+    
+    UIView *transitionView = [self.tabBar snapshotImageView];
+    CALayer *lineLayer = [[CALayer alloc] init];
+    lineLayer.frame = CGRectMake(0, -SINGLE_LINE_WIDTH, transitionView.bounds.size.width, SINGLE_LINE_WIDTH);
+    lineLayer.backgroundColor = RGBA_F(0, 0, 0, 0.3).CGColor;
+    [transitionView.layer addSublayer:lineLayer];
+    
+    self.tabBar.hidden = hidden;
+    return transitionView;
+}
+
+@end
+
+
+/**************************************************************************
+ *YZHDefaultAnimatedTransition
+ **************************************************************************/
 @implementation YZHDefaultAnimatedTransition
 
 -(void)printView:(UIView*)view withIndex:(NSInteger)index
@@ -85,16 +131,21 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
 
         if (self.navigationController.viewControllers.count == 2 && fromVC.tabBarController) {
             UITabBar *tabBar = fromVC.tabBarController.tabBar;
-            if ([fromVC.tabBarController isKindOfClass:[YZHTabBarController class]]) {
-                YZHTabBarController *tabBarVC = (YZHTabBarController*)fromVC.tabBarController;
-                UIView *customView = [tabBarVC customTarBarView];
-                [customView removeFromSuperview];
-                CGRect frame = customView.frame;
-                frame.origin = CGPointMake(0, fromVC.view.bounds.size.height -tabBar.bounds.size.height);
-                customView.frame = frame;
-                [fromVC.view addSubview:customView];
-                tabBar.hidden = YES;
+            UIView *transitionView = nil;
+            if (fromVC.tabBarController.tabBarView) {
+                transitionView = fromVC.tabBarController.tabBarView;
+                [transitionView removeFromSuperview];
             }
+            else {
+                transitionView = [fromVC.tabBarController createTabBarTransitionView];
+            }
+            CGRect frame = transitionView.frame;
+            frame.origin = CGPointMake(0, fromVC.view.bounds.size.height -tabBar.bounds.size.height);
+            transitionView.frame = frame;
+            [fromVC.view addSubview:transitionView];
+            tabBar.hidden = YES;
+            
+            fromVC.tabBarController.tabBarTransitionView = transitionView;
         }
         
         [containerView bringSubviewToFront:toVC.view];
@@ -137,16 +188,19 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
 
                                  if (fromVC.tabBarController) {
                                      UITabBar *tabBar = fromVC.tabBarController.tabBar;
-                                     if ([fromVC.tabBarController isKindOfClass:[YZHTabBarController class]]) {
-                                         YZHTabBarController *tabBarVC = (YZHTabBarController*)fromVC.tabBarController;
-                                         UIView *customView = [tabBarVC customTarBarView];
-                                         CGRect frame = customView.frame;
+                                     if (fromVC.tabBarController.tabBarView) {
+                                         UIView *transitionView = fromVC.tabBarController.tabBarView;
+                                         [transitionView removeFromSuperview];
+                                         
+                                         CGRect frame = transitionView.frame;
                                          frame.origin = CGPointMake(0, 0);
-                                         customView.frame = frame;
-                                         [tabBar addSubview:customView];
-                                         tabBar.hidden = NO;
+                                         transitionView.frame = frame;
+                                         [tabBar addSubview:transitionView];
                                      }
-                                     
+                                     else {
+                                         [fromVC.tabBarController.tabBarTransitionView removeFromSuperview];
+                                     }
+                                     tabBar.hidden = NO;
                                  }
                              }
                          }];
@@ -184,21 +238,29 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
         if (self.navigationController.viewControllers.count == 1 && fromVC.tabBarController) {
             UITabBar *tabBar = fromVC.tabBarController.tabBar;
             
-            if ([fromVC.tabBarController isKindOfClass:[YZHTabBarController class]]) {
-                YZHTabBarController *tabBarVC = (YZHTabBarController*)fromVC.tabBarController;
-                UIView *customView = [tabBarVC customTarBarView];
-                [customView removeFromSuperview];
-                CGRect frame = customView.frame;
-                
-                CGFloat h = tabBar.bounds.size.height;
-                CGFloat x = 0;
-                CGFloat y = toVC.view.bounds.size.height - h;
-                CGFloat w = tabBar.bounds.size.width;
-                frame = CGRectMake(x, y, w, h);
-                customView.frame = frame;
-                [toVC.view addSubview:customView];
-                tabBar.hidden = YES;
+            UIView *transitionView = nil;
+            if (fromVC.tabBarController.tabBarView) {
+                transitionView = fromVC.tabBarController.tabBarView;
+                [transitionView removeFromSuperview];
             }
+            else {
+                transitionView = toVC.tabBarController.tabBarTransitionView;
+                if (transitionView == nil) {
+                    transitionView = [toVC.tabBarController createTabBarTransitionView];
+                }
+            }
+            CGRect frame = transitionView.frame;
+            
+            CGFloat h = tabBar.bounds.size.height;
+            CGFloat x = 0;
+            CGFloat y = toVC.view.bounds.size.height - h;
+            CGFloat w = tabBar.bounds.size.width;
+            frame = CGRectMake(x, y, w, h);
+            transitionView.frame = frame;
+            [toVC.view addSubview:transitionView];
+            tabBar.hidden = YES;
+            
+            toVC.tabBarController.tabBarTransitionView = transitionView;
         }
         
         [containerView bringSubviewToFront:fromVC.view];
@@ -260,16 +322,19 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
                                  
                                  if (self.navigationController.viewControllers.count == 1 && toVC.tabBarController) {
                                      UITabBar *tabBar = toVC.tabBarController.tabBar;
-                                     if ([toVC.tabBarController isKindOfClass:[YZHTabBarController class]]) {
-                                         YZHTabBarController *tabBarVC = (YZHTabBarController*)toVC.tabBarController;
-                                         UIView *customView = [tabBarVC customTarBarView];
-                                         [customView removeFromSuperview];
-                                         CGRect frame = customView.frame;
-                                         frame = CGRectMake(0, 0, tabBar.bounds.size.width, tabBar.bounds.size.height);
-                                         customView.frame = frame;
-                                         [tabBar addSubview:customView];
-                                         tabBar.hidden = NO;
+                                     if (toVC.tabBarController.tabBarView) {
+                                         UIView *transitionView = toVC.tabBarController.tabBarView;
+                                         [transitionView removeFromSuperview];
+                                         
+                                         CGRect frame = tabBar.bounds;
+                                         transitionView.frame = frame;
+                                         [tabBar addSubview:transitionView];
                                      }
+                                     else {
+                                         [toVC.tabBarController.tabBarTransitionView removeFromSuperview];
+                                     }
+                                     toVC.tabBarController.tabBarTransitionView = nil;
+                                     tabBar.hidden = NO;
                                  }
                              }
                          }];

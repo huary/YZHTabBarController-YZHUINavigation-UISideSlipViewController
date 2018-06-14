@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C45CB3C20D22B7B00FA5578 /* UIView+Snapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C45CB3B20D22B7B00FA5578 /* UIView+Snapshot.m */; };
+		1C45CB3F20D23A3C00FA5578 /* UITabBarController+UITabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C45CB3E20D23A3C00FA5578 /* UITabBarController+UITabBarView.m */; };
 		1C557E81208842810006E857 /* UITabBarItem+UIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C557E80208842800006E857 /* UITabBarItem+UIButton.m */; };
 		1C557E99209024E40006E857 /* UIViewController+UITabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C557E98209024E40006E857 /* UIViewController+UITabBarButton.m */; };
 		1C59B067209411D600427D84 /* Style4_2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C59B066209411D600427D84 /* Style4_2ViewController.m */; };
@@ -70,6 +72,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C45CB3A20D22B7B00FA5578 /* UIView+Snapshot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Snapshot.h"; sourceTree = "<group>"; };
+		1C45CB3B20D22B7B00FA5578 /* UIView+Snapshot.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Snapshot.m"; sourceTree = "<group>"; };
+		1C45CB3D20D23A3C00FA5578 /* UITabBarController+UITabBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+UITabBarView.h"; sourceTree = "<group>"; };
+		1C45CB3E20D23A3C00FA5578 /* UITabBarController+UITabBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+UITabBarView.m"; sourceTree = "<group>"; };
 		1C557E7E208831DA0006E857 /* Macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
 		1C557E7F208842800006E857 /* UITabBarItem+UIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarItem+UIButton.h"; sourceTree = "<group>"; };
 		1C557E80208842800006E857 /* UITabBarItem+UIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarItem+UIButton.m"; sourceTree = "<group>"; };
@@ -413,6 +419,10 @@
 				E4FF4E491DDDB448003C0A79 /* UINavigationBarView.m */,
 				E416F5C31DE2A51E0027CC35 /* UINavigationPopScrollView.h */,
 				E416F5C41DE2A51E0027CC35 /* UINavigationPopScrollView.m */,
+				1C45CB3A20D22B7B00FA5578 /* UIView+Snapshot.h */,
+				1C45CB3B20D22B7B00FA5578 /* UIView+Snapshot.m */,
+				1C45CB3D20D23A3C00FA5578 /* UITabBarController+UITabBarView.h */,
+				1C45CB3E20D23A3C00FA5578 /* UITabBarController+UITabBarView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -544,6 +554,7 @@
 				1C59B07020944D6300427D84 /* UIGestureRecognizer+YZHState.m in Sources */,
 				1C59B06A2094130200427D84 /* Style5_2ViewController.m in Sources */,
 				1CB1452A20B26D1500E3AD57 /* YZHUIGraphicsImage.m in Sources */,
+				1C45CB3F20D23A3C00FA5578 /* UITabBarController+UITabBarView.m in Sources */,
 				E48A2BD21DDE060B006E54FB /* UIViewController+NavigationBarAndItemView.m in Sources */,
 				E4FF4E4A1DDDB448003C0A79 /* UINavigationBarView.m in Sources */,
 				1C5E1A3620930A8100154928 /* UIImage+TintColor.m in Sources */,
@@ -571,6 +582,7 @@
 				1C9CE9CE1FFE07700019C647 /* leftViewController.m in Sources */,
 				E4FF4E4E1DDDB559003C0A79 /* YZHUINavigationController.m in Sources */,
 				1C99E5841EA4674500A316E2 /* UIScrollView+UIPanGestureRecognizers.m in Sources */,
+				1C45CB3C20D22B7B00FA5578 /* UIView+Snapshot.m in Sources */,
 				1C5E1A312092FC5500154928 /* Style5ViewController.m in Sources */,
 				E448D3391E53465900A2F35C /* Style2_2ViewController.m in Sources */,
 				E416F5C51DE2A51E0027CC35 /* UINavigationPopScrollView.m in Sources */,

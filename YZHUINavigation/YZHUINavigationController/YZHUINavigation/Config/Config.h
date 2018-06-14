@@ -13,5 +13,4 @@ typedef BOOL(^UIPanGestureRecognizerShouldBeginBlock)(UIScrollView *scrollView, 
 
 typedef BOOL(^UIPanGestureRecognizersShouldRecognizeSimultaneouslyBlock)(UIScrollView *scrollView,UIGestureRecognizer *first, UIGestureRecognizer *second);
 
-
 #endif /* Config_h */

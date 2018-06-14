@@ -59,6 +59,7 @@ typedef NS_ENUM(NSInteger, UINavigationControllerBarAndItemStyle)
 -(void)YZHUINavigationController:(YZHUINavigationController*)navigationController didPopViewController:(UIViewController*)viewController;
 @end
 
+
 @interface YZHUINavigationController : UINavigationController
 
 @property (nonatomic, assign) UIBarViewStyle barViewStyle;

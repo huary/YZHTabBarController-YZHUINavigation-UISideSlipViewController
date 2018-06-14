@@ -30,7 +30,8 @@
 
 -(void)back:(id)sender
 {
-    
+    Style3_2ViewController *style2VC = [[Style3_2ViewController alloc] init];
+    [self.navigationController pushViewController:style2VC animated:YES];
 }
 
 -(void)setUpChildView

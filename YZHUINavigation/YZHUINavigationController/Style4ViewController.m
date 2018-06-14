@@ -29,7 +29,8 @@
 
 -(void)back:(id)sender
 {
-    
+    Style4_2ViewController *style2VC = [[Style4_2ViewController alloc] init];
+    [self.navigationController pushViewController:style2VC animated:YES];
 }
 
 -(void)setUpChildView
@@ -39,7 +40,7 @@
     
 //    self.navigationBarViewBackgroundColor = [UIColor colorWithRed:0.8 green:0.3 blue:0.4 alpha:1.0];
     
-    [self addNavigationLeftItemsWithTitles:@[@"左边"] target:self action:@selector(back:)    isReset:YES];
+    [self addNavigationLeftItemsWithTitles:@[@"左边"] target:self action:@selector(back:)  isReset:YES];
     
     [self addNavigationRightItemsWithTitles:@[@"右边"] target:self action:@selector(back:) isReset:YES];
     
