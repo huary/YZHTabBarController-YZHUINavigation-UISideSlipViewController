@@ -9,7 +9,12 @@
 #import "YZHTabBarController.h"
 #import "UITabBarView.h"
 #import "UIViewController+UITabBarButton.h"
+
+#define USE_TABBAR_TO_TABBAR_VC                 (1)
+
+#if USE_TABBAR_VIEW_TO_TABBAR_VC
 #import "UITabBarController+UITabBarView.h"
+#endif
 
 NSString *const YZHTabBarItemTitleNormalColorKey = TYPE_STR(YZHTabBarItemTitleNormalColorKey);
 NSString *const YZHTabBarItemTitleSelectedColorKey = TYPE_STR(YZHTabBarItemTitleSelectedColorKey);
@@ -133,8 +138,9 @@ static YZHTabBarController *shareTabBarController_s = NULL;
     [self _hiddenTabBarSubView];
     
     [self.tabBar addSubview:tabBarView];
-    
+#if USE_TABBAR_VIEW_TO_TABBAR_VC
     self.tabBarView = tabBarView;
+#endif
     self.tabBarViewT = tabBarView;
 }
 
