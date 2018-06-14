@@ -29,7 +29,7 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
 
 -(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-    return 0.25;
+    return self.transitionDuration;
 }
 
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
@@ -50,9 +50,9 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
     CGFloat toAlpha = [toVC navigationItemViewAlpha];
     
     UIColor *shadowColor = BLACK_COLOR;
-    CGSize shadowOffset = CGSizeMake(-5, 0);
-    CGFloat shadowOpacity = 0.4;
-    CGFloat shadowRadius = 5;
+    CGSize shadowOffset = CGSizeMake(-3, 0);
+    CGFloat shadowOpacity = 0.3;
+    CGFloat shadowRadius = 3;
     
     [containerView addSubview:toVC.view];
     if (self.operation == UINavigationControllerOperationPush) {

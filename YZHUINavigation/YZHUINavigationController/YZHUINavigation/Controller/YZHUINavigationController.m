@@ -132,6 +132,7 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
 -(void)_setupDefaultValue
 {
     self.popGestureEnabled = YES;
+    self.transitionDuration = 0.3;
 }
 
 - (void)viewDidLoad {
@@ -254,8 +255,6 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     
     percent = - MIN(percent, 0);
     
-//    NSLog(@"percent=%f",percent);
-    
     if (sender.state == UIGestureRecognizerStateBegan) {
         self.isInteractive = YES;
         if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:pushNextViewControllerForViewController:)]) {
@@ -284,9 +283,7 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     CGFloat percent = tx / CGRectGetWidth(self.view.frame);
     CGFloat vx = [sender velocityInView:self.view].x;
     
-    //    NSLog(@"tx=%f,percent=%f,vx=%f",tx,percent,vx);
     percent = MAX(percent, 0);
-//    NSLog(@"percent=%f",percent);
     
     if (sender.state == UIGestureRecognizerStateBegan) {
         self.isInteractive = YES;
@@ -323,7 +320,7 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
         }
         else {
             YZHUIViewController *topVC = (YZHUIViewController *)self.viewControllers.lastObject;
-            if (!topVC.popGestureEnabled) {
+            if ([topVC isKindOfClass:[YZHUIViewController class]] && !topVC.popGestureEnabled) {
                 return NO;
             }
         }
@@ -365,7 +362,8 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
 }
 
 -(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
-{    
+{
+    NSTimeInterval transitionDuration = self.transitionDuration;
     if (operation == UINavigationControllerOperationPush) {
         self.lastTopVC = toVC;
         if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:willPushViewController:)]) {
@@ -380,7 +378,16 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
         }
     }
     
-    return [YZHBaseAnimatedTransition navigationController:self animationControllerForOperation:operation animatedTransitionStyle:YZHNavigationAnimatedTransitionStyleDefault];
+    if ([self.lastTopVC isKindOfClass:[YZHUIViewController class]]) {
+        YZHUIViewController *topVC = (YZHUIViewController*)self.lastTopVC;
+        if (topVC.transitionDuration > 0) {
+            transitionDuration = topVC.transitionDuration;
+        }
+    }
+    
+    YZHBaseAnimatedTransition *transition = [YZHBaseAnimatedTransition navigationController:self animationControllerForOperation:operation animatedTransitionStyle:YZHNavigationAnimatedTransitionStyleDefault];
+    transition.transitionDuration = transitionDuration;
+    return transition;
 }
 
 #pragma mark override
@@ -393,21 +400,6 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }
     [super pushViewController:viewController animated:animated];
 }
-
-//- (UIViewController *)popViewControllerAnimated:(BOOL)animated
-//{
-//    return [super popViewControllerAnimated:animated];
-//}
-//
-//- (NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated
-//{
-//    return [super popToViewController:viewController animated:animated];
-//}
-//
-//- (NSArray *)popToRootViewControllerAnimated:(BOOL)animated
-//{
-//    return [super popToRootViewControllerAnimated:animated];
-//}
 
 //自定义
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void(^)(YZHUINavigationController *navigationController))completion
@@ -697,7 +689,6 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }
     else
     {
-//        self.title = title;
         self.navigationItem.title = title;
     }
 }

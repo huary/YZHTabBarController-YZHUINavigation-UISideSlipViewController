@@ -18,6 +18,9 @@ typedef NS_ENUM(NSInteger, YZHNavigationAnimatedTransitionStyle)
 
 @interface YZHBaseAnimatedTransition : NSObject<UIViewControllerAnimatedTransitioning>
 
+/** transitionDuration 动画时长,默认为0.2 */
+@property (nonatomic, assign) NSTimeInterval transitionDuration;
+
 -(instancetype)initWithNavigation:(UINavigationController*)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation;
 
 +(instancetype)navigationController:(UINavigationController*)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation animatedTransitionStyle:(YZHNavigationAnimatedTransitionStyle)transitionStyle;

@@ -16,6 +16,7 @@
     if (self = [super init]) {
         self.operation = operation;
         self.navigationController = (YZHUINavigationController*)navigationController;
+        [self _setupDefaultValue];
     }
     return self;
 }
@@ -28,10 +29,16 @@
     return nil;
 }
 
+-(void)_setupDefaultValue
+{
+    self.transitionDuration = 0.2;
+}
+
+
 -(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     [NSException raise:@"YZHBaseAnimatedTransitionException" format:@"Sub class must override this method at %s %d",__FILE__,__LINE__];
-    return 0.0;
+    return self.transitionDuration;
 }
 
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext

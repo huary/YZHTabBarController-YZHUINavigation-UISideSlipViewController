@@ -30,6 +30,8 @@
 @property (nonatomic, copy) NSDictionary<NSAttributedStringKey, id> *titleTextAttributes;
 //default is 0,
 @property (nonatomic, assign) CGFloat layoutTopY;
+/** 是否,默认为0 */
+@property (nonatomic, assign) NSTimeInterval transitionDuration;
 
 //left
 //这个带<剪头的返回按钮,这个是重置操作，清空原来所有的LeftButtonItems

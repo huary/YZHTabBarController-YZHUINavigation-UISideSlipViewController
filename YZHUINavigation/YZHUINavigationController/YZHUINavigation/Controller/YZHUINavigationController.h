@@ -73,6 +73,9 @@ typedef NS_ENUM(NSInteger, UINavigationControllerBarAndItemStyle)
 //默认是YES
 @property (nonatomic, assign) BOOL popGestureEnabled;
 
+/** transitionDuration */
+@property (nonatomic, assign) NSTimeInterval transitionDuration;
+
 -(instancetype)initWithRootViewController:(UIViewController *)rootViewController navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAndItemStyle;
 
 -(void)resetNavigationBarAndItemViewFrame:(CGRect)frame;
