@@ -235,25 +235,6 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     }
 }
 
-//-(UITabBarButton*)addTabBarItem:(UITabBarItem *)tabBarItem
-//{
-//    UITabBarButton *btn = [[UITabBarButton alloc] init];
-//    btn.tabBarItem = tabBarItem;
-//    btn.tabBarView = self;
-//
-//    [btn addTarget:self action:@selector(_tabBarClick:) forControlEvents:UIControlEventTouchUpInside];
-//
-//    [self _addGestureAtButton:btn];
-//
-//    [self.items addObject:btn];
-//
-//    [self.scrollView addSubview:btn];
-//    if (self.items.count == 1) {
-//        [self _tabBarClick:btn];
-//    }
-//    return btn;
-//}
-
 -(UITabBarButton*)addTabBarItem:(UITabBarItem *)tabBarItem
 {
     return [self _createTabBarItem:tabBarItem tabBarItemType:NSTabBarButtonTypeDefault forControlEvents:UIControlEventTouchUpInside actionBlock:nil];
@@ -333,6 +314,19 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     [self _removeCustomViewAtView:btn];
     customView.tag = customViewTag_s;
     customView.userInteractionEnabled = NO;
+    [btn addSubview:customView];
+}
+
+-(void)addCustomLayoutTabBarWithCustomView:(UIView *)customView
+{
+    CGSize size = customView.frame.size;
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc] init];
+    tabBarItem.buttonItemOrigin = customView.frame.origin;
+    tabBarItem.buttonItemSize = size;
+    UITabBarButton *btn = [self addCustomLayoutTabBarItem:tabBarItem];
+    customView.tag = customViewTag_s;
+    customView.userInteractionEnabled = NO;
+    customView.frame = CGRectMake(0, 0, size.width, size.height);
     [btn addSubview:customView];
 }
 

@@ -23,7 +23,7 @@
 
 -(void)setButtonStyle:(NSButtonImageTitleStyle)buttonStyle
 {
-    objc_setAssociatedObject(self, @selector(buttonType), @(buttonStyle), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(buttonStyle), @(buttonStyle), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(NSButtonImageTitleStyle)buttonStyle

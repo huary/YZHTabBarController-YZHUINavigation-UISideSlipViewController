@@ -82,33 +82,6 @@ static YZHTabBarController *shareTabBarController_s = NULL;
 
 @implementation YZHTabBarController
 
--(instancetype)init
-{
-    self = [super init];
-    if (self) {
-        shareTabBarController_s = self;
-    }
-    return self;
-}
-
--(instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        shareTabBarController_s = self;
-    }
-    return self;
-}
-
--(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        shareTabBarController_s = self;
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -117,6 +90,10 @@ static YZHTabBarController *shareTabBarController_s = NULL;
 
 +(YZHTabBarController*)shareTabBarController
 {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shareTabBarController_s = [[YZHTabBarController alloc] init];
+    });
     return shareTabBarController_s;
 }
 

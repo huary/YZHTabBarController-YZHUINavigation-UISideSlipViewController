@@ -25,6 +25,9 @@ UIKIT_EXTERN NSString *const YZHTabBarItemHighlightedBackgroundColorKey;
 
 @end
 
+/*
+ *YZHTabBarController不是单例对象，提供了一个全局的对象shareTabBarController
+ */
 @interface YZHTabBarController : UITabBarController
 
 @property (nonatomic, copy) NSDictionary *tabBarAttributes;

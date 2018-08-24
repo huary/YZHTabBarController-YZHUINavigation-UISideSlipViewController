@@ -29,7 +29,7 @@
 
 -(void)setUpRootVC
 {
-    YZHTabBarController *rootVC = [[YZHTabBarController alloc] init];
+    YZHTabBarController *rootVC = [YZHTabBarController shareTabBarController];
     rootVC.tabBarDelegate = self;
     
 #if 1
