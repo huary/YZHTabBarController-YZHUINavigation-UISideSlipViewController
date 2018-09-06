@@ -131,7 +131,7 @@ static float tabBarImageRatio = 0.65;
     CGFloat wR = 6;
     CGFloat hR = 8;
     
-    NSBadgeType badgeType = NSBadgeTypeNULL;
+    NSBadgeType badgeType = NSBadgeTypeDefault;
     NSString *realShowValue = [self _badgeValueAndTypeForValue:badgeValue badgeType:&badgeType];
     if (badgeType == NSBadgeTypeDot) {
         h = 10;
@@ -150,6 +150,7 @@ static float tabBarImageRatio = 0.65;
     if (realShowValue.length > 2 && badgeType == NSBadgeTypeDefault) {
         w = 32;
     }
+    w = MIN(w, self.bounds.size.width - x);
     
     CGRect frame = CGRectMake(x, y, w, h);
     self.badgeLabel.frame = frame;
@@ -172,8 +173,8 @@ static float tabBarImageRatio = 0.65;
 
 -(NSString*)_badgeValueAndTypeForValue:(NSString*)badgeValue badgeType:(NSBadgeType*)badgeType
 {
-    NSString *value = nil;
-    NSBadgeType type = NSBadgeTypeNULL;
+    NSString *value = badgeValue;
+    NSBadgeType type = NSBadgeTypeDefault;
     if (self.badgeBlock) {
         value = self.badgeBlock(self, badgeValue, &type);
     }
@@ -186,7 +187,14 @@ static float tabBarImageRatio = 0.65;
 -(UIColor*)_badgeColor
 {
     if (![self.tabBarItem respondsToSelector:@selector(badgeColor)] || self.tabBarItem.badgeColor == nil) {
-        return RED_COLOR;
+        if (self.tabBarItem.badgeBackgroundColor == nil) {
+            UIColor *colorTmp = [[self _badgeTextAttributes] objectForKey:NSBackgroundColorAttributeName];
+            if (colorTmp != nil) {
+                return colorTmp;
+            }
+            return RED_COLOR;
+        }
+        return self.tabBarItem.badgeBackgroundColor;
     }
     return self.tabBarItem.badgeColor;
 }
@@ -438,6 +446,7 @@ static float tabBarImageRatio = 0.65;
     [_tabBarItem addObserver:self forKeyPath:@"title" options:0 context:nil];
     [_tabBarItem addObserver:self forKeyPath:@"badgeValue" options:0 context:nil];
     [_tabBarItem addObserver:self forKeyPath:@"badgeColor" options:0 context:nil];
+    [_tabBarItem addObserver:self forKeyPath:@"badgeBackgroundColor" options:0 context:nil];
     
     if (CGRangeEqualToZero(tabBarItem.imageRange) ) {
         _tabBarItem.imageRange = self.imageRange;
@@ -503,6 +512,8 @@ static float tabBarImageRatio = 0.65;
     [self.tabBarItem removeObserver:self forKeyPath:@"title"];
     [self.tabBarItem removeObserver:self forKeyPath:@"badgeValue"];
     [self.tabBarItem removeObserver:self forKeyPath:@"badgeColor"];
+    
+    [self.tabBarItem removeObserver:self forKeyPath:@"badgeBackgroundColor"];
 }
 
 -(void)dealloc

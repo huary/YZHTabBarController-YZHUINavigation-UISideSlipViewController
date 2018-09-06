@@ -119,5 +119,14 @@
     return objc_getAssociatedObject(self, _cmd);
 }
 
+-(void)setBadgeBackgroundColor:(UIColor *)badgeBackgroundColor
+{
+    objc_setAssociatedObject(self, @selector(badgeBackgroundColor), badgeBackgroundColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(UIColor*)badgeBackgroundColor
+{
+    return objc_getAssociatedObject(self, _cmd);
+}
 
 @end

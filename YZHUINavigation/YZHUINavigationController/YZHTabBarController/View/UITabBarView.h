@@ -44,6 +44,9 @@ typedef NS_ENUM(NSInteger, UITabBarViewUseFor)
 //default is NO
 @property (nonatomic, assign) BOOL scrollContent;
 
+/** defaultSelectIndex is 0 */
+@property (nonatomic, assign) NSInteger defaultSelectIndex;
+
 //创建UITabBarView的TabBarItem
 -(UITabBarButton*)addTabBarItem:(UITabBarItem*)tabBarItem;
 //创建了一个自定义的Layout的UITabBarButton,
@@ -63,5 +66,7 @@ typedef NS_ENUM(NSInteger, UITabBarViewUseFor)
 -(void)doSelectTo:(NSInteger)to;
 
 -(NSInteger)currentIndex;
+
+-(UITabBarItem*)tabBarItemAtIndex:(NSInteger)index;
 
 @end

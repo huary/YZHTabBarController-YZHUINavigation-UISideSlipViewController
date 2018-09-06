@@ -258,11 +258,13 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     [btn addTarget:self action:@selector(_tabBarClick:) forControlEvents:controlEvents];
     if (tabBarButtonType == NSTabBarButtonTypeDefault || tabBarButtonType == NSTabBarButtonTypeCustomLayout)
     {
+        btn.tag = self.items.count;
         [self _addGestureAtButton:btn];
         btn.tabBarView = self;
         [self.items addObject:btn];
         [self.scrollView addSubview:btn];
-        if (self.items.count == 1) {
+        NSInteger index = self.items.count - 1;
+        if (index == self.defaultSelectIndex) {
             [self _tabBarClick:btn];
         }
     }
@@ -352,6 +354,10 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
 
 -(void)doSelectTo:(NSInteger)to
 {
+    if (to < 0) {
+        self.lastSelectedBtn.selected = NO;
+        self.lastSelectedBtn = nil;
+    }
     if (to < 0 || to >= self.items.count) {
         return;
     }
@@ -365,5 +371,14 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
 -(NSInteger)currentIndex
 {
     return self.items.count;
+}
+
+-(UITabBarItem*)tabBarItemAtIndex:(NSInteger)index
+{
+    if (!IS_IN_ARRAY_FOR_INDEX(self.items, index)) {
+        return nil;
+    }
+    UITabBarButton *btn = self.items[index];
+    return btn.tabBarItem;
 }
 @end

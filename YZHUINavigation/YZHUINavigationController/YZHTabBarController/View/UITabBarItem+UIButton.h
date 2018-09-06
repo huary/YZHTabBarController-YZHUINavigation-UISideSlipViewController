@@ -54,4 +54,7 @@ CGRangeEqualToZero(CGRange r)
 @property (nonatomic, strong) UIColor *normalBackgroundColor;
 @property (nonatomic, strong) UIColor *selectedBackgroundColor;
 @property (nonatomic, strong) UIColor *highlightedBackgroundColor;
+
+/** 10.0以前设置badge的color */
+@property (nonatomic, strong) UIColor *badgeBackgroundColor;
 @end
