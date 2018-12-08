@@ -60,6 +60,18 @@
     YZHUINavigationController *nav = (YZHUINavigationController*)self.navigationController;
     nav.pushVCDelegate = self;
     
+    
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [button addControlEvent:UIControlEventTouchUpInside actionBlock:^(UIButton *button) {
+//        NSLog(@"button=%@",button);
+//    }];
+//    button.frame = CGRectMake(100, 100, 200, 60);
+//    button.backgroundColor = PURPLE_COLOR;
+//    [self.view addSubview:button];
+//    
+//    
+//    return;
+    
     CGFloat height = SAFE_HEIGHT;
     self.tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, height)];
     [self.view addSubview:self.tableView];

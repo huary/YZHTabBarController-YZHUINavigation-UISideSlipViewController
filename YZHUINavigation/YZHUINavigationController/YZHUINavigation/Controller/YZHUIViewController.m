@@ -237,26 +237,6 @@
 {
     super.title = title;
     self.navigationTitle = title;
-//    if ([self.navigationController isKindOfClass:[YZHUINavigationController class]]) {
-//        YZHUINavigationController *navigationController = (YZHUINavigationController*)self.navigationController;
-//        UINavigationControllerBarAndItemStyle barAndItemStyle = navigationController.navigationControllerBarAndItemStyle;
-//        if (IS_CUSTOM_GLOBAL_UINAVIGATIONCONTROLLER_ITEM_STYLE(barAndItemStyle)) {
-//            [navigationController setNavigationItemTitle:title forViewController:self];
-//        }
-//        else if (IS_CUSTOM_VIEWCONTROLLER_UINAVIGATIONCONTROLLER_ITEM_STYLE(barAndItemStyle))
-//        {
-//            [self.navigationItemView setTitle:title];
-//        }
-//        else
-//        {
-//            self.navigationItem.titleView = nil;
-//            super.title = title;
-//        }
-//    }
-//    else
-//    {
-//        super.title = title;
-//    }
 }
 
 -(void)setNavigationBarViewAlpha:(CGFloat)navigationBarViewAlpha
@@ -367,56 +347,6 @@
         beginInfo.graphicsSize = CGSizeMake(NAV_BAR_HEIGHT, NAV_BAR_HEIGHT);
     }
     return [graphicsContext createGraphicesImageWithStrokeColor:strokeColor];
-//    BOOL opaque = NO;
-//    CGFloat scale = 0;
-//    CGFloat lineWidth = 2.0;
-//    CGSize size = CGSizeMake(NAV_BAR_HEIGHT, NAV_BAR_HEIGHT);
-//    if (graphicsContext && graphicsContext.graphicsBeginBlock) {
-//        graphicsContext.graphicsBeginBlock(graphicsContext);
-//        YZHUIGraphicsImageBeginInfo *beginInfo = graphicsContext.beginInfo;
-//        if (beginInfo) {
-//            scale = beginInfo.scale;
-//            opaque = beginInfo.opaque;
-//            lineWidth = beginInfo.lineWidth;
-//            if (beginInfo.graphicsSize.width > 0 && beginInfo.graphicsSize.height > 0) {
-//                size = beginInfo.graphicsSize;
-//            }
-//            else {
-//                beginInfo.graphicsSize = size;
-//            }
-//        }
-//        else {
-//            beginInfo = [[YZHUIGraphicsImageBeginInfo alloc] initWithGraphicsSize:size opaque:opaque scale:scale lineWidth:lineWidth];
-//            graphicsContext.beginInfo = beginInfo;
-//        }
-//    }
-//
-//    UIGraphicsBeginImageContextWithOptions(size, opaque, scale);
-//    CGContextRef ctx = UIGraphicsGetCurrentContext();
-//    CGContextSetLineWidth(ctx, lineWidth);
-//    if (strokeColor) {
-//        CGContextSetStrokeColorWithColor(ctx, strokeColor.CGColor);
-//    }
-//
-//    graphicsContext.ctx = ctx;
-//    if (graphicsContext.graphicsRunBlock) {
-//        graphicsContext.graphicsRunBlock(graphicsContext);
-//    }
-//
-//    CGContextStrokePath(ctx);
-//
-//    if (graphicsContext.graphicsEndPathBlock) {
-//        graphicsContext.graphicsEndPathBlock(graphicsContext);
-//    }
-//
-//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//
-//    UIGraphicsEndImageContext();
-//
-//    if (graphicsContext.graphicsCompletionBlock) {
-//        graphicsContext.graphicsCompletionBlock(graphicsContext, image);
-//    }
-//    return image;
 }
 
 -(UIImage*)_createLeftBackImageForColor:(UIColor*)color width:(CGFloat)width
@@ -490,10 +420,9 @@
     return image;
 }
 
--(UIButton*)_createButtonItemWithImage:(UIImage*)image title:(NSString*)title color:(UIColor*)color target:(id)target action:(SEL)selector
+-(UIButton*)_createButtonItemWithImage:(UIImage*)image title:(NSString*)title color:(UIColor*)color
 {
     UIButton *buttonItem = [UIButton buttonWithType:UIButtonTypeCustom];
-//    buttonItem.userInteractionEnabled = YES;
     buttonItem.backgroundColor = CLEAR_COLOR;
     if (image) {
         [buttonItem setImage:image forState:UIControlStateNormal];
@@ -503,10 +432,8 @@
     if (IS_AVAILABLE_NSSTRNG(title)) {
         [buttonItem setTitle:title forState:UIControlStateNormal];
         [buttonItem setTitleColor:color forState:UIControlStateNormal];
-//        buttonItem.titleLabel.backgroundColor = PURPLE_COLOR;
     }
     [buttonItem sizeToFit];
-//    buttonItem.imageView.backgroundColor = RED_COLOR;
     
     [buttonItem.titleLabel sizeToFit];
     CGRect frame = buttonItem.titleLabel.frame;
@@ -517,10 +444,27 @@
     frame.origin.y = (buttonItem.bounds.size.height - buttonItem.titleLabel.bounds.size.height)/2;
     buttonItem.titleLabel.frame = frame;
     
-//    buttonItem.backgroundColor = RED_COLOR;
+    return buttonItem;
+}
+
+-(UIButton*)_createButtonItemWithImage:(UIImage*)image title:(NSString*)title color:(UIColor*)color target:(id)target action:(SEL)selector
+{
+    UIButton *buttonItem = [self _createButtonItemWithImage:image title:title color:color];
     
     [buttonItem addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
     
+    return buttonItem;
+}
+
+-(UIButton*)_createButtonItemWithImage:(UIImage*)image title:(NSString*)title color:(UIColor*)color actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIButton *buttonItem = [self _createButtonItemWithImage:image title:title color:color];
+    WEAK_SELF(weakSelf);
+    [buttonItem addControlEvent:UIControlEventTouchUpInside actionBlock:^(UIButton *button) {
+        if (actionBlock) {
+            actionBlock(weakSelf, button);
+        }
+    }];
     return buttonItem;
 }
 
@@ -532,26 +476,50 @@
     return buttonItem;
 }
 
--(UIButton*)_createLeftBackButtonItemWithImageName:(NSString*)imageName title:(NSString*)title target:(id)target action:(SEL)selector
+-(UIButton*)_createButtonItemWithGraphicsImageContext:(YZHUIGraphicsImageContext*)graphicsImageContext title:(NSString*)title actionBlock:(YZHNavigationItemActionBlock)actionBlock
 {
     UIColor *color = [[UINavigationBar appearance] tintColor];
+    UIImage *image = [self _createGraphicesImage:graphicsImageContext strokeColor:color];
+    UIButton *buttonItem = [self _createButtonItemWithImage:image title:title color:color actionBlock:actionBlock];
+    return buttonItem;
+}
+
+-(UIImage*) _createNavigationItemImageWithImageName:(NSString*)imageName color:(UIColor*)color hasTitle:(BOOL)hasTitle
+{
+//    UIColor *color = [[UINavigationBar appearance] tintColor];
     UIImage *image = nil;
     if (IS_AVAILABLE_NSSTRNG(imageName)) {
         image = [self _createNavigationItemImageForImage:[UIImage imageNamed:imageName]];
     }
     else {
-        if (IS_AVAILABLE_NSSTRNG(title)) {
+        if (hasTitle) {
             image = [self _createLeftBackImageForColor:color width:0];
         }
         else {
             image = [self _createLeftBackImageForColor:color width:40];
         }
     }
+    return image;
+}
+
+
+-(UIButton*)_createLeftBackButtonItemWithImageName:(NSString*)imageName title:(NSString*)title target:(id)target action:(SEL)selector
+{
+    UIColor *color = [[UINavigationBar appearance] tintColor];
+    UIImage *image = [self _createNavigationItemImageWithImageName:imageName color:color hasTitle:IS_AVAILABLE_NSSTRNG(title)];
     UIButton *buttonItem = [self _createButtonItemWithImage:image title:title color:color target:target action:selector];
     return buttonItem;
 }
 
--(NSMutableArray*)_createNavigationButtonItemsWithTitles:(NSArray*)titles target:(id)target action:(SEL)selector
+-(UIButton*)_createLeftBackButtonItemWithImageName:(NSString*)imageName title:(NSString*)title actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIColor *color = [[UINavigationBar appearance] tintColor];
+    UIImage *image = [self _createNavigationItemImageWithImageName:imageName color:color hasTitle:IS_AVAILABLE_NSSTRNG(title)];
+    UIButton *buttonItem = [self _createButtonItemWithImage:image title:title color:color actionBlock:actionBlock];
+    return buttonItem;
+}
+
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithTitles:(NSArray<NSString*> *)titles target:(id)target action:(SEL)selector
 {
     UIColor *color = [[UINavigationBar appearance] tintColor];
     NSMutableArray *navigationButtonItems = [NSMutableArray array];
@@ -560,10 +528,22 @@
         UIButton *btn = [self _createButtonItemWithImage:nil title:title color:color target:target action:selector];
         [navigationButtonItems addObject:btn];
     }
-    return navigationButtonItems;
+    return [navigationButtonItems copy];
 }
 
--(NSMutableArray*)_createNavigationButtonItemsWithImageNames:(NSArray *)imageNames target:(id)target action:(SEL)selector
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithTitles:(NSArray<NSString*> *)titles actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIColor *color = [[UINavigationBar appearance] tintColor];
+    NSMutableArray *navigationButtonItems = [NSMutableArray array];
+    
+    for (NSString *title in titles) {
+        UIButton *btn = [self _createButtonItemWithImage:nil title:title color:color actionBlock:actionBlock];
+        [navigationButtonItems addObject:btn];
+    }
+    return [navigationButtonItems copy];
+}
+
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithImageNames:(NSArray<NSString*> *)imageNames target:(id)target action:(SEL)selector
 {
     UIColor *color = [[UINavigationBar appearance] tintColor];
     NSMutableArray *navigationButtonItems = [NSMutableArray array];
@@ -574,10 +554,24 @@
         UIButton *btn = [self _createButtonItemWithImage:image title:nil color:color target:target action:selector];
         [navigationButtonItems addObject:btn];
     }
-    return navigationButtonItems;
+    return [navigationButtonItems copy];
 }
 
--(NSMutableArray*)_createNavigationButtonItemsWithImages:(NSArray<UIImage*> *)images target:(id)target action:(SEL)selector
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithImageNames:(NSArray<NSString*> *)imageNames actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIColor *color = [[UINavigationBar appearance] tintColor];
+    NSMutableArray *navigationButtonItems = [NSMutableArray array];
+    
+    for (NSString *imageName in imageNames) {
+        UIImage *oldImage = [UIImage imageNamed:imageName];
+        UIImage *image = [self _createNavigationItemImageForImage:oldImage];
+        UIButton *btn = [self _createButtonItemWithImage:image title:nil color:color actionBlock:actionBlock];
+        [navigationButtonItems addObject:btn];
+    }
+    return [navigationButtonItems copy];
+}
+
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithImages:(NSArray<UIImage*> *)images target:(id)target action:(SEL)selector
 {
     UIColor *color = [[UINavigationBar appearance] tintColor];
     NSMutableArray *navigationButtonItems = [NSMutableArray array];
@@ -587,10 +581,23 @@
         UIButton *btn = [self _createButtonItemWithImage:newImg title:nil color:color target:target action:selector];
         [navigationButtonItems addObject:btn];
     }
-    return navigationButtonItems;
+    return [navigationButtonItems copy];
 }
 
--(NSMutableArray*)_createNavigationButtonItemsWithViews:(NSArray<UIView*>*)views target:(id)target action:(SEL)selector
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithImages:(NSArray<UIImage*> *)images actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIColor *color = [[UINavigationBar appearance] tintColor];
+    NSMutableArray *navigationButtonItems = [NSMutableArray array];
+    
+    for (UIImage *image in images) {
+        UIImage *newImg = [self _createNavigationItemImageForImage:image];
+        UIButton *btn = [self _createButtonItemWithImage:newImg title:nil color:color actionBlock:actionBlock];
+        [navigationButtonItems addObject:btn];
+    }
+    return [navigationButtonItems copy];
+}
+
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithViews:(NSArray<UIView*>*)views target:(id)target action:(SEL)selector
 {
     UIColor *color = [[UINavigationBar appearance] tintColor];
     NSMutableArray *navigationButtonItems = [NSMutableArray array];
@@ -601,10 +608,24 @@
         UIButton *btn = [self _createButtonItemWithImage:image title:nil color:color target:target action:selector];
         [navigationButtonItems addObject:btn];
     }
-    return navigationButtonItems;
+    return [navigationButtonItems copy];
 }
 
--(NSMutableArray*)_createNavigationButtonItemsWithImageNames:(NSArray *)imageNames titles:(NSArray *)titles target:(id)target action:(SEL)selector
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithViews:(NSArray<UIView*>*)views actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIColor *color = [[UINavigationBar appearance] tintColor];
+    NSMutableArray *navigationButtonItems = [NSMutableArray array];
+    
+    for (UIView *view in views) {
+        UIImage *viewImg = [self _createNavigationItemImageForView:view];
+        UIImage *image = [self _createNavigationItemImageForImage:viewImg];
+        UIButton *btn = [self _createButtonItemWithImage:image title:nil color:color actionBlock:actionBlock];
+        [navigationButtonItems addObject:btn];
+    }
+    return [navigationButtonItems copy];
+}
+
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithImageNames:(NSArray<NSString*> *)imageNames titles:(NSArray<NSString*> *)titles target:(id)target action:(SEL)selector actionBlock:(YZHNavigationItemActionBlock)actionBlock
 {
     UIColor *color = [[UINavigationBar appearance] tintColor];
     NSMutableArray *navigationButtonItems = [NSMutableArray array];
@@ -623,13 +644,24 @@
         if (i < titles.count) {
             title = [titles objectAtIndex:i];
         }
-        UIButton *btn = [self _createButtonItemWithImage:image title:title color:color target:target action:selector];
+        
+        UIButton *btn = nil;
+        if (target) {
+            btn = [self _createButtonItemWithImage:image title:title color:color target:target action:selector];
+        }
+        else if (actionBlock) {
+            btn = [self _createButtonItemWithImage:image title:title color:color actionBlock:actionBlock];
+        }
+
+        if (!btn) {
+            btn = [self _createButtonItemWithImage:image title:title color:color target:target action:selector];
+        }
         [navigationButtonItems addObject:btn];
     }
-    return navigationButtonItems;
+    return [navigationButtonItems copy];
 }
 
--(NSMutableArray*)_createNavigationButtonItemsWithImages:(NSArray *)images titles:(NSArray *)titles target:(id)target action:(SEL)selector
+-(NSArray<UIButton*>*)_createNavigationButtonItemsWithImages:(NSArray<UIImage*> *)images titles:(NSArray<NSString*> *)titles target:(id)target action:(SEL)selector actionBlock:(YZHNavigationItemActionBlock)actionBlock
 {
     UIColor *color = [[UINavigationBar appearance] tintColor];
     NSMutableArray *navigationButtonItems = [NSMutableArray array];
@@ -647,10 +679,21 @@
         if (i < titles.count) {
             title = [titles objectAtIndex:i];
         }
-        UIButton *btn = [self _createButtonItemWithImage:image title:title color:color target:target action:selector];
+
+        UIButton *btn = nil;
+        if (target) {
+            btn = [self _createButtonItemWithImage:image title:title color:color target:target action:selector];
+        }
+        else if (actionBlock) {
+            btn = [self _createButtonItemWithImage:image title:title color:color actionBlock:actionBlock];
+        }
+        
+        if (!btn) {
+            btn = [self _createButtonItemWithImage:image title:title color:color target:target action:selector];
+        }
         [navigationButtonItems addObject:btn];
     }
-    return navigationButtonItems;
+    return [navigationButtonItems copy];
 }
 
 
@@ -766,18 +809,43 @@
     return leftButtonItem;
 }
 
+//这个带<剪头的返回按钮,这个是重置操作，清空原来所有的LeftButtonItems,block
+-(UIButton *)addNavigationFirstLeftBackItemWithTitle:(NSString*)title actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIButton *leftButtonItem = [self _createLeftBackButtonItemWithImageName:nil title:title actionBlock:actionBlock];
+    [self _addNavigationItemWithButton:leftButtonItem isReset:YES left:YES];
+    return leftButtonItem;
+}
+
+//自定义第一个按钮（image，title）
 -(UIButton *)addNavigationFirstLeftItemWithImageName:(NSString*)imageName title:(NSString*)title target:(id)target action:(SEL)selector
 {
     UIButton *leftBtn = [self addNavigationLeftItemWithImageName:imageName title:title target:target action:selector isReset:YES];
     return leftBtn;
 }
 
+//自定义第一个按钮（image，title）block
+-(UIButton *)addNavigationFirstLeftItemWithImageName:(NSString*)imageName title:(NSString*)title actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIButton *leftBtn = [self addNavigationLeftItemWithImageName:imageName title:title isReset:YES actionBlock:actionBlock];
+    return leftBtn;
+}
+
+//自定义一个按钮（image，title）
 -(UIButton *)addNavigationLeftItemWithImageName:(NSString*)imageName title:(NSString*)title target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
     UIImage *image = [UIImage imageNamed:imageName];
     return [self addNavigationLeftItemWithImage:image title:title target:target action:selector isReset:reset];
 }
 
+//自定义一个按钮（image，title）block
+-(UIButton *)addNavigationLeftItemWithImageName:(NSString*)imageName title:(NSString*)title isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIImage *image = [UIImage imageNamed:imageName];
+    return [self addNavigationLeftItemWithImage:image title:title isReset:reset actionBlock:actionBlock];
+}
+
+//自定义一个按钮（image，title）
 -(UIButton *)addNavigationLeftItemWithImage:(UIImage*)image title:(NSString*)title target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
     image = [self _createNavigationItemImageForImage:image];
@@ -786,25 +854,50 @@
     return leftButtonItem;
 }
 
+//自定义一个按钮（image，title）block
+-(UIButton *)addNavigationLeftItemWithImage:(UIImage*)image title:(NSString*)title isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    image = [self _createNavigationItemImageForImage:image];
+    UIButton *leftButtonItem = [self _createButtonItemWithImage:image title:title color:[[UINavigationBar appearance] tintColor] actionBlock:actionBlock];
+    [self _addNavigationItemWithButton:leftButtonItem isReset:reset left:YES];
+    return leftButtonItem;
+}
+
+//titles中的第一个NSString被用来作为第一个item的title
 -(NSArray<UIButton*> *)addNavigationFirstLeftBackItemsWithTitles:(NSArray<NSString*> *)titles target:(id)target action:(SEL)selector
 {
-//    if (!IS_AVAILABLE_NSSET_OBJ(titles)) {
-//        return nil;
-//    }
     NSMutableArray *leftButtonItems = [NSMutableArray array];
     UIButton *leftBackButton = [self _createLeftBackButtonItemWithImageName:nil title:[titles firstObject] target:target action:selector];
     [leftButtonItems addObject:leftBackButton];
     
     if (titles.count > 1) {
         NSArray *sub = [titles subarrayWithRange:NSMakeRange(1, titles.count - 1)];
-        NSMutableArray *leftButtonItemsTmp = [self _createNavigationButtonItemsWithImageNames:nil titles:sub target:target action:selector];
+        NSArray *leftButtonItemsTmp = [self _createNavigationButtonItemsWithImageNames:nil titles:sub target:target action:selector actionBlock:nil];
         [leftButtonItems addObjectsFromArray:leftButtonItemsTmp];
     }
     [self _addNavigationItemWithButtons:leftButtonItems isReset:YES left:YES];
     
-    return leftButtonItems;
+    return [leftButtonItems copy];
 }
 
+//titles中的第一个NSString被用来作为第一个item的title,block
+-(NSArray<UIButton*> *)addNavigationFirstLeftBackItemsWithTitles:(NSArray<NSString*> *)titles actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSMutableArray *leftButtonItems = [NSMutableArray array];
+    UIButton *leftBackButton = [self _createLeftBackButtonItemWithImageName:nil title:[titles firstObject] actionBlock:actionBlock];
+    [leftButtonItems addObject:leftBackButton];
+    
+    if (titles.count > 1) {
+        NSArray *sub = [titles subarrayWithRange:NSMakeRange(1, titles.count - 1)];
+        NSArray *leftButtonItemsTmp = [self _createNavigationButtonItemsWithImageNames:nil titles:sub target:nil action:NULL actionBlock:actionBlock];
+        [leftButtonItems addObjectsFromArray:leftButtonItemsTmp];
+    }
+    [self _addNavigationItemWithButtons:leftButtonItems isReset:YES left:YES];
+    
+    return [leftButtonItems copy];
+}
+
+//imageNames中的第一个imageName是第二个item
 -(NSArray<UIButton*> *)addNavigationFirstLeftBackItemsWithImageNames:(NSArray<NSString*> *)imageNames target:(id)target action:(SEL)selector
 {
     NSMutableArray *leftButtonItems = [NSMutableArray array];
@@ -812,70 +905,138 @@
     [leftButtonItems addObject:leftBackButton];
     
     if (imageNames.count > 0) {
-        NSMutableArray *leftButtonItemsTmp = [self _createNavigationButtonItemsWithImageNames:imageNames target:target action:selector];
+        NSArray *leftButtonItemsTmp = [self _createNavigationButtonItemsWithImageNames:imageNames target:target action:selector];
         [leftButtonItems addObjectsFromArray:leftButtonItemsTmp];
     }
     [self _addNavigationItemWithButtons:leftButtonItems isReset:YES left:YES];
     
-    return leftButtonItems;
+    return [leftButtonItems copy];
 }
 
+//imageNames中的第一个imageName是第二个item,block
+-(NSArray<UIButton*> *)addNavigationFirstLeftBackItemsWithImageNames:(NSArray<NSString*> *)imageNames actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSMutableArray *leftButtonItems = [NSMutableArray array];
+    UIButton *leftBackButton = [self _createLeftBackButtonItemWithImageName:nil title:nil actionBlock:actionBlock];
+    [leftButtonItems addObject:leftBackButton];
+    
+    if (imageNames.count > 0) {
+        NSArray *leftButtonItemsTmp = [self _createNavigationButtonItemsWithImageNames:imageNames actionBlock:actionBlock];
+        [leftButtonItems addObjectsFromArray:leftButtonItemsTmp];
+    }
+    [self _addNavigationItemWithButtons:leftButtonItems isReset:YES left:YES];
+    
+    return [leftButtonItems copy];
+}
+
+//images中的第一个image是第二个item
 -(NSArray<UIButton*> *)addNavigationFirstLeftBackItemsWithImage:(NSArray<UIImage*> *)images target:(id)target action:(SEL)selector
 {
     NSMutableArray *leftButtonItems = [NSMutableArray array];
     UIButton *leftBackButton = [self _createLeftBackButtonItemWithImageName:nil title:nil target:target action:selector];
     [leftButtonItems addObject:leftBackButton];
     if (images.count > 0) {
-        NSMutableArray *leftButtonItemsTmp = [self _createNavigationButtonItemsWithImages:images target:target action:selector];
+        NSArray *leftButtonItemsTmp = [self _createNavigationButtonItemsWithImages:images target:target action:selector];
         [leftButtonItems addObjectsFromArray:leftButtonItemsTmp];
     }
     [self _addNavigationItemWithButtons:leftButtonItems isReset:YES left:YES];
-    return leftButtonItems;
+    return [leftButtonItems copy];
 }
 
+//images中的第一个image是第二个item,block
+-(NSArray<UIButton*> *)addNavigationFirstLeftBackItemsWithImage:(NSArray<UIImage*> *)images actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSMutableArray *leftButtonItems = [NSMutableArray array];
+    UIButton *leftBackButton = [self _createLeftBackButtonItemWithImageName:nil title:nil actionBlock:actionBlock];
+    [leftButtonItems addObject:leftBackButton];
+    if (images.count > 0) {
+        NSArray *leftButtonItemsTmp = [self _createNavigationButtonItemsWithImages:images actionBlock:actionBlock];
+        [leftButtonItems addObjectsFromArray:leftButtonItemsTmp];
+    }
+    [self _addNavigationItemWithButtons:leftButtonItems isReset:YES left:YES];
+    return [leftButtonItems copy];
+}
+
+//添加leftButtonItem
 -(NSArray<UIButton*> *)addNavigationLeftItemsWithTitles:(NSArray<NSString*> *)titles target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
-//    if (!IS_AVAILABLE_NSSET_OBJ(titles)) {
-//        return nil;
-//    }
-    NSMutableArray *leftButtonItems = [self _createNavigationButtonItemsWithTitles:titles target:target action:selector];
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithTitles:titles target:target action:selector];
     [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
     return leftButtonItems;
 }
 
+//添加leftButtonItem,block
+-(NSArray<UIButton*> *)addNavigationLeftItemsWithTitles:(NSArray<NSString*> *)titles isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithTitles:titles actionBlock:actionBlock];
+    [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
+    return leftButtonItems;
+}
+
+//添加leftButtonItem
 -(NSArray<UIButton*> *)addNavigationLeftItemsWithImageNames:(NSArray<NSString*> *)imageNames target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
-//    if (!IS_AVAILABLE_NSSET_OBJ(imageNames)) {
-//        return nil;
-//    }
-    NSMutableArray *leftButtonItems = [self _createNavigationButtonItemsWithImageNames:imageNames target:target action:selector];
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithImageNames:imageNames target:target action:selector];
     [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
     return leftButtonItems;
 }
 
+//添加leftButtonItem,block
+-(NSArray<UIButton*> *)addNavigationLeftItemsWithImageNames:(NSArray<NSString*> *)imageNames isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithImageNames:imageNames actionBlock:actionBlock];
+    [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
+    return leftButtonItems;
+}
+
+//添加leftButtonItem
 -(NSArray<UIButton*> *)addNavigationLeftItemsWithImages:(NSArray<UIImage*> *)images target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
-//    if (!IS_AVAILABLE_NSSET_OBJ(images)) {
-//        return nil;
-//    }
-    NSMutableArray *leftButtonItems = [self _createNavigationButtonItemsWithImages:images target:target action:selector];
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithImages:images target:target action:selector];
     [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
     return leftButtonItems;
 }
 
+//添加leftButtonItem,block
+-(NSArray<UIButton*> *)addNavigationLeftItemsWithImages:(NSArray<UIImage*> *)images isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithImages:images actionBlock:actionBlock];
+    [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
+    return leftButtonItems;
+}
+
+//添加自定义的leftButtonItem
 -(void)addNavigationLeftItemsWithCustomView:(NSArray<UIView*> *)leftItems target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
     if (!IS_AVAILABLE_NSSET_OBJ(leftItems)) {
         return;
     }
-    NSMutableArray *leftButtonItems = [self _createNavigationButtonItemsWithViews:leftItems target:target action:selector];
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithViews:leftItems target:target action:selector];
+    [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
+}
+
+//添加自定义的leftButtonItem,block
+-(void)addNavigationLeftItemsWithCustomView:(NSArray<UIView*> *)leftItems isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    if (!IS_AVAILABLE_NSSET_OBJ(leftItems)) {
+        return;
+    }
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithViews:leftItems actionBlock:actionBlock];
     [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
 }
 
 //添加（Image,title）这样的按钮
 -(NSArray<UIButton*> *)addNavigationLeftItemsWithImageNames:(NSArray<NSString*> *)imageNames titles:(NSArray<NSString*> *)titles target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
-    NSMutableArray *leftButtonItems = [self _createNavigationButtonItemsWithImageNames:imageNames titles:titles target:target action:selector];
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithImageNames:imageNames titles:titles target:target action:selector actionBlock:nil];
+    [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
+    return leftButtonItems;
+}
+
+//添加（Image,title）这样的按钮,block
+-(NSArray<UIButton*> *)addNavigationLeftItemsWithImageNames:(NSArray<NSString*> *)imageNames titles:(NSArray<NSString*> *)titles isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithImageNames:imageNames titles:titles target:nil action:NULL actionBlock:actionBlock];
     [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
     return leftButtonItems;
 }
@@ -883,12 +1044,20 @@
 //添加（Image,title）这样的按钮
 -(NSArray<UIButton*> *)addNavigationLeftItemsWithImages:(NSArray<UIImage*> *)images titles:(NSArray<NSString*> *)titles target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
-    NSMutableArray *leftButtonItems = [self _createNavigationButtonItemsWithImages:images titles:titles target:target action:selector];
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithImages:images titles:titles target:target action:selector actionBlock:nil];
     [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
     return leftButtonItems;
 }
 
-//添加（Image,title）这样的按钮
+//添加（Image,title）这样的按钮,block
+-(NSArray<UIButton*> *)addNavigationLeftItemsWithImages:(NSArray<UIImage*> *)images titles:(NSArray<NSString*> *)titles isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSArray *leftButtonItems = [self _createNavigationButtonItemsWithImages:images titles:titles target:nil action:NULL actionBlock:actionBlock];
+    [self _addNavigationItemWithButtons:leftButtonItems isReset:reset left:YES];
+    return leftButtonItems;
+}
+
+//通过YZHUIGraphicsImageContext来添加leftButtonItem
 -(UIButton *)addNavigationLeftItemWithGraphicsImageContext:(YZHUIGraphicsImageContext*)graphicsImageContext title:(NSString*)title target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
     UIButton *leftBtn = [self _createButtonItemWithGraphicsImageContext:graphicsImageContext title:title target:target action:selector];
@@ -896,39 +1065,74 @@
     return leftBtn;
 }
 
+//通过YZHUIGraphicsImageContext来添加leftButtonItem,block
+-(UIButton *)addNavigationLeftItemWithGraphicsImageContext:(YZHUIGraphicsImageContext*)graphicsImageContext title:(NSString*)title isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    UIButton *leftBtn = [self _createButtonItemWithGraphicsImageContext:graphicsImageContext title:title actionBlock:actionBlock];
+    [self _addNavigationItemWithButton:leftBtn isReset:reset left:YES];
+    return leftBtn;
+}
+
 //right
+//添加（title）这样的按钮
 -(NSArray<UIButton*> *)addNavigationRightItemsWithTitles:(NSArray<NSString*> *)titles target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
-//    if (!IS_AVAILABLE_NSSET_OBJ(titles)) {
-//        return nil;
-//    }
-    
-    NSMutableArray *rightButtonItems = [self _createNavigationButtonItemsWithTitles:titles target:target action:selector];
+    NSArray *rightButtonItems = [self _createNavigationButtonItemsWithTitles:titles target:target action:selector];
     [self _addNavigationItemWithButtons:rightButtonItems isReset:reset left:NO];
     return rightButtonItems;
 }
 
+//添加（title）这样的按钮，block
+-(NSArray<UIButton*> *)addNavigationRightItemsWithTitles:(NSArray<NSString*> *)titles isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSArray *rightButtonItems = [self _createNavigationButtonItemsWithTitles:titles actionBlock:actionBlock];
+    [self _addNavigationItemWithButtons:rightButtonItems isReset:reset left:NO];
+    return rightButtonItems;
+}
+
+//添加（image）这样的按钮
 -(NSArray<UIButton*> *)addNavigationRightItemsWithImageNames:(NSArray<NSString*> *)imageNames target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
-//    if (!IS_AVAILABLE_NSSET_OBJ(imageNames)) {
-//        return nil;
-//    }
-    
-    NSMutableArray *rightButtonItems = [self _createNavigationButtonItemsWithImageNames:imageNames target:target action:selector];
+    NSArray *rightButtonItems = [self _createNavigationButtonItemsWithImageNames:imageNames target:target action:selector];
     [self _addNavigationItemWithButtons:rightButtonItems isReset:reset left:NO];
     return rightButtonItems;
 }
 
+//添加（image）这样的按钮,block
+-(NSArray<UIButton*> *)addNavigationRightItemsWithImageNames:(NSArray<NSString*> *)imageNames isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSArray *rightButtonItems = [self _createNavigationButtonItemsWithImageNames:imageNames actionBlock:actionBlock];
+    [self _addNavigationItemWithButtons:rightButtonItems isReset:reset left:NO];
+    return rightButtonItems;
+}
+
+//添加（image）这样的按钮
 -(NSArray<UIButton*> *)addNavigationRightItemsWithImages:(NSArray<UIImage*> *)images target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
-    NSMutableArray *rightButtonItems = [self _createNavigationButtonItemsWithImages:images target:target action:selector];
+    NSArray *rightButtonItems = [self _createNavigationButtonItemsWithImages:images target:target action:selector];
     [self _addNavigationItemWithButtons:rightButtonItems isReset:reset left:NO];
     return rightButtonItems;
 }
 
+//添加（image）这样的按钮,block
+-(NSArray<UIButton*> *)addNavigationRightItemsWithImages:(NSArray<UIImage*> *)images isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSArray *rightButtonItems = [self _createNavigationButtonItemsWithImages:images actionBlock:actionBlock];
+    [self _addNavigationItemWithButtons:rightButtonItems isReset:reset left:NO];
+    return rightButtonItems;
+}
+
+//添加（UIView）这样的按钮
 -(void)addNavigationRightItemsWithCustomView:(NSArray<UIView*> *)rightItems target:(id)target action:(SEL)selector isReset:(BOOL)reset
 {
-    NSMutableArray *rightButtonItems = [self _createNavigationButtonItemsWithViews:rightItems target:target action:selector];
+    NSArray *rightButtonItems = [self _createNavigationButtonItemsWithViews:rightItems target:target action:selector];
+    [self _addNavigationItemWithButtons:rightButtonItems isReset:reset left:NO];
+}
+
+//添加（UIView）这样的按钮,block
+-(void)addNavigationRightItemsWithCustomView:(NSArray<UIView*> *)rightItems isReset:(BOOL)reset actionBlock:(YZHNavigationItemActionBlock)actionBlock
+{
+    NSArray *rightButtonItems = [self _createNavigationButtonItemsWithViews:rightItems actionBlock:actionBlock];
     [self _addNavigationItemWithButtons:rightButtonItems isReset:reset left:NO];
 }
 

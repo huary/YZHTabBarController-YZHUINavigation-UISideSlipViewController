@@ -9,5 +9,6 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import "Macro.h"
+    #import "UIButton+YZHAdd.h"
 
 #endif

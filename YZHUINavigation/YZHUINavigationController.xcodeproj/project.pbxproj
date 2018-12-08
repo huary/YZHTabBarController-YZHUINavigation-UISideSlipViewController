@@ -17,6 +17,7 @@
 		1C59B07020944D6300427D84 /* UIGestureRecognizer+YZHState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C59B06F20944D6300427D84 /* UIGestureRecognizer+YZHState.m */; };
 		1C5E1A312092FC5500154928 /* Style5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5E1A302092FC5500154928 /* Style5ViewController.m */; };
 		1C5E1A3620930A8100154928 /* UIImage+TintColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5E1A3520930A8100154928 /* UIImage+TintColor.m */; };
+		1C8D14F721BB71D0000F9654 /* UIButton+YZHAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D14F621BB71D0000F9654 /* UIButton+YZHAdd.m */; };
 		1C99E5841EA4674500A316E2 /* UIScrollView+UIPanGestureRecognizers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C99E5831EA4674500A316E2 /* UIScrollView+UIPanGestureRecognizers.m */; };
 		1C9CE9CB1FFE06E10019C647 /* UISideSlipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9CE9CA1FFE06E10019C647 /* UISideSlipViewController.m */; };
 		1C9CE9CE1FFE07700019C647 /* leftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9CE9CD1FFE07700019C647 /* leftViewController.m */; };
@@ -93,6 +94,8 @@
 		1C5E1A302092FC5500154928 /* Style5ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Style5ViewController.m; sourceTree = "<group>"; };
 		1C5E1A3420930A8100154928 /* UIImage+TintColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+TintColor.h"; sourceTree = "<group>"; };
 		1C5E1A3520930A8100154928 /* UIImage+TintColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TintColor.m"; sourceTree = "<group>"; };
+		1C8D14F521BB71D0000F9654 /* UIButton+YZHAdd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+YZHAdd.h"; sourceTree = "<group>"; };
+		1C8D14F621BB71D0000F9654 /* UIButton+YZHAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+YZHAdd.m"; sourceTree = "<group>"; };
 		1C99E5811EA4672400A316E2 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		1C99E5821EA4674500A316E2 /* UIScrollView+UIPanGestureRecognizers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+UIPanGestureRecognizers.h"; sourceTree = "<group>"; };
 		1C99E5831EA4674500A316E2 /* UIScrollView+UIPanGestureRecognizers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+UIPanGestureRecognizers.m"; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				1C59B06B2094473200427D84 /* UIView+UIGestureRecognizer.m */,
 				1C5E1A3420930A8100154928 /* UIImage+TintColor.h */,
 				1C5E1A3520930A8100154928 /* UIImage+TintColor.m */,
+				1C8D14F521BB71D0000F9654 /* UIButton+YZHAdd.h */,
+				1C8D14F621BB71D0000F9654 /* UIButton+YZHAdd.m */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -568,6 +573,7 @@
 				E448D32D1E530A6700A2F35C /* Style2ViewController.m in Sources */,
 				E4FF4E251DDDB3AF003C0A79 /* AppDelegate.m in Sources */,
 				1C557E99209024E40006E857 /* UIViewController+UITabBarButton.m in Sources */,
+				1C8D14F721BB71D0000F9654 /* UIButton+YZHAdd.m in Sources */,
 				E48B00AC1E545BD0000160BC /* Style3_2ViewController.m in Sources */,
 				1C59B06D2094473200427D84 /* UIView+UIGestureRecognizer.m in Sources */,
 				E448D3261E53093E00A2F35C /* UITabBarButton.m in Sources */,
