@@ -77,6 +77,14 @@ typedef NS_ENUM(NSInteger, UINavigationControllerBarAndItemStyle)
 /** transitionDuration */
 @property (nonatomic, assign) NSTimeInterval transitionDuration;
 
+/*
+ *hidesTabBarWhenPushed
+ *在navigationController后所有的push操作都会hidesTabBar,
+ *在之前已经push的VC的hidesBottomBarWhenPushed都会设置为NO,以后的都会设置为YES
+ *默认为YES
+ */
+@property (nonatomic, assign) BOOL hidesTabBarAfterPushed;
+
 -(instancetype)initWithRootViewController:(UIViewController *)rootViewController navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAndItemStyle;
 
 -(void)resetNavigationBarAndItemViewFrame:(CGRect)frame;

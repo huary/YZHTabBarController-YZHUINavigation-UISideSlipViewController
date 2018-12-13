@@ -239,6 +239,14 @@
     self.navigationTitle = title;
 }
 
+//-(void)setHidesBottomBarWhenPushed:(BOOL)hidesBottomBarWhenPushed
+//{
+//    super.hidesBottomBarWhenPushed = hidesBottomBarWhenPushed;
+//    if (self.tabBarController) {
+//        self.tabBarController.tabBar.hidden = hidesBottomBarWhenPushed;
+//    }
+//}
+
 -(void)setNavigationBarViewAlpha:(CGFloat)navigationBarViewAlpha
 {
     _navigationBarViewAlpha = navigationBarViewAlpha;

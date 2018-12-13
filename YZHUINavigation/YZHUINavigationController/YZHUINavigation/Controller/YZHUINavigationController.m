@@ -133,6 +133,7 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
 {
     self.popGestureEnabled = YES;
     self.transitionDuration = 0.3;
+    self.hidesTabBarAfterPushed = YES;
 }
 
 - (void)viewDidLoad {
@@ -304,28 +305,31 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panGestureRecognizer
 {
-    CGPoint velocity = [panGestureRecognizer velocityInView:self.view];
-    if (panGestureRecognizer == self.pushPan) {
-        UIViewController *topVC = self.viewControllers.lastObject;
-        if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:pushNextViewControllerForViewController:)]) {
-            UIViewController *nextVC = [self.pushVCDelegate YZHUINavigationController:self pushNextViewControllerForViewController:topVC];
-            return nextVC != nil && velocity.x < 0;
-        }
-        return NO;
-    }
-    else
-    {
-        if (self.popGestureEnabled == NO) {
+    if ([panGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        CGPoint velocity = [panGestureRecognizer velocityInView:self.view];
+        if (panGestureRecognizer == self.pushPan) {
+            UIViewController *topVC = self.viewControllers.lastObject;
+            if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:pushNextViewControllerForViewController:)]) {
+                UIViewController *nextVC = [self.pushVCDelegate YZHUINavigationController:self pushNextViewControllerForViewController:topVC];
+                return nextVC != nil && velocity.x < 0;
+            }
             return NO;
         }
-        else {
-            YZHUIViewController *topVC = (YZHUIViewController *)self.viewControllers.lastObject;
-            if ([topVC isKindOfClass:[YZHUIViewController class]] && !topVC.popGestureEnabled) {
+        else
+        {
+            if (self.popGestureEnabled == NO) {
                 return NO;
             }
+            else {
+                YZHUIViewController *topVC = (YZHUIViewController *)self.viewControllers.lastObject;
+                if ([topVC isKindOfClass:[YZHUIViewController class]] && !topVC.popGestureEnabled) {
+                    return NO;
+                }
+            }
+            return self.viewControllers.count > 1 && velocity.x > 0;
         }
-        return self.viewControllers.count > 1 && velocity.x > 0;
     }
+    return YES;
 }
 
 #pragma mark UINavigationControllerDelegate

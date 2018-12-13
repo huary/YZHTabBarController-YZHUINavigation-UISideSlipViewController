@@ -41,6 +41,8 @@
     self.view.backgroundColor = WHITE_COLOR;
     self.navigationBarBottomLineColor = nil;
     
+//    self.hidesBottomBarWhenPushed = YES;
+    
 //    self.edgesForExtendedLayout = UIRectEdgeNone;
     
 //    self.navigationBarViewBackgroundColor = CLEAR_COLOR;
@@ -60,21 +62,9 @@
     YZHUINavigationController *nav = (YZHUINavigationController*)self.navigationController;
     nav.pushVCDelegate = self;
     
-    
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [button addControlEvent:UIControlEventTouchUpInside actionBlock:^(UIButton *button) {
-//        NSLog(@"button=%@",button);
-//    }];
-//    button.frame = CGRectMake(100, 100, 200, 60);
-//    button.backgroundColor = PURPLE_COLOR;
-//    [self.view addSubview:button];
-//    
-//    
-//    return;
-    
-    CGFloat height = SAFE_HEIGHT;
-    self.tableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, height)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - TAB_BAR_HEIGHT)];
     [self.view addSubview:self.tableView];
+    
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.delegate = self;

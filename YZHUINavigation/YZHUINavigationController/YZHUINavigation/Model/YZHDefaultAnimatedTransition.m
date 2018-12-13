@@ -129,25 +129,37 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
         toVC.view.transform = CGAffineTransformMakeTranslation(toViewTransitionX, 0);
         fromVC.view.transform = CGAffineTransformIdentity;
 
-        if (self.navigationController.viewControllers.count == 2 && fromVC.tabBarController) {
-            UITabBar *tabBar = fromVC.tabBarController.tabBar;
-            UIView *transitionView = nil;
-            if (fromVC.tabBarController.tabBarView) {
-                transitionView = fromVC.tabBarController.tabBarView;
-                [transitionView removeFromSuperview];
+        BOOL hideBottomBar = NO;
+        if (fromVC.tabBarController && (self.navigationController.hidesTabBarAfterPushed || toVC.hidesBottomBarWhenPushed)) {
+
+            __block BOOL prevHasHide = NO;
+            [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj != toVC && obj.hidesBottomBarWhenPushed) {
+                    prevHasHide = YES;
+                    *stop = YES;
+                }
+            }];
+            if (prevHasHide == NO) {
+                hideBottomBar = YES;
+                UITabBar *tabBar = fromVC.tabBarController.tabBar;
+                UIView *transitionView = nil;
+                if (fromVC.tabBarController.tabBarView) {
+                    transitionView = fromVC.tabBarController.tabBarView;
+                    [transitionView removeFromSuperview];
+                }
+                else {
+                    transitionView = [fromVC.tabBarController createTabBarTransitionView];
+                }
+                CGRect frame = transitionView.frame;
+                frame.origin = CGPointMake(0, fromVC.view.bounds.size.height -tabBar.bounds.size.height);
+                transitionView.frame = frame;
+                [fromVC.view addSubview:transitionView];
+                tabBar.hidden = YES;
+
+                fromVC.tabBarController.tabBarTransitionView = transitionView;
             }
-            else {
-                transitionView = [fromVC.tabBarController createTabBarTransitionView];
-            }
-            CGRect frame = transitionView.frame;
-            frame.origin = CGPointMake(0, fromVC.view.bounds.size.height -tabBar.bounds.size.height);
-            transitionView.frame = frame;
-            [fromVC.view addSubview:transitionView];
-            tabBar.hidden = YES;
-            
-            fromVC.tabBarController.tabBarTransitionView = transitionView;
         }
-        
+       
         [containerView bringSubviewToFront:toVC.view];
         [UIView animateWithDuration:duration
                               delay:0
@@ -174,6 +186,8 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
                              //2.指定ViewController的View的transform
                              fromVC.view.transform = CGAffineTransformIdentity;
                              toVC.view.transform = CGAffineTransformIdentity;
+
+                             toVC.hidesBottomBarWhenPushed = hideBottomBar;
                              
                              //3.检查是否完成push还是取消
                              BOOL canceled = [transitionContext transitionWasCancelled];
@@ -186,7 +200,7 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
                                  //2.还原navigationBar上面的颜色
                                  self.navigationController.navigationBarViewBackgroundColor = fromColor;
 
-                                 if (fromVC.tabBarController) {
+                                 if (hideBottomBar) {
                                      UITabBar *tabBar = fromVC.tabBarController.tabBar;
                                      if (fromVC.tabBarController.tabBarView) {
                                          UIView *transitionView = fromVC.tabBarController.tabBarView;
@@ -235,32 +249,46 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
         
         self.navigationController.view.userInteractionEnabled = NO;
 
-        if (self.navigationController.viewControllers.count == 1 && fromVC.tabBarController) {
-            UITabBar *tabBar = fromVC.tabBarController.tabBar;
+        BOOL showBottomBar = NO;
+        if (fromVC.hidesBottomBarWhenPushed && toVC.tabBarController) {
             
-            UIView *transitionView = nil;
-            if (fromVC.tabBarController.tabBarView) {
-                transitionView = fromVC.tabBarController.tabBarView;
-                [transitionView removeFromSuperview];
-            }
-            else {
-                transitionView = toVC.tabBarController.tabBarTransitionView;
-                if (transitionView == nil) {
-                    transitionView = [toVC.tabBarController createTabBarTransitionView];
+            __block BOOL prevHasHide = NO;
+            [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.hidesBottomBarWhenPushed) {
+                    prevHasHide = YES;
+                    *stop = YES;
                 }
+            }];
+            
+            if (prevHasHide == NO) {
+                showBottomBar = YES;
+                
+                UITabBar *tabBar = toVC.tabBarController.tabBar;
+                
+                UIView *transitionView = nil;
+                if (toVC.tabBarController.tabBarView) {
+                    transitionView = toVC.tabBarController.tabBarView;
+                    [transitionView removeFromSuperview];
+                }
+                else {
+                    transitionView = toVC.tabBarController.tabBarTransitionView;
+                    if (transitionView == nil) {
+                        transitionView = [toVC.tabBarController createTabBarTransitionView];
+                    }
+                }
+                CGRect frame = transitionView.frame;
+                
+                CGFloat h = tabBar.bounds.size.height;
+                CGFloat x = 0;
+                CGFloat y = toVC.view.bounds.size.height - h;
+                CGFloat w = tabBar.bounds.size.width;
+                frame = CGRectMake(x, y, w, h);
+                transitionView.frame = frame;
+                [toVC.view addSubview:transitionView];
+                tabBar.hidden = YES;
+                
+                toVC.tabBarController.tabBarTransitionView = transitionView;
             }
-            CGRect frame = transitionView.frame;
-            
-            CGFloat h = tabBar.bounds.size.height;
-            CGFloat x = 0;
-            CGFloat y = toVC.view.bounds.size.height - h;
-            CGFloat w = tabBar.bounds.size.width;
-            frame = CGRectMake(x, y, w, h);
-            transitionView.frame = frame;
-            [toVC.view addSubview:transitionView];
-            tabBar.hidden = YES;
-            
-            toVC.tabBarController.tabBarTransitionView = transitionView;
         }
         
         [containerView bringSubviewToFront:fromVC.view];
@@ -320,7 +348,7 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
                                  //完成
                                  [self.navigationController removeNavigationItemViewForViewController:fromVC];
                                  
-                                 if (self.navigationController.viewControllers.count == 1 && toVC.tabBarController) {
+                                 if (showBottomBar) {
                                      UITabBar *tabBar = toVC.tabBarController.tabBar;
                                      if (toVC.tabBarController.tabBarView) {
                                          UIView *transitionView = toVC.tabBarController.tabBarView;
