@@ -16,6 +16,14 @@ typedef NS_ENUM(NSInteger, NSGraphicsImageAlignment)
     NSGraphicsImageAlignmentRight       = 2,
 };
 
+typedef NS_ENUM(NSInteger, NSArrowPointingType)
+{
+    NSArrowPointingTypeUp       = 0,
+    NSArrowPointingTypeLeft     = 1,
+    NSArrowPointingTypeDown     = 2,
+    NSArrowPointingTypeRight    = 3,
+};
+
 @class YZHUIGraphicsImageContext;
 
 //这个是可以addpath的block
@@ -62,4 +70,44 @@ typedef void(^UIGraphicsImageCompletionBlock)(YZHUIGraphicsImageContext *context
 -(instancetype)initWithBeginBlock:(UIGraphicsImageBeginBlock)beginBlock runBlock:(UIGraphicsImageRunBlock)runBlock endPathBlock:(UIGraphicsImageEndPathBlock)endPathBlock completionBlock:(UIGraphicsImageCompletionBlock)completionBlock;
 
 -(UIImage*)createGraphicesImageWithStrokeColor:(UIColor*)strokeColor;
+
+///创建交叉的符号：+，可以选择transform
++(UIImage*)createCrossImageWithSize:(CGSize)size lineWidth:(CGFloat)lineWidth backgroundColor:(UIColor*)backgroundColor strokeColor:(UIColor*)strokeColor transform:(CGAffineTransform)transform;
+
+//创建关闭的符号：x
++(UIImage*)createCrossImageWithSize:(CGSize)size lineWidth:(CGFloat)lineWidth backgroundColor:(UIColor*)backgroundColor strokeColor:(UIColor*)strokeColor;
+
+//创建返回的符号：<
++(UIImage*)createBackImageWithSize:(CGSize)size lineWidth:(CGFloat)lineWidth backgroundColor:(UIColor*)backgroundColor strokeColor:(UIColor*)strokeColor;
+
+//创建前进的符号：>
++(UIImage*)createForwardImageWithSize:(CGSize)size lineWidth:(CGFloat)lineWidth backgroundColor:(UIColor*)backgroundColor strokeColor:(UIColor*)strokeColor;
+
+/*
+ *创建的符号：< > v ^这样一个等腰三角形的两边
+ *arrowAngle为顶角大小,以弧度为单位
+ *baseWidth为底边的宽度
+ */
++(UIImage*)createArrowImageWithType:(NSArrowPointingType)type arrowAngle:(CGFloat)angle baseWidth:(CGFloat)baseWidth lineWidth:(CGFloat)lineWidth backgroundColor:(UIColor*)backgroundColor strokeColor:(UIColor*)strokeColor;
+
+/*
+ *创建的符号：< > v ^这样一个等腰三角形的两边
+ *arrowAngle为顶角大小,以弧度为单位
+ *baseHeight底边上的高
+ */
++(UIImage*)createArrowImageWithType:(NSArrowPointingType)type arrowAngle:(CGFloat)angle baseHeight:(CGFloat)baseHeight lineWidth:(CGFloat)lineWidth backgroundColor:(UIColor*)backgroundColor strokeColor:(UIColor*)strokeColor;
+
+/*
+ *创建的符号：< > v ^这样一个等腰三角形的两边
+ *为三角形形成的大小，这个形成三角形底边的高度要稍微大点
+ */
++(UIImage*)createArrowImageWithType:(NSArrowPointingType)type size:(CGSize)size lineWidth:(CGFloat)lineWidth backgroundColor:(UIColor*)backgroundColor strokeColor:(UIColor*)strokeColor;
+
+//创建带圆角的图片
++(UIImage*)createImageWithSize:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor*)borderColor backgroundColor:(UIColor*)backgroundColor;
+
+//创建带圆角的borderStroke
++(UIImage*)createBorderStrokeImageWithSize:(CGSize)size byRoundingCorners:(UIRectCorner)corners cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor*)borderColor backgroundColor:(UIColor*)backgroundColor;
+
+
 @end
