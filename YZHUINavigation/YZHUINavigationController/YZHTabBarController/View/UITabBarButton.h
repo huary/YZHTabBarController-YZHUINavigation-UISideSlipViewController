@@ -34,4 +34,6 @@ typedef NSString*(^TabBarBadgeBlock)(UITabBarButton *button, NSString *badgeValu
 
 @property (nonatomic, weak) UIView *tabBarView;
 
+@property (nonatomic, weak) UITabBarController *tabBarController;
+
 @end

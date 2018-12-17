@@ -54,14 +54,14 @@ typedef NS_ENUM(NSInteger, UITabBarViewUseFor)
 //仅仅创建一个自定义的Single的button，但是不加入到UITabBarView中
 -(UITabBarButton*)createSingleTabBarItem:(UITabBarItem *)tabBarItem forControlEvents:(UIControlEvents)controlEvents actionBlock:(TabBarEventActionBlock)actionBlock;
 
--(UITabBarButton*)resetTabBarItem:(UITabBarItem *)tabBarItem atIndex:(NSInteger)index;
 
+-(UITabBarButton*)resetTabBarItem:(UITabBarItem *)tabBarItem atIndex:(NSInteger)index;
 //按照UITabBarButton的顺序加入的，大小由系统来计算
--(void)addTabBarWithCustomView:(UIView*)customView;
--(void)resetTabBarWithCustomView:(UIView*)customView atIndex:(NSInteger)index;
+-(UITabBarButton*)addTabBarWithCustomView:(UIView*)customView;
+-(UITabBarButton*)resetTabBarWithCustomView:(UIView*)customView atIndex:(NSInteger)index;
 
 //按照UITabBarButton的frame加入的，大小和位置有customView.frame来决定
--(void)addCustomLayoutTabBarWithCustomView:(UIView *)customView;
+-(UITabBarButton*)addCustomLayoutTabBarWithCustomView:(UIView *)customView;
 
 -(void)doSelectTo:(NSInteger)to;
 

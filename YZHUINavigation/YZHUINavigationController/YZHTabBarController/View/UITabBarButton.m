@@ -277,11 +277,19 @@ static float tabBarImageRatio = 0.65;
     
 }
 
+-(YZHTabBarController*)_tabBarVC
+{
+    if ([self.tabBarController isKindOfClass:[YZHTabBarController class]]) {
+        return (YZHTabBarController*)self.tabBarController;
+    }
+    return nil;
+}
+
 -(UIFont*)_tabBarButtonTextFont
 {
     if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
-        if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
-            UIFont *font = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemTitleTextFontKey];
+        if ([self _tabBarVC].tabBarAttributes) {
+            UIFont *font = [[self _tabBarVC].tabBarAttributes objectForKey:YZHTabBarItemTitleTextFontKey];
             if (font) {
                 return font;
             }
@@ -299,8 +307,8 @@ static float tabBarImageRatio = 0.65;
 -(UIColor*)_tabBarButtonTitleNormalColor
 {
     if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
-        if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
-            UIColor *color = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemTitleNormalColorKey];
+        if ([self _tabBarVC].tabBarAttributes) {
+            UIColor *color = [[self _tabBarVC].tabBarAttributes objectForKey:YZHTabBarItemTitleNormalColorKey];
             if (color) {
                 return color;
             }
@@ -319,8 +327,8 @@ static float tabBarImageRatio = 0.65;
 -(UIColor*)_tabBarButtonTitleSelectedColor
 {
     if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
-        if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
-            UIColor *color = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemTitleSelectedColorKey];
+        if ([self _tabBarVC].tabBarAttributes) {
+            UIColor *color = [[self _tabBarVC].tabBarAttributes objectForKey:YZHTabBarItemTitleSelectedColorKey];
             if (color) {
                 return color;
             }
@@ -352,14 +360,14 @@ static float tabBarImageRatio = 0.65;
 -(UIColor*)_tabBarButtonSelectedBackgroundColor
 {
     if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
-        if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
-            UIColor *color = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemSelectedBackgroundColorKey];
+        if ([self _tabBarVC].tabBarAttributes) {
+            UIColor *color = [[self _tabBarVC].tabBarAttributes objectForKey:YZHTabBarItemSelectedBackgroundColorKey];
             if (color) {
                 return color;
             }
         }
-        if ([YZHTabBarController shareTabBarController].tabBar.barTintColor) {
-            return [YZHTabBarController shareTabBarController].tabBar.barTintColor;
+        if (self.tabBarController.tabBar.barTintColor) {
+            return self.tabBarController.tabBar.barTintColor;
         }
     }
     else {
@@ -373,14 +381,14 @@ static float tabBarImageRatio = 0.65;
 -(UIColor*)_tabBarButtonHighlightedBackgroundColor
 {
     if ([self _tabBarView] && [self _tabBarView].tabBarViewUseFor == UITabBarViewUseForTabBar) {
-        if ([YZHTabBarController shareTabBarController].tabBarAttributes) {
-            UIColor *color = [[YZHTabBarController shareTabBarController].tabBarAttributes objectForKey:YZHTabBarItemHighlightedBackgroundColorKey];
+        if ([self _tabBarVC].tabBarAttributes) {
+            UIColor *color = [[self _tabBarVC].tabBarAttributes objectForKey:YZHTabBarItemHighlightedBackgroundColorKey];
             if (color) {
                 return color;
             }
         }
-        if ([YZHTabBarController shareTabBarController].tabBar.barTintColor) {
-            return [YZHTabBarController shareTabBarController].tabBar.barTintColor;
+        if (self.tabBarController.tabBar.barTintColor) {
+            return self.tabBarController.tabBar.barTintColor;
         }
     }
     else {

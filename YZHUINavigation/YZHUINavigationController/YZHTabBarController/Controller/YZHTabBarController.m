@@ -10,7 +10,7 @@
 #import "UITabBarView.h"
 #import "UIViewController+UITabBarButton.h"
 
-#define USE_TABBAR_TO_TABBAR_VC                 (1)
+#define USE_TABBAR_VIEW_TO_TABBAR_VC                 (0)
 
 #if USE_TABBAR_VIEW_TO_TABBAR_VC
 #import "UITabBarController+UITabBarView.h"
@@ -253,6 +253,7 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
     NSInteger index = [self.tabBarViewT currentIndex];
     [self _addChildVC:nav atItemIndex:index];
     UITabBarButton *button = [self.tabBarViewT addTabBarItem:childVC.tabBarItem];
+    button.tabBarController = self;
     childVC.tabBarButton = button;
 }
 
@@ -279,7 +280,9 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
         NSInteger itemIndex = [self.tabBarViewT currentIndex];
         [self _addChildVC:nav atItemIndex:itemIndex];
     }
-    [self.tabBarViewT addTabBarWithCustomView:customItemView];
+    UITabBarButton *button = [self.tabBarViewT addTabBarWithCustomView:customItemView];
+    button.tabBarController = self;
+    childVC.tabBarButton = button;
 }
 
 -(void)clear

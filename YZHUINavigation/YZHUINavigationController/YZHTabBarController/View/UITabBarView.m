@@ -293,33 +293,35 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     [old removeFromSuperview];
 }
 
--(void)addTabBarWithCustomView:(UIView*)customView
+-(UITabBarButton*)addTabBarWithCustomView:(UIView*)customView
 {
     if (customView == nil) {
-        return;
+        return nil;
     }
     UITabBarButton *btn = [self addTabBarItem:nil];
     customView.tag = customViewTag_s;
     customView.userInteractionEnabled = NO;
     [btn addSubview:customView];
+    return btn;
 }
 
--(void)resetTabBarWithCustomView:(UIView*)customView atIndex:(NSInteger)index
+-(UITabBarButton*)resetTabBarWithCustomView:(UIView*)customView atIndex:(NSInteger)index
 {
     if (index < 0 || index >= self.items.count) {
-        return ;
+        return nil;
     }
     if (customView == nil) {
-        return;
+        return nil;
     }
     UITabBarButton *btn = self.items[index];
     [self _removeCustomViewAtView:btn];
     customView.tag = customViewTag_s;
     customView.userInteractionEnabled = NO;
     [btn addSubview:customView];
+    return btn;
 }
 
--(void)addCustomLayoutTabBarWithCustomView:(UIView *)customView
+-(UITabBarButton*)addCustomLayoutTabBarWithCustomView:(UIView *)customView
 {
     CGSize size = customView.frame.size;
     UITabBarItem *tabBarItem = [[UITabBarItem alloc] init];
@@ -330,6 +332,7 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     customView.userInteractionEnabled = NO;
     customView.frame = CGRectMake(0, 0, size.width, size.height);
     [btn addSubview:customView];
+    return btn;
 }
 
 -(void)_tabBarClick:(UITabBarButton*)selectedBtn
