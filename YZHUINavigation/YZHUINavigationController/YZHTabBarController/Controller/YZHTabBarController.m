@@ -22,6 +22,9 @@ NSString *const YZHTabBarItemTitleTextFontKey = TYPE_STR(YZHTabBarItemTitleTextF
 NSString *const YZHTabBarItemSelectedBackgroundColorKey = TYPE_STR(YZHTabBarItemSelectedBackgroundColorKey);
 NSString *const YZHTabBarItemHighlightedBackgroundColorKey = TYPE_STR(YZHTabBarItemHighlightedBackgroundColorKey);
 
+NSString *const YZHTabBarItemActionUserInteractionKey = TYPE_STR(YZHTabBarItemActionUserInteractionKey);
+
+
 
 /**************************************************************************
  *NSItemChildVCInfo
@@ -74,6 +77,10 @@ NSString *const YZHTabBarItemHighlightedBackgroundColorKey = TYPE_STR(YZHTabBarI
 @interface YZHTabBarController () <UITabBarViewDelegate>
 
 @property (nonatomic, strong) UITabBarView *tabBarViewT;
+
+@property (nonatomic, assign) NSInteger lastClickedIndex;
+@property (nonatomic, assign) int64_t lastClickedIndexTimeMS;
+
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSItemChildVCInfo*> *itemChildVCInfo;
 
 @end
@@ -81,6 +88,15 @@ NSString *const YZHTabBarItemHighlightedBackgroundColorKey = TYPE_STR(YZHTabBarI
 static YZHTabBarController *shareTabBarController_s = NULL;
 
 @implementation YZHTabBarController
+
+-(instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self _setupDefault];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -103,6 +119,11 @@ static YZHTabBarController *shareTabBarController_s = NULL;
         _itemChildVCInfo = [NSMutableDictionary dictionary];
     }
     return _itemChildVCInfo;
+}
+
+-(void)_setupDefault
+{
+    self.doubleTapMaxTimeIntervalMS = 180;
 }
 
 -(void)_setupTabBar
@@ -132,20 +153,42 @@ static YZHTabBarController *shareTabBarController_s = NULL;
 
 #pragma mark UITabBarViewDelegate
 
--(BOOL)tabBarView:(UITabBarView *)tabBarView didSelectFrom:(NSInteger)from to:(NSInteger)to
+-(BOOL)tabBarView:(UITabBarView *)tabBarView didSelectFrom:(NSInteger)from to:(NSInteger)to actionInfo:(NSDictionary *)actionInfo
 {
     BOOL shouldSelect = YES;
+    
+    int64_t lastClickedIndexTimeMS = self.lastClickedIndexTimeMS;
+    //这里不对selectedIndex进行监听，故意放在这里进行,需要用户点击的行为，而不是代码操作的行为
+    self.lastClickedIndexTimeMS = MSEC_FROM_DATE_SINCE1970_NOW;
+    
+    //single tap
     if ([self.tabBarDelegate respondsToSelector:@selector(tabBarController:shouldSelectFrom:to:)]) {
         shouldSelect = [self.tabBarDelegate tabBarController:self shouldSelectFrom:from to:to];
+    }
+    else if ([self.tabBarDelegate respondsToSelector:@selector(tabBarController:shouldSelectFrom:to:actionInfo:)]) {
+        shouldSelect = [self.tabBarDelegate tabBarController:self shouldSelectFrom:from to:to actionInfo:actionInfo];
     }
     if (shouldSelect) {
         NSItemChildVCInfo *childVCInfo = [self.itemChildVCInfo objectForKey:@(to)];
         NSInteger childVCIndex = childVCInfo.childVCIndex;
-        if (childVCInfo && childVCIndex >= 0 && childVCIndex < self.childViewControllers.count) {
-//            NSLog(@"to=%ld,childVCIndex=%ld",to,childVCIndex);
+        if (childVCIndex >= 0 && childVCIndex < self.childViewControllers.count) {
             self.selectedIndex = childVCIndex;
         }
     }
+    //double tap
+    if (self.lastClickedIndex == to) {
+        int64_t diff = self.lastClickedIndexTimeMS - lastClickedIndexTimeMS;
+        if (diff <= self.doubleTapMaxTimeIntervalMS) {
+            BOOL should = YES;
+            if ([self.tabBarDelegate respondsToSelector:@selector(tabBarController:shouldDoubleClickAtIndex:actionInfo:)]) {
+                should = [self.tabBarDelegate tabBarController:self shouldDoubleClickAtIndex:to actionInfo:actionInfo];
+            }
+            if (should) {
+                [self tabBarView:self.tabBarViewT doubleClickAtIndex:self.selectedIndex];
+            }
+        }
+    }
+    self.lastClickedIndex = to;
     return shouldSelect;
 }
 
@@ -366,6 +409,7 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
     [super viewWillLayoutSubviews];
     [self _hiddenTabBarSubView];
     self.tabBarViewT.frame = self.tabBar.bounds;
+    self.tabBarViewT.backgroundColor = self.tabBar.barTintColor;
     for (UIView *child in self.tabBar.subviews) {
         if ([child isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
             [child removeFromSuperview];

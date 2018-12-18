@@ -31,6 +31,7 @@
 {
     YZHTabBarController *rootVC = [YZHTabBarController shareTabBarController];
     rootVC.tabBarDelegate = self;
+    rootVC.tabBar.barTintColor = WHITE_COLOR;
     
 #if 1
     Style1ViewController *style1  = [[Style1ViewController alloc] init];

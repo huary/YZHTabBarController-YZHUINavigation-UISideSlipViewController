@@ -15,12 +15,22 @@ UIKIT_EXTERN NSString *const YZHTabBarItemTitleSelectedColorKey;
 UIKIT_EXTERN NSString *const YZHTabBarItemSelectedBackgroundColorKey;
 UIKIT_EXTERN NSString *const YZHTabBarItemHighlightedBackgroundColorKey;
 
+UIKIT_EXTERN NSString *const YZHTabBarItemActionUserInteractionKey;
+
 
 @class YZHTabBarController;
 @protocol YZHTabBarControllerDelegate <NSObject>
 
 @optional
+
 -(BOOL)tabBarController:(YZHTabBarController*)tabBarController shouldSelectFrom:(NSInteger)from to:(NSInteger)to;
+
+-(BOOL)tabBarController:(YZHTabBarController *)tabBarController shouldSelectFrom:(NSInteger)from to:(NSInteger)to actionInfo:(NSDictionary*)actionInfo;
+
+-(BOOL)tabBarController:(YZHTabBarController *)tabBarController shouldDoubleClickAtIndex:(NSInteger)index actionInfo:(NSDictionary*)actionInfo;
+/*这个双击只有在第二次与第一次选中的是同一个的时候双击才起作用
+ *调用顺序为上面的shouldSelectFrom:to->shouldSelectFrom:to->doubleClickAtIndex:
+ */
 -(void)tabBarController:(YZHTabBarController *)tabBarController doubleClickAtIndex:(NSInteger)index;
 
 @end
@@ -32,6 +42,9 @@ UIKIT_EXTERN NSString *const YZHTabBarItemHighlightedBackgroundColorKey;
 
 @property (nonatomic, copy) NSDictionary *tabBarAttributes;
 @property (nonatomic, weak) id<YZHTabBarControllerDelegate> tabBarDelegate;
+
+/* doubleTapMaxTimeInterval 双击间隔的时间，以毫秒为单位，默认为180ms */
+@property (nonatomic, assign) NSInteger doubleTapMaxTimeIntervalMS;
 
 +(YZHTabBarController*)shareTabBarController;
 

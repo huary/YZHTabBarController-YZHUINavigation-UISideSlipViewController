@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "UITabBarButton.h"
 
+//不添加双击事件，双击事件会导致响应变慢，双击事件根据上层决定，
+#define ADD_DOUBLE_TAP_GESTURE  (0)
+
 typedef NS_ENUM(NSInteger, UITabBarViewStyle)
 {
     UITabBarViewStyleHorizontal     = 0,
@@ -28,9 +31,10 @@ typedef NS_ENUM(NSInteger, UITabBarViewUseFor)
 @protocol UITabBarViewDelegate <NSObject>
 
 @optional
--(BOOL)tabBarView:(UITabBarView*)tabBarView didSelectFrom:(NSInteger)from to:(NSInteger)to;
-
+-(BOOL)tabBarView:(UITabBarView*)tabBarView didSelectFrom:(NSInteger)from to:(NSInteger)to actionInfo:(NSDictionary*)actionInfo;
+#if ADD_DOUBLE_TAP_GESTURE
 -(void)tabBarView:(UITabBarView*)tabBarView doubleClickAtIndex:(NSInteger)index;
+#endif
 @end
 
 @interface UITabBarView : UIView

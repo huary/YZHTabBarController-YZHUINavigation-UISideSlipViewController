@@ -14,6 +14,7 @@
 
 static const NSInteger customViewTag_s = 111;
 
+
 typedef NS_ENUM(NSInteger, NSTabBarButtonType)
 {
     //创建的TabBar按顺序加入到TabBarView中的
@@ -103,6 +104,7 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.layer.masksToBounds = NO;
+    scrollView.delaysContentTouches = NO;
     [self addSubview:scrollView];
     self.scrollView = scrollView;
     
@@ -220,6 +222,7 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     }];
 }
 
+#if ADD_DOUBLE_TAP_GESTURE
 -(void)_addGestureAtButton:(UITabBarButton*)button
 {
     WEAK_SELF(weakSelf);
@@ -234,6 +237,7 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
         [self.delegate tabBarView:self doubleClickAtIndex:gesture.view.tag];
     }
 }
+#endif
 
 -(UITabBarButton*)addTabBarItem:(UITabBarItem *)tabBarItem
 {
@@ -259,7 +263,9 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     if (tabBarButtonType == NSTabBarButtonTypeDefault || tabBarButtonType == NSTabBarButtonTypeCustomLayout)
     {
         btn.tag = self.items.count;
+#if ADD_DOUBLE_TAP_GESTURE
         [self _addGestureAtButton:btn];
+#endif
         btn.tabBarView = self;
         [self.items addObject:btn];
         [self.scrollView addSubview:btn];
@@ -337,10 +343,16 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
 
 -(void)_tabBarClick:(UITabBarButton*)selectedBtn
 {
+    [self _tabBarClickAction:selectedBtn userInteraction:YES];
+}
+
+-(void)_tabBarClickAction:(UITabBarButton*)selectedBtn userInteraction:(BOOL)userInteraction
+{
+    NSDictionary *actionInfo = @{YZHTabBarItemActionUserInteractionKey:@(userInteraction)};
     if (selectedBtn.tabBarButtonType == NSTabBarButtonTypeDefault || selectedBtn.tabBarButtonType == NSTabBarButtonTypeCustomLayout) {
         BOOL shouldSelect = YES;
-        if ([self.delegate respondsToSelector:@selector(tabBarView:didSelectFrom:to:)]) {
-            shouldSelect = [self.delegate tabBarView:self didSelectFrom:self.lastSelectedBtn.tag to:selectedBtn.tag];
+        if ([self.delegate respondsToSelector:@selector(tabBarView:didSelectFrom:to:actionInfo:)]) {
+            shouldSelect = [self.delegate tabBarView:self didSelectFrom:self.lastSelectedBtn.tag to:selectedBtn.tag actionInfo:actionInfo];
         }
         if (shouldSelect) {
             self.lastSelectedBtn.selected = NO;
@@ -368,7 +380,7 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     if (btn == nil) {
         return;
     }
-    [self _tabBarClick:btn];
+    [self _tabBarClickAction:btn userInteraction:NO];
 }
 
 -(NSInteger)currentIndex
