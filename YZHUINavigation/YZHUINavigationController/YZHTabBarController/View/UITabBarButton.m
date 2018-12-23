@@ -201,6 +201,9 @@ static float tabBarImageRatio = 0.65;
 
 -(NSDictionary<NSString*,id>*)_badgeTextAttributes
 {
+    if (![self.tabBarItem respondsToSelector:@selector(badgeTextAttributesForState:)]) {
+        return nil;
+    }
     NSDictionary *dict = [self.tabBarItem badgeTextAttributesForState:self.state];
     if (dict == nil) {
         dict = [self.tabBarItem badgeTextAttributesForState:UIControlStateNormal];

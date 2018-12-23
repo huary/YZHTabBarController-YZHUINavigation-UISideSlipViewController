@@ -11,7 +11,7 @@
 #import "Style1_2ViewController.h"
 #import "AppDelegate.h"
 
-@interface Style1ViewController () <YZHUINavigationControllerDelegate,UISearchControllerDelegate,UISearchResultsUpdating>
+@interface Style1ViewController () <YZHUINavigationControllerDelegate,UISearchControllerDelegate,UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -30,6 +30,7 @@
     [self setUpChildView];
 }
 
+
 -(void)back:(id)sender
 {
     Style1_2ViewController *style2VC = [[Style1_2ViewController alloc] init];
@@ -41,20 +42,6 @@
     self.view.backgroundColor = WHITE_COLOR;
     self.navigationBarBottomLineColor = nil;
     
-//    self.hidesBottomBarWhenPushed = YES;
-    
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
-//    self.navigationBarViewBackgroundColor = CLEAR_COLOR;
-    
-    UIView *subView = [[UIView alloc] init];
-    subView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    subView.frame = CGRectMake(100, 100, 150, 40);
-    subView.backgroundColor = BLUE_COLOR;
-    [self.view addSubview:subView];
-    
-//    self.navigationTitle = @"第一个";
-    
     [self addNavigationLeftItemsWithTitles:@[@"左边"] target:self action:@selector(back:) isReset:YES];
     
     [self addNavigationRightItemsWithTitles:@[@"右边"] target:self action:@selector(back:) isReset:YES];
@@ -62,9 +49,21 @@
     YZHUINavigationController *nav = (YZHUINavigationController*)self.navigationController;
     nav.pushVCDelegate = self;
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - TAB_BAR_HEIGHT)];
-    [self.view addSubview:self.tableView];
+    CGFloat x = 0;
+    CGFloat y = self.layoutTopY;
+    CGFloat w = self.contentViewSize.width;
+    CGFloat h = self.contentViewSize.height - y - SAFE_TAB_BAR_HEIGHT;
+//    UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(x,y, w, h)];
+//    testView.backgroundColor = PURPLE_COLOR;
+//    [self.view addSubview:testView];
+//    return;
     
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(x, y, w, h) style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.tableFooterView = [UIView new];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSSTRING_FROM_CLASS(UITableViewCell)];
+    [self.contentView addSubview:self.tableView];
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.delegate = self;
@@ -80,12 +79,15 @@
     
     //点击搜索的时候,是否隐藏导航栏
 //    self.searchController.hidesNavigationBarDuringPresentation = NO;
-    
-    CGRect frame = self.searchController.searchBar.frame;
-    frame.size.height = NAV_BAR_HEIGHT;
-    self.searchController.searchBar.frame = frame;
+
     self.tableView.tableHeaderView = self.searchController.searchBar;
 }
+
+-(void)_updateTableViewHeader
+{
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+}
+
 
 #pragma mark - UISearchControllerDelegate代理
 
@@ -106,6 +108,7 @@
 
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
+    [self _updateTableViewHeader];
     NSLog(@"%s",__FUNCTION__);
 }
 
@@ -116,6 +119,21 @@
 
 //谓词搜索过滤
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+}
+
+
+#pragma mark tableview
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 20;
+}
+
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSSTRING_FROM_CLASS(UITableViewCell) forIndexPath:indexPath];
+    cell.textLabel.text = NEW_STRING_WITH_FORMAT(@"%ld",indexPath.row);
+    return cell;
 }
 
 #pragma mark YZHUINavigationControllerDelegate

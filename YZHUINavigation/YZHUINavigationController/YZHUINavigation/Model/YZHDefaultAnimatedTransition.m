@@ -12,8 +12,8 @@
 #import "UIView+Snapshot.h"
 #import <objc/runtime.h>
 
-static const CGFloat navigationItemViewAlphaPushChangeDurationWithTotalDurationRatio = 0.5;//0.2;
-static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRatio = 0.5;//0.3;
+//static const CGFloat navigationItemViewAlphaPushChangeDurationWithTotalDurationRatio = 1.0;//0.5;//0.2;
+//static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRatio = 1.0;//0.5;//0.3;
 
 
 /**************************************************************************
@@ -87,7 +87,7 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
     CGFloat duration = [self transitionDuration:transitionContext];
     
     CGFloat toViewTransitionX = CGRectGetWidth(containerView.bounds);
-    CGFloat fromViewTransitionX = toViewTransitionX/3;
+    CGFloat fromViewTransitionX = toViewTransitionX/2;
     
     UIColor *fromColor = [fromVC navigationBarViewBGColor];
     UIColor *toColor = [toVC navigationBarViewBGColor];
@@ -177,8 +177,6 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
                              fromVC.view.transform = CGAffineTransformMakeTranslation(-fromViewTransitionX, 0);
                          }
                          completion:^(BOOL finished) {
-                             self.navigationController.view.userInteractionEnabled = YES;
-
                              //1.指定变化完成后的NavigationItemView的Transform
                              [self.navigationController setNavigationItemViewTransform:CGAffineTransformIdentity forViewController:fromVC];
                              [self.navigationController setNavigationItemViewTransform:CGAffineTransformIdentity forViewController:toVC];
@@ -217,10 +215,11 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
                                      tabBar.hidden = NO;
                                  }
                              }
+                             self.navigationController.view.userInteractionEnabled = YES;
                          }];
         
-        CGFloat diff = duration * navigationItemViewAlphaPushChangeDurationWithTotalDurationRatio;
-        [UIView animateWithDuration:diff delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//        CGFloat diff = duration * navigationItemViewAlphaPushChangeDurationWithTotalDurationRatio;
+        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [self.navigationController setNavigationItemViewAlpha:0 minToHidden:NO forViewController:fromVC];
         } completion:^(BOOL finished) {
             BOOL canceled = [transitionContext transitionWasCancelled];
@@ -230,7 +229,7 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
             }
         }];
 
-        [UIView animateWithDuration:duration-diff delay:diff options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
             [self.navigationController setNavigationItemViewAlpha:toAlpha minToHidden:NO forViewController:toVC];
         } completion:^(BOOL finished) {
             BOOL canceled = [transitionContext transitionWasCancelled];
@@ -324,9 +323,7 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
                              toVC.view.transform = CGAffineTransformIdentity;
                              fromVC.view.transform = CGAffineTransformMakeTranslation(toViewTransitionX, 0);
                          }
-                         completion:^(BOOL finished) {
-                             self.navigationController.view.userInteractionEnabled = YES;
-                             
+                         completion:^(BOOL finished) {                             
                              //1.指定变化完成后的NavigationItemView的Transform
                              [self.navigationController setNavigationItemViewTransform:CGAffineTransformIdentity forViewController:fromVC];
                              [self.navigationController setNavigationItemViewTransform:CGAffineTransformIdentity forViewController:toVC];
@@ -365,10 +362,12 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
                                      tabBar.hidden = NO;
                                  }
                              }
+                             
+                             self.navigationController.view.userInteractionEnabled = YES;
                          }];
         
-        CGFloat diff = duration * navigationItemViewAlphaPopChangeDurationWithTotalDurationRatio;
-        [UIView animateWithDuration:diff delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//        CGFloat diff = duration * navigationItemViewAlphaPopChangeDurationWithTotalDurationRatio;
+        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [self.navigationController setNavigationItemViewAlpha:0 minToHidden:NO forViewController:fromVC];
         } completion:^(BOOL finished) {
             BOOL canceled = [transitionContext transitionWasCancelled];
@@ -378,7 +377,7 @@ static const CGFloat navigationItemViewAlphaPopChangeDurationWithTotalDurationRa
             }
         }];
         
-        [UIView animateWithDuration:duration-diff delay:diff options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
             [self.navigationController setNavigationItemViewAlpha:toAlpha minToHidden:NO forViewController:toVC];
         } completion:^(BOOL finished) {
             BOOL canceled = [transitionContext transitionWasCancelled];

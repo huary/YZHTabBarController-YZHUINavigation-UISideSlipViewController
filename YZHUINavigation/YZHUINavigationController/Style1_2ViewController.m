@@ -43,15 +43,14 @@
     [self addNavigationRightItemsWithImageNames:@[@"List",@"Device",@"DLNA"] target:self action:@selector(back:) isReset:YES];
 //    [self addNavigationRightItemsWithTitles:@[@"1",@"2",@"3"] target:self action:@selector(back:) isReset:YES];
     
-    UITableView *tableView = [[UITableView alloc] init];
-    tableView.frame = SCREEN_BOUNDS;
+    CGFloat x = 0;
+    CGFloat y = self.layoutTopY;
+    CGFloat w = SAFE_WIDTH;
+    CGFloat h = SAFE_HEIGHT - y;
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(x, y, w, h) style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
-    [self.view addSubview:tableView];
-//    tableView.bounces = NO;
-   // tableView.delaysContentTouches = NO;
-   // tableView.canCancelContentTouches = NO;
-    //tableView.panGestureRecognizer.delegate = self;
+    [self.contentView addSubview:tableView];
     
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSSTRING_FROM_CLASS(UITableViewCell)];
 }

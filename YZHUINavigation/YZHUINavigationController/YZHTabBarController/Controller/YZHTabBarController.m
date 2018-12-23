@@ -409,7 +409,11 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
     [super viewWillLayoutSubviews];
     [self _hiddenTabBarSubView];
     self.tabBarViewT.frame = self.tabBar.bounds;
-    self.tabBarViewT.backgroundColor = self.tabBar.barTintColor;
+    UIColor *barTintColor = self.tabBar.barTintColor;
+    if (!barTintColor) {
+        barTintColor = WHITE_COLOR;
+    }
+    self.tabBarViewT.backgroundColor = barTintColor;
     for (UIView *child in self.tabBar.subviews) {
         if ([child isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
             [child removeFromSuperview];

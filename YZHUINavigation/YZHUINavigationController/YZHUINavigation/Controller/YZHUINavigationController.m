@@ -200,7 +200,6 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
             }
         }
         [userInfo setObject:[NSValue valueWithCGPoint:center] forKey:YZHUINavigationBarCenterPointKey];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:YZHUINavigationBarAttributeChangNotification object:nil userInfo:userInfo];
     }
     else if ([keyPath isEqualToString:@"bounds"]) {
         CGRect bounds = [[change objectForKey:NSKeyValueChangeNewKey] CGRectValue];
@@ -269,7 +268,7 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }
     else if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateCancelled)
     {
-        if (vx > 0 || tx >= 0 || percent < MIN_PERCENT_PUSH_VIEWCONTROLLER) {//
+        if (vx > 0 || tx >= 0 || percent < MIN_PERCENT_PUSH_VIEWCONTROLLER) {
             [self.transition cancelInteractiveTransition];
         }else{
             [self.transition finishInteractiveTransition];
@@ -292,7 +291,7 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }else if (sender.state == UIGestureRecognizerStateChanged) {
         [self.transition updateInteractiveTransition:percent];
     }else if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateCancelled) {
-        if (vx < 0 || percent < MIN_PERCENT_POP_VIEWCONTROLLER) {//
+        if (vx < 0 || percent < MIN_PERCENT_POP_VIEWCONTROLLER) {
             [self.transition cancelInteractiveTransition];
         }else{
             [self.transition finishInteractiveTransition];
@@ -483,8 +482,8 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }
     [self _createNavigationBarView:YES];
     if (_navigationItemRootContentView == nil) {
-        _navigationItemRootContentView = [[UINavigationItemView alloc] init];
-        _navigationItemRootContentView.frame = self.navigationBarView.bounds;
+        _navigationItemRootContentView = [[UINavigationItemView alloc] initWithFrame:self.navigationBarView.bounds];
+//        _navigationItemRootContentView.frame = self.navigationBarView.bounds;
         [self.navigationBarView addSubview:_navigationItemRootContentView];
     }
     return _navigationItemRootContentView;

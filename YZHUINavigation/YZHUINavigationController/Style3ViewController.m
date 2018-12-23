@@ -10,7 +10,7 @@
 #import "YZHUINavigationController.h"
 #import "Style3_2ViewController.h"
 
-@interface Style3ViewController () <YZHUINavigationControllerDelegate,UISearchControllerDelegate,UISearchResultsUpdating>
+@interface Style3ViewController () <YZHUINavigationControllerDelegate,UISearchControllerDelegate,UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -35,12 +35,11 @@
 }
 
 -(void)setUpChildView
-{    
+{
+    
     self.view.backgroundColor = WHITE_COLOR;
     
-//    self.navigationTitle = @"第三个";
-    
-//    self.navigationBarViewBackgroundColor = [UIColor colorWithRed:0.8 green:0.3 blue:0.4 alpha:1.0];
+    self.navigationTitle = @"第三个";
     
     [self addNavigationLeftItemsWithTitles:@[@"左边"] target:self action:@selector(back:)    isReset:YES];
     
@@ -48,11 +47,19 @@
     
     YZHUINavigationController *nav = (YZHUINavigationController*)self.navigationController;
     nav.pushVCDelegate = self;
-    
+//    nav.transitionDuration = 2;
     
     //searchController
-    self.tableView =[[UITableView alloc]initWithFrame:SCREEN_BOUNDS];
-    [self.view addSubview:self.tableView];
+    CGFloat x = 0;
+    CGFloat y = self.layoutTopY;
+    CGFloat w = self.contentViewSize.width;
+    CGFloat h = self.contentViewSize.height - y - SAFE_TAB_BAR_HEIGHT;
+    self.tableView =[[UITableView alloc]initWithFrame:CGRectMake(x, y, w, h) style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.tableFooterView = [UIView new];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSSTRING_FROM_CLASS(UITableViewCell)];
+    [self.contentView addSubview:self.tableView];
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.delegate = self;
@@ -68,9 +75,11 @@
     
     //点击搜索的时候,是否隐藏导航栏
     //    self.searchController.hidesNavigationBarDuringPresentation = NO;
-    CGRect frame = self.searchController.searchBar.frame;
-    frame.size.height = NAV_BAR_HEIGHT;
-    self.searchController.searchBar.frame = frame;
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+}
+
+-(void)_updateTableViewHeader
+{
     self.tableView.tableHeaderView = self.searchController.searchBar;
 }
 
@@ -93,6 +102,7 @@
 
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
+    [self _updateTableViewHeader];
     NSLog(@"%s",__FUNCTION__);
 }
 
@@ -105,6 +115,19 @@
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
 }
 
+#pragma mark tableview
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 20;
+}
+
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSSTRING_FROM_CLASS(UITableViewCell) forIndexPath:indexPath];
+    cell.textLabel.text = NEW_STRING_WITH_FORMAT(@"%ld",indexPath.row);
+    return cell;
+}
 
 #pragma mark YZHUINavigationControllerDelegate
 -(UIViewController*)YZHUINavigationController:(YZHUINavigationController *)navigationController pushNextViewControllerForViewController:(UIViewController *)viewController

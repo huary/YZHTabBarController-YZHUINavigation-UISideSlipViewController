@@ -32,7 +32,7 @@ typedef void(^YZHNavigationItemActionBlock)(UIViewController *viewController, UI
 @property (nonatomic, copy) NSDictionary<NSAttributedStringKey, id> *titleTextAttributes;
 //default is 0,
 @property (nonatomic, assign) CGFloat layoutTopY;
-/** 是否,默认为0 */
+/** 动画时间,默认为0 */
 @property (nonatomic, assign) NSTimeInterval transitionDuration;
 
 //left

@@ -7,7 +7,8 @@
 //
 
 #import "YZHUIViewController.h"
+#import "YZHBaseUIViewController.h"
 
-@interface Style1ViewController : YZHUIViewController
+@interface Style1ViewController : YZHBaseUIViewController
 
 @end

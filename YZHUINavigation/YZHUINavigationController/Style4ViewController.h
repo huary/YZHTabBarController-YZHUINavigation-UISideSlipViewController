@@ -8,6 +8,6 @@
 
 #import "YZHUIViewController.h"
 
-@interface Style4ViewController : YZHUIViewController
+@interface Style4ViewController : YZHBaseUIViewController
 
 @end

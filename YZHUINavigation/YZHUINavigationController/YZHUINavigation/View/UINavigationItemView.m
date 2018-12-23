@@ -52,11 +52,7 @@ typedef NS_ENUM(NSInteger, UICenterItemViewSubviewsTag)
 
 -(void)_updatelayoutSubViews
 {
-    CGSize size = self.bounds.size;
-    
-    self.leftItemView.frame = CGRectMake(0, 0, size.width/2, size.height);
-    self.rightItemView.frame = CGRectMake(size.width/2, 0, size.width/2, size.height);
-    self.centerItemView.frame = self.bounds;
+    [self _updateItemFrame];
     
     [self _layoutLeftItems];
     [self _layoutRightItems];
@@ -66,6 +62,22 @@ typedef NS_ENUM(NSInteger, UICenterItemViewSubviewsTag)
     [self _updateTitleBackgroundColor:[self _titleBackgroundColor]];
     
     [self _updateTitleTextAttributes:[self _titleTextAttributes]];
+}
+
+-(void)_updateItemFrame
+{
+    CGSize size = self.bounds.size;
+    CGRect frame = CGRectMake(0, 0, size.width/2, size.height);
+    if (!CGRectEqualToRect(self.leftItemView.frame, frame)) {
+        self.leftItemView.frame = frame;
+    }
+    frame = CGRectMake(size.width/2, 0, size.width/2, size.height);
+    if (!CGRectEqualToRect(self.rightItemView.frame, frame)) {
+        self.rightItemView.frame = frame;
+    }
+    if (!CGSizeEqualToSize(self.centerItemView.frame.size, size)) {
+        self.centerItemView.frame = self.bounds;
+    }
 }
 
 -(void)setupChildView
@@ -81,7 +93,6 @@ typedef NS_ENUM(NSInteger, UICenterItemViewSubviewsTag)
     centerItemView.backgroundColor = self.backgroundColor;
     [self addSubview:centerItemView];
     self.centerItemView = centerItemView;
-    
     
     UIView *leftItemView = [[UIView alloc] init];
     leftItemView.frame = CGRectMake(0, 0, size.width/2, size.height);
@@ -119,6 +130,7 @@ typedef NS_ENUM(NSInteger, UICenterItemViewSubviewsTag)
 
 -(void)setTitle:(NSString *)title
 {
+    _title = title;
     UILabel *titleLable = (UILabel*)[self.centerItemView viewWithTag:UICenterItemViewSubviewTitleLabelTag];
     if (titleLable == nil) {
         titleLable = [[UILabel alloc] init];
@@ -216,6 +228,7 @@ typedef NS_ENUM(NSInteger, UICenterItemViewSubviewsTag)
 
 -(void)setT:(CGAffineTransform)t
 {
+    _t = t;
     self.centerItemView.transform = t;
 }
 

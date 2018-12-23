@@ -75,8 +75,8 @@
             self.navigationBarView = [[UINavigationBarView alloc] initWithFrame:frame];
             [self.view addSubview:self.navigationBarView];
             
-            self.navigationItemView = [[UINavigationItemView alloc] init];
-            self.navigationItemView.frame = self.navigationBarView.bounds;
+            self.navigationItemView = [[UINavigationItemView alloc] initWithFrame:self.navigationBarView.bounds];
+//            self.navigationItemView.frame = self.navigationBarView.bounds;
             self.navigationItemView.backgroundColor = CLEAR_COLOR;
             [self.navigationBarView addSubview:self.navigationItemView];
             

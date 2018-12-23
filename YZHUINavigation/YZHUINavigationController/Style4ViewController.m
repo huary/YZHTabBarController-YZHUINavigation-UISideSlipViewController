@@ -10,7 +10,7 @@
 #import "YZHUINavigationController.h"
 #import "Style4_2ViewController.h"
 
-@interface Style4ViewController () <YZHUINavigationControllerDelegate,UISearchControllerDelegate,UISearchResultsUpdating>
+@interface Style4ViewController () <YZHUINavigationControllerDelegate,UISearchControllerDelegate,UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UISearchController *searchController;
 
@@ -38,7 +38,6 @@
     self.view.backgroundColor = WHITE_COLOR;
     
     
-//    self.navigationBarViewBackgroundColor = [UIColor colorWithRed:0.8 green:0.3 blue:0.4 alpha:1.0];
     
     [self addNavigationLeftItemsWithTitles:@[@"左边"] target:self action:@selector(back:)  isReset:YES];
     
@@ -47,19 +46,19 @@
     YZHUINavigationController *nav = (YZHUINavigationController*)self.navigationController;
     nav.pushVCDelegate = self;
     
-    
-//    return;
     //searchController
     CGFloat x = 0;
     CGFloat y = self.layoutTopY;
-    CGFloat w = SAFE_WIDTH;
-    CGFloat h = SAFE_HEIGHT - NAV_BAR_HEIGHT - SAFE_TAB_BAR_HEIGHT;
-    self.tableView =[[UITableView alloc] initWithFrame:CGRectMake(x, y, w, h)];
-    self.tableView.backgroundColor = RED_COLOR;
+    CGFloat w = self.contentViewSize.width;
+    CGFloat h = self.contentViewSize.height - y - SAFE_TAB_BAR_HEIGHT;
 
-//    self.navigationTitle = @"自定义";
-
-    [self.view addSubview:self.tableView];
+    
+    self.tableView =[[UITableView alloc] initWithFrame:CGRectMake(x, y, w, h) style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"1"];
+    [self.contentView addSubview:self.tableView];
+    
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.delegate = self;
@@ -75,14 +74,15 @@
     
     //点击搜索的时候,是否隐藏导航栏
 //    self.searchController.hidesNavigationBarDuringPresentation = NO;
-    
-    CGRect frame = self.searchController.searchBar.frame;
-    frame.size.height = NAV_BAR_HEIGHT;
-    self.searchController.searchBar.frame = frame;
+
     self.tableView.tableHeaderView = self.searchController.searchBar;
-    
 #warning 如果进入预编辑状态,searchBar消失(UISearchController套到TabBarController可能会出现这个情况),请添加下边这句话
     self.definesPresentationContext=YES;
+}
+
+-(void)_updateTableViewHeader
+{
+    self.tableView.tableHeaderView = self.searchController.searchBar;
 }
 
 #pragma mark - UISearchControllerDelegate代理
@@ -104,6 +104,7 @@
 
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
+    [self _updateTableViewHeader];
     NSLog(@"%s",__FUNCTION__);
 }
 
@@ -116,6 +117,21 @@
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
 }
 
+
+
+#pragma mark tableview
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 20;
+}
+
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"1" forIndexPath:indexPath];
+    cell.textLabel.text = NEW_STRING_WITH_FORMAT(@"%ld",indexPath.row);
+    return cell;
+}
 
 #pragma mark YZHUINavigationControllerDelegate
 -(UIViewController*)YZHUINavigationController:(YZHUINavigationController *)navigationController pushNextViewControllerForViewController:(UIViewController *)viewController

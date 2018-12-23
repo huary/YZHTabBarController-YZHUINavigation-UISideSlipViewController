@@ -42,11 +42,11 @@
 -(void)test2
 {
     UIScrollView *scrollView = [[UIScrollView alloc] init];
-    CGFloat y = STATUS_NAV_BAR_HEIGHT+50;
-    scrollView.frame = CGRectMake(0, y, SCREEN_WIDTH, SCREEN_HEIGHT- y- TAB_BAR_HEIGHT - 50);
+    CGFloat y = self.layoutTopY + 50;
+    scrollView.frame = CGRectMake(0, y, SCREEN_WIDTH, SCREEN_HEIGHT - y - 50);
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 2, scrollView.bounds.size.height);
     scrollView.pagingEnabled = YES;
-    [self.view addSubview:scrollView];
+    [self.contentView addSubview:scrollView];
     
     UIScrollView *sub1 = [[UIScrollView alloc] init];
     sub1.frame = CGRectMake(0, 0, SCREEN_WIDTH, scrollView.bounds.size.height);

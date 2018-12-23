@@ -24,6 +24,7 @@
 		1C9CE9D11FFE077F0019C647 /* rightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9CE9D01FFE077F0019C647 /* rightViewController.m */; };
 		1CB1452A20B26D1500E3AD57 /* YZHUIGraphicsImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB1452920B26D1500E3AD57 /* YZHUIGraphicsImage.m */; };
 		1CC6A7322079B1F900368C2C /* YZHUIBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6A7302079B1F900368C2C /* YZHUIBarButtonItem.m */; };
+		1CD120AB21CF6136006CED00 /* YZHBaseUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CD120AA21CF6135006CED00 /* YZHBaseUIViewController.m */; };
 		E416F5C51DE2A51E0027CC35 /* UINavigationPopScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E416F5C41DE2A51E0027CC35 /* UINavigationPopScrollView.m */; };
 		E4392C401DF6827200316201 /* Device.png in Resources */ = {isa = PBXBuildFile; fileRef = E4392C371DF6827200316201 /* Device.png */; };
 		E4392C411DF6827200316201 /* Device@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E4392C381DF6827200316201 /* Device@2x.png */; };
@@ -109,6 +110,8 @@
 		1CB1452920B26D1500E3AD57 /* YZHUIGraphicsImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZHUIGraphicsImage.m; sourceTree = "<group>"; };
 		1CC6A72E2079B1F900368C2C /* YZHUIBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHUIBarButtonItem.h; sourceTree = "<group>"; };
 		1CC6A7302079B1F900368C2C /* YZHUIBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZHUIBarButtonItem.m; sourceTree = "<group>"; };
+		1CD120A921CF6135006CED00 /* YZHBaseUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHBaseUIViewController.h; sourceTree = "<group>"; };
+		1CD120AA21CF6135006CED00 /* YZHBaseUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZHBaseUIViewController.m; sourceTree = "<group>"; };
 		E416F5C31DE2A51E0027CC35 /* UINavigationPopScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINavigationPopScrollView.h; sourceTree = "<group>"; };
 		E416F5C41DE2A51E0027CC35 /* UINavigationPopScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UINavigationPopScrollView.m; sourceTree = "<group>"; };
 		E4392C371DF6827200316201 /* Device.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Device.png; sourceTree = "<group>"; };
@@ -243,6 +246,15 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		1CD120A821CF6135006CED00 /* YZHBaseUIViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1CD120A921CF6135006CED00 /* YZHBaseUIViewController.h */,
+				1CD120AA21CF6135006CED00 /* YZHBaseUIViewController.m */,
+			);
+			path = YZHBaseUIViewController;
+			sourceTree = "<group>";
+		};
 		E448D31B1E53093E00A2F35C /* YZHTabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +317,7 @@
 		E4FF4E1E1DDDB3AF003C0A79 /* YZHUINavigationController */ = {
 			isa = PBXGroup;
 			children = (
+				1CD120A821CF6135006CED00 /* YZHBaseUIViewController */,
 				1CB1452720B26D1500E3AD57 /* Util */,
 				1C5E1A32209309E000154928 /* Base */,
 				1C557E7E208831DA0006E857 /* Macro.h */,
@@ -591,6 +604,7 @@
 				1C45CB3C20D22B7B00FA5578 /* UIView+Snapshot.m in Sources */,
 				1C5E1A312092FC5500154928 /* Style5ViewController.m in Sources */,
 				E448D3391E53465900A2F35C /* Style2_2ViewController.m in Sources */,
+				1CD120AB21CF6136006CED00 /* YZHBaseUIViewController.m in Sources */,
 				E416F5C51DE2A51E0027CC35 /* UINavigationPopScrollView.m in Sources */,
 				1C59B067209411D600427D84 /* Style4_2ViewController.m in Sources */,
 				E448D3271E53093E00A2F35C /* UITabBarView.m in Sources */,
