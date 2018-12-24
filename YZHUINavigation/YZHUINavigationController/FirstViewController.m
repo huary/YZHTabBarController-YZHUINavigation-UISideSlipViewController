@@ -44,7 +44,7 @@
     self.navigationBarViewBackgroundColor = ORANGE_COLOR;
     
     YZHUINavigationController *nav = (YZHUINavigationController*)self.navigationController;
-    nav.pushVCDelegate = self;
+    nav.navDelegate = self;
     
 //    [self addNavigationItemViewLeftBackButtonItemWithTitle:@"返回" target:self action:@selector(back:)];
 //    [self addNavigationItemViewLeftBackButtonItemWithTitle:@"左边" target:self action:@selector(back:)];

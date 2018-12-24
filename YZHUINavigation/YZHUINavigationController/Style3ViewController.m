@@ -46,7 +46,7 @@
     [self addNavigationRightItemsWithTitles:@[@"右边"] target:self action:@selector(back:) isReset:YES];
     
     YZHUINavigationController *nav = (YZHUINavigationController*)self.navigationController;
-    nav.pushVCDelegate = self;
+    nav.navDelegate = self;
 //    nav.transitionDuration = 2;
     
     //searchController

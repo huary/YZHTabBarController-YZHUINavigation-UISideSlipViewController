@@ -11,6 +11,7 @@
 #import "YZHBaseAnimatedTransition.h"
 #import "UIViewController+NavigationBarAndItemView.m"
 #import "UIImage+TintColor.h"
+#import "YZHTimer.h"
 
 #import <objc/runtime.h>
 
@@ -83,6 +84,10 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
 
 @property (nonatomic, strong) UIViewController *lastTopVC;
 
+@property (nonatomic, assign) NSTimeInterval latestTransitionDuration;
+
+@property (nonatomic, strong) YZHTimer *updateTransitionTimer;
+
 @end
 
 @implementation YZHUINavigationController
@@ -132,7 +137,7 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
 -(void)_setupDefaultValue
 {
     self.popGestureEnabled = YES;
-    self.transitionDuration = 0.3;
+    self.transitionDuration = 0.25;
     self.hidesTabBarAfterPushed = YES;
 }
 
@@ -247,7 +252,7 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     self.delegate = self;
 }
 
--(void)_handlePushAction:(UIScreenEdgePanGestureRecognizer*)sender
+-(void)_handlePushAction:(UIPanGestureRecognizer*)sender
 {
     CGFloat tx = [sender translationInView:self.view].x;
     CGFloat percent = tx / CGRectGetWidth(self.view.frame);
@@ -257,8 +262,8 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     
     if (sender.state == UIGestureRecognizerStateBegan) {
         self.isInteractive = YES;
-        if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:pushNextViewControllerForViewController:)]) {
-            UIViewController *nextVC = [self.pushVCDelegate YZHUINavigationController:self pushNextViewControllerForViewController:self.viewControllers.lastObject];
+        if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:pushNextViewControllerForViewController:)]) {
+            UIViewController *nextVC = [self.navDelegate YZHUINavigationController:self pushNextViewControllerForViewController:self.viewControllers.lastObject];
             [self pushViewController:nextVC animated:YES];
         }
     }
@@ -268,16 +273,34 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }
     else if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateCancelled)
     {
-        if (vx > 0 || tx >= 0 || percent < MIN_PERCENT_PUSH_VIEWCONTROLLER) {
-            [self.transition cancelInteractiveTransition];
-        }else{
-            [self.transition finishInteractiveTransition];
+        if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:updateInteractiveTransition:forPanGesture:operation:completion:)]) {
+            WEAK_SELF(weakSelf);
+            [self.navDelegate YZHUINavigationController:self updateInteractiveTransition:self.transition forPanGesture:sender operation:UINavigationControllerOperationPush completion:^(BOOL finish) {
+                weakSelf.isInteractive = NO;
+            }];
         }
-        self.isInteractive = NO;
+        else {
+            if (vx > 0 || tx >= 0 || percent < MIN_PERCENT_PUSH_VIEWCONTROLLER) {
+                [self.transition cancelInteractiveTransition];
+                self.isInteractive = NO;
+            }else{
+                /*调用updateInteractiveTransition:1.0再来调用finish在iOS9.3.5系统上不会出现有黑边（随机）的情况
+                 *这样调用更为安全吧
+                 */
+//                [self.transition updateInteractiveTransition:1.0];
+//                [self.transition finishInteractiveTransition];
+                
+                NSTimeInterval duration = self.latestTransitionDuration;
+                if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:doFinishInteractiveTransitionDurationForPercent:operation:)]) {
+                    duration = [self.navDelegate YZHUINavigationController:self doFinishInteractiveTransitionDurationForPercent:percent operation:UINavigationControllerOperationPush];
+                }
+                [self _doUpdateInteractiveTransitionToFinish:percent duration:duration];
+            }
+        }
     }
 }
 
--(void)_handlePopAction:(UIScreenEdgePanGestureRecognizer*)sender
+-(void)_handlePopAction:(UIPanGestureRecognizer*)sender
 {
     CGFloat tx = [sender translationInView:self.view].x;
     CGFloat percent = tx / CGRectGetWidth(self.view.frame);
@@ -291,14 +314,55 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }else if (sender.state == UIGestureRecognizerStateChanged) {
         [self.transition updateInteractiveTransition:percent];
     }else if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateCancelled) {
-        if (vx < 0 || percent < MIN_PERCENT_POP_VIEWCONTROLLER) {
-            [self.transition cancelInteractiveTransition];
-        }else{
-            [self.transition finishInteractiveTransition];
+        if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:updateInteractiveTransition:forPanGesture:operation:completion:)]) {
+            WEAK_SELF(weakSelf);
+            [self.navDelegate YZHUINavigationController:self updateInteractiveTransition:self.transition forPanGesture:sender operation:UINavigationControllerOperationPop completion:^(BOOL finish) {
+                weakSelf.isInteractive = NO;
+            }];
         }
-        self.isInteractive = NO;
+        else {
+            
+            if (vx < 0 || percent < MIN_PERCENT_POP_VIEWCONTROLLER) {
+                [self.transition cancelInteractiveTransition];
+                self.isInteractive = NO;
+                
+            }else{
+//                [self.transition updateInteractiveTransition:1.0];
+//                [self.transition finishInteractiveTransition];
+                NSTimeInterval duration = self.latestTransitionDuration;
+                if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:doFinishInteractiveTransitionDurationForPercent:operation:)]) {
+                    duration = [self.navDelegate YZHUINavigationController:self doFinishInteractiveTransitionDurationForPercent:percent operation:UINavigationControllerOperationPop];
+                }
+                [self _doUpdateInteractiveTransitionToFinish:percent duration:duration];
+            }
+        }
+        
     }
 }
+
+-(void)_doUpdateInteractiveTransitionToFinish:(CGFloat)fromPercent duration:(NSTimeInterval)duration
+{
+    NSTimeInterval interval = 0.01;
+    NSInteger stepCnt = (NSInteger)(duration/interval + 0.5);
+    CGFloat stepPercent = 1 - fromPercent;
+    if (stepCnt > 0) {
+        stepPercent = stepPercent / stepCnt;
+    }
+    __block CGFloat percent = fromPercent;
+    WEAK_SELF(wealSelf);
+    self.updateTransitionTimer = [YZHTimer timerWithTimeInterval:interval repeat:YES fireBlock:^(YZHTimer *timer) {
+        percent += stepPercent;
+        percent = MIN(1.0, percent);
+        [wealSelf.transition updateInteractiveTransition:percent];
+        if (percent >= 1.0) {
+            [wealSelf.transition finishInteractiveTransition];
+            wealSelf.isInteractive = NO;
+            [timer invalidate];
+            wealSelf.updateTransitionTimer = nil;
+        }
+    }];
+}
+
 
 #pragma mark UIGestureRecognizerDelegate
 
@@ -308,8 +372,8 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
         CGPoint velocity = [panGestureRecognizer velocityInView:self.view];
         if (panGestureRecognizer == self.pushPan) {
             UIViewController *topVC = self.viewControllers.lastObject;
-            if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:pushNextViewControllerForViewController:)]) {
-                UIViewController *nextVC = [self.pushVCDelegate YZHUINavigationController:self pushNextViewControllerForViewController:topVC];
+            if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:pushNextViewControllerForViewController:)]) {
+                UIViewController *nextVC = [self.navDelegate YZHUINavigationController:self pushNextViewControllerForViewController:topVC];
                 return nextVC != nil && velocity.x < 0;
             }
             return NO;
@@ -339,8 +403,8 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     if (self.lastTopVC == viewController) {
-        if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:didPushViewController:)]) {
-            [self.pushVCDelegate YZHUINavigationController:self didPushViewController:viewController];
+        if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:didPushViewController:)]) {
+            [self.navDelegate YZHUINavigationController:self didPushViewController:viewController];
         }
         if (self.lastTopVC.pushCompletionBlock) {
             self.lastTopVC.pushCompletionBlock(self);
@@ -348,8 +412,8 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     }
     else
     {
-        if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:didPopViewController:)]) {
-            [self.pushVCDelegate YZHUINavigationController:self didPopViewController:self.lastTopVC];
+        if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:didPopViewController:)]) {
+            [self.navDelegate YZHUINavigationController:self didPopViewController:self.lastTopVC];
         }
         if (self.lastTopVC.popCompletionBlock) {
             self.lastTopVC.popCompletionBlock(self);
@@ -369,15 +433,15 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     NSTimeInterval transitionDuration = self.transitionDuration;
     if (operation == UINavigationControllerOperationPush) {
         self.lastTopVC = toVC;
-        if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:willPushViewController:)]) {
-            [self.pushVCDelegate YZHUINavigationController:self willPushViewController:toVC];
+        if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:willPushViewController:)]) {
+            [self.navDelegate YZHUINavigationController:self willPushViewController:toVC];
         }
     }
     else if (operation == UINavigationControllerOperationPop)
     {
         self.lastTopVC = fromVC;
-        if ([self.pushVCDelegate respondsToSelector:@selector(YZHUINavigationController:willPopViewController:)]) {
-            [self.pushVCDelegate YZHUINavigationController:self willPopViewController:fromVC];
+        if ([self.navDelegate respondsToSelector:@selector(YZHUINavigationController:willPopViewController:)]) {
+            [self.navDelegate YZHUINavigationController:self willPopViewController:fromVC];
         }
     }
     
@@ -390,6 +454,7 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
     
     YZHBaseAnimatedTransition *transition = [YZHBaseAnimatedTransition navigationController:self animationControllerForOperation:operation animatedTransitionStyle:YZHNavigationAnimatedTransitionStyleDefault];
     transition.transitionDuration = transitionDuration;
+    self.latestTransitionDuration = transitionDuration;
     return transition;
 }
 
@@ -744,6 +809,8 @@ typedef void(^YZHUINavigationControllerActionCompletionBlock)(YZHUINavigationCon
 - (void)dealloc
 {
     [self _addObserverNavigationBar:NO];
+    [self.updateTransitionTimer invalidate];
+    self.updateTransitionTimer = nil;
 }
 
 

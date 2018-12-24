@@ -40,7 +40,7 @@
     [self addNavigationRightItemsWithTitles:@[@"右边"] target:self action:@selector(back:) isReset:YES];
     
     YZHUINavigationController *nav = (YZHUINavigationController*)self.navigationController;
-    nav.pushVCDelegate = self;
+    nav.navDelegate = self;
     
     CGFloat x = 0;
     CGFloat y = self.layoutTopY;

@@ -57,6 +57,21 @@ typedef NS_ENUM(NSInteger, UINavigationControllerBarAndItemStyle)
 
 -(void)YZHUINavigationController:(YZHUINavigationController*)navigationController willPopViewController:(UIViewController*)viewController;
 -(void)YZHUINavigationController:(YZHUINavigationController*)navigationController didPopViewController:(UIViewController*)viewController;
+
+
+/*
+ *此协议方法是为了完成从手势抬起到完成时所需要进行动画时间，是按线性变化来完成的，默认设置的transitionDuration来进行，
+ *为了更好的体验，通过完成的比例（percent，0-1.0）来设置不同的值
+ */
+-(CGFloat)YZHUINavigationController:(YZHUINavigationController *)navigationController doFinishInteractiveTransitionDurationForPercent:(CGFloat)percent operation:(UINavigationControllerOperation)operation;
+
+/*
+ *此协议方法是为了此协议方法是为了完成从手势抬起到完成时对UIPercentDrivenInteractiveTransition所需要进行的操作，
+ *交由开发者更高级的定制合适自己的动画操作
+ *completion返回YES表示进行了finishInteractiveTransition，
+ *返回NO表示进行了cancelInteractiveTransition
+ */
+-(void)YZHUINavigationController:(YZHUINavigationController *)navigationController updateInteractiveTransition:(UIPercentDrivenInteractiveTransition*)transitioin forPanGesture:(UIPanGestureRecognizer*)panGesture operation:(UINavigationControllerOperation)operation completion:(void(^)(BOOL finish))completion;
 @end
 
 
@@ -67,7 +82,7 @@ typedef NS_ENUM(NSInteger, UINavigationControllerBarAndItemStyle)
 @property (nonatomic, strong) UIColor *navigationBarBottomLineColor;
 @property (nonatomic, assign) CGFloat navigationBarViewAlpha;
 
-@property (nonatomic,weak) id<YZHUINavigationControllerDelegate> pushVCDelegate;
+@property (nonatomic,weak) id<YZHUINavigationControllerDelegate> navDelegate;
 
 @property (nonatomic, assign) UINavigationControllerBarAndItemStyle navigationControllerBarAndItemStyle;
 

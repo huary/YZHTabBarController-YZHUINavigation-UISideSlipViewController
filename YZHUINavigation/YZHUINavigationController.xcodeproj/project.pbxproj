@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C11EA4721CFE5D400BE299A /* NSObject+YZHTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C11EA4421CFE5D300BE299A /* NSObject+YZHTimer.m */; };
+		1C11EA4821CFE5D400BE299A /* YZHTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C11EA4621CFE5D300BE299A /* YZHTimer.m */; };
 		1C45CB3C20D22B7B00FA5578 /* UIView+Snapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C45CB3B20D22B7B00FA5578 /* UIView+Snapshot.m */; };
 		1C45CB3F20D23A3C00FA5578 /* UITabBarController+UITabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C45CB3E20D23A3C00FA5578 /* UITabBarController+UITabBarView.m */; };
 		1C557E81208842810006E857 /* UITabBarItem+UIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C557E80208842800006E857 /* UITabBarItem+UIButton.m */; };
@@ -74,6 +76,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C11EA4321CFE5D300BE299A /* NSObject+YZHTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YZHTimer.h"; sourceTree = "<group>"; };
+		1C11EA4421CFE5D300BE299A /* NSObject+YZHTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YZHTimer.m"; sourceTree = "<group>"; };
+		1C11EA4521CFE5D300BE299A /* YZHTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHTimer.h; sourceTree = "<group>"; };
+		1C11EA4621CFE5D300BE299A /* YZHTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZHTimer.m; sourceTree = "<group>"; };
 		1C45CB3A20D22B7B00FA5578 /* UIView+Snapshot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Snapshot.h"; sourceTree = "<group>"; };
 		1C45CB3B20D22B7B00FA5578 /* UIView+Snapshot.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Snapshot.m"; sourceTree = "<group>"; };
 		1C45CB3D20D23A3C00FA5578 /* UITabBarController+UITabBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+UITabBarView.h"; sourceTree = "<group>"; };
@@ -197,6 +203,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C11EA4221CFE5D300BE299A /* YZHTimer */ = {
+			isa = PBXGroup;
+			children = (
+				1C11EA4321CFE5D300BE299A /* NSObject+YZHTimer.h */,
+				1C11EA4421CFE5D300BE299A /* NSObject+YZHTimer.m */,
+				1C11EA4521CFE5D300BE299A /* YZHTimer.h */,
+				1C11EA4621CFE5D300BE299A /* YZHTimer.m */,
+			);
+			path = YZHTimer;
+			sourceTree = "<group>";
+		};
 		1C5E1A32209309E000154928 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +334,7 @@
 		E4FF4E1E1DDDB3AF003C0A79 /* YZHUINavigationController */ = {
 			isa = PBXGroup;
 			children = (
+				1C11EA4221CFE5D300BE299A /* YZHTimer */,
 				1CD120A821CF6135006CED00 /* YZHBaseUIViewController */,
 				1CB1452720B26D1500E3AD57 /* Util */,
 				1C5E1A32209309E000154928 /* Base */,
@@ -576,6 +594,7 @@
 				E48A2BD21DDE060B006E54FB /* UIViewController+NavigationBarAndItemView.m in Sources */,
 				E4FF4E4A1DDDB448003C0A79 /* UINavigationBarView.m in Sources */,
 				1C5E1A3620930A8100154928 /* UIImage+TintColor.m in Sources */,
+				1C11EA4721CFE5D400BE299A /* NSObject+YZHTimer.m in Sources */,
 				E48A2BC91DDE0214006E54FB /* UINavigationItemView.m in Sources */,
 				E448D32A1E530A4A00A2F35C /* Style1ViewController.m in Sources */,
 				E4FF4E511DDDB597003C0A79 /* YZHUIViewController.m in Sources */,
@@ -599,6 +618,7 @@
 				E4FF4E551DDDB80E003C0A79 /* YZHBaseAnimatedTransition.m in Sources */,
 				E448D3361E53313D00A2F35C /* Style1_2ViewController.m in Sources */,
 				1C9CE9CE1FFE07700019C647 /* leftViewController.m in Sources */,
+				1C11EA4821CFE5D400BE299A /* YZHTimer.m in Sources */,
 				E4FF4E4E1DDDB559003C0A79 /* YZHUINavigationController.m in Sources */,
 				1C99E5841EA4674500A316E2 /* UIScrollView+UIPanGestureRecognizers.m in Sources */,
 				1C45CB3C20D22B7B00FA5578 /* UIView+Snapshot.m in Sources */,
