@@ -338,8 +338,9 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
         [obj removeFromParentViewController];
         obj.tabBarButton = nil;
     }];
-    [self.tabBarViewT.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.tabBarViewT clear];
     self.itemChildVCInfo = nil;
+    [self.view setNeedsLayout];
 }
 
 -(void)resetChildViewController:(UIViewController*)childVC
@@ -397,11 +398,12 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.tabBar.subviews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
-        if ([obj isKindOfClass:[UIControl class]]) {
-            [obj removeFromSuperview];
-        }
-    }];
+    [self _clearTabBar];
+//    [self.tabBar.subviews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+//        if ([obj isKindOfClass:[UIControl class]]) {
+//            [obj removeFromSuperview];
+//        }
+//    }];
 }
 
 -(void)viewWillLayoutSubviews
@@ -414,11 +416,21 @@ navigationControllerBarAndItemStyle:(UINavigationControllerBarAndItemStyle)barAn
         barTintColor = WHITE_COLOR;
     }
     self.tabBarViewT.backgroundColor = barTintColor;
-    for (UIView *child in self.tabBar.subviews) {
-        if ([child isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
-            [child removeFromSuperview];
+    [self _clearTabBar];
+//    for (UIView *child in self.tabBar.subviews) {
+//        if ([child isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
+//            [child removeFromSuperview];
+//        }
+//    }
+}
+
+-(void)_clearTabBar
+{
+    [self.tabBar.subviews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[UIControl class]] || [obj isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
+            [obj removeFromSuperview];
         }
-    }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

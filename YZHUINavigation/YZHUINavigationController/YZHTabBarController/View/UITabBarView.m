@@ -273,6 +273,9 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
         if (index == self.defaultSelectIndex) {
             [self _tabBarClick:btn];
         }
+        [self setNeedsLayout];
+        //或者
+//        [self _updateLayout];
     }
     else {
         btn.eventActionBlock = actionBlock;
@@ -339,6 +342,20 @@ typedef NS_ENUM(NSInteger, NSTabBarButtonType)
     customView.frame = CGRectMake(0, 0, size.width, size.height);
     [btn addSubview:customView];
     return btn;
+}
+
+-(void)clear
+{
+    [self.items makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.items removeAllObjects];
+    self.items = nil;
+    
+    [self.singleTabBarItems makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.singleTabBarItems removeAllObjects];
+    self.singleTabBarItems = nil;
+    
+    self.lastSelectedBtn = nil;
+    self.scrollView.contentSize = self.bounds.size;
 }
 
 -(void)_tabBarClick:(UITabBarButton*)selectedBtn

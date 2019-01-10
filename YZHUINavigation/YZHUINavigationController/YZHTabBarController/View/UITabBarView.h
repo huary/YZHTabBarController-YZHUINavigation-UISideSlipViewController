@@ -67,6 +67,8 @@ typedef NS_ENUM(NSInteger, UITabBarViewUseFor)
 //按照UITabBarButton的frame加入的，大小和位置有customView.frame来决定
 -(UITabBarButton*)addCustomLayoutTabBarWithCustomView:(UIView *)customView;
 
+-(void)clear;
+
 -(void)doSelectTo:(NSInteger)to;
 
 -(NSInteger)currentIndex;

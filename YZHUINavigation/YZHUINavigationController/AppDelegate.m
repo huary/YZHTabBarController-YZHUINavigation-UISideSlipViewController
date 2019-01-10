@@ -117,8 +117,22 @@
     [self setUpRootVC];
     
     [self.window makeKeyAndVisible];
-            
+    
+//    [self performSelector:@selector(_clearAction) withObject:nil afterDelay:2];
+    
     return YES;
+}
+
+-(void)_clearAction
+{
+    YZHTabBarController *rootVC = (YZHTabBarController *)self.window.rootViewController;
+    [rootVC clear];
+    
+    Style1ViewController *style1  = [[Style1ViewController alloc] init];
+    [rootVC setupChildViewController:style1 withTitle:@"系统" imageName:@"TarBar_home_NM" selectedImageName:@"TarBar_home_HL" navigationControllerBarAndItemStyle:UINavigationControllerBarAndItemDefaultStyle];
+    
+    Style2ViewController *style2 = [[Style2ViewController alloc] init];
+    [rootVC setupChildViewController:style2 withTitle:@"自定义" imageName:@"TarBar_assets_NM" selectedImageName:@"TarBar_assets_HL" navigationControllerBarAndItemStyle:UINavigationControllerBarAndItemGlobalBarWithDefaultItemStyle];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
