@@ -11,6 +11,8 @@
 #import "Style1_2ViewController.h"
 #import "AppDelegate.h"
 
+#import "UITabBarItem+UIButton.h"
+
 @interface Style1ViewController () <YZHUINavigationControllerDelegate,UISearchControllerDelegate,UISearchResultsUpdating,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -81,6 +83,14 @@
 //    self.searchController.hidesNavigationBarDuringPresentation = NO;
 
     self.tableView.tableHeaderView = self.searchController.searchBar;
+    
+    NSLog(@"tabBarItem=%@",self.tabBarItem);
+    self.tabBarItem.badgeValueUpdateBlock = ^NSString *(UIButton *badgeButton, NSString *badgeValue, NSBadgeType *badgeType) {
+        badgeButton.layer.borderWidth = 1.0;
+        badgeButton.layer.borderColor = WHITE_COLOR.CGColor;
+        return badgeValue;
+    };
+    self.tabBarItem.badgeValue = @"1";
 }
 
 -(void)_updateTableViewHeader

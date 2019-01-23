@@ -20,7 +20,7 @@ static float tabBarImageRatio = 0.65;
 @property (nonatomic, assign) CGRange titleRange;
 @property (nonatomic, assign) NSButtonImageTitleStyle buttonStyle;
 
-@property (nonatomic, strong) UILabel *badgeLabel;
+@property (nonatomic, strong) UIButton *badgeButton;
 @property (nonatomic, assign) CGRect graphicsImageFrame;
 
 @end
@@ -95,6 +95,28 @@ static float tabBarImageRatio = 0.65;
     return newImage;
 }
 
+-(UIButton*)_createUpdateBadgeButton:(UIButton*)badgeBtn badgeValue:(NSString*)badgeValue
+{
+    UIColor *titleColor = [self _badgeTitleColor];
+    
+    if (!badgeBtn) {
+        badgeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    }
+    if (IS_AVAILABLE_NSSTRNG(badgeValue)) {
+        [badgeBtn setTitle:badgeValue forState:UIControlStateNormal];
+        [badgeBtn setTitle:badgeValue forState:UIControlStateSelected];
+        [badgeBtn setTitle:badgeValue forState:UIControlStateSelected | UIControlStateHighlighted];
+    }
+    badgeBtn.backgroundColor = [self _badgeColor];
+    badgeBtn.titleLabel.font = [self _badgeTitleFont];
+    badgeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [badgeBtn setTitleColor:titleColor forState:UIControlStateNormal];
+    [badgeBtn setTitleColor:titleColor forState:UIControlStateSelected];
+    [badgeBtn setTitleColor:titleColor forState:UIControlStateSelected | UIControlStateHighlighted];
+    
+    return badgeBtn;
+}
+
 -(void)_setupDefaultValue
 {
     [self _updateTitleFontAndColor];
@@ -104,13 +126,9 @@ static float tabBarImageRatio = 0.65;
     self.titleRange = CGRangeMake(off, 1-off);
     self.buttonStyle = NSButtonImageTitleStyleVertical;
     
-    self.badgeLabel = [[UILabel alloc] init];
-    self.badgeLabel.font = [self _badgeTitleFont];
-    self.badgeLabel.textColor = [self _badgeTitleColor];
-    self.badgeLabel.backgroundColor = [self _badgeColor];
-    self.badgeLabel.textAlignment = NSTextAlignmentCenter;
-    [self _updateBadgeLabel:nil];
-    [self.imageView addSubview:self.badgeLabel];
+    self.badgeButton = [self _createUpdateBadgeButton:nil badgeValue:nil];
+    [self _updateBadgeValue:nil];
+    [self.imageView addSubview:self.badgeButton];
 }
 
 -(void)_updateTitleFontAndColor
@@ -121,7 +139,7 @@ static float tabBarImageRatio = 0.65;
     [self setTitleColor:[self _tabBarButtonTitleSelectedColor] forState:UIControlStateSelected | UIControlStateHighlighted];
 }
 
--(void)_updateBadgeLabel:(NSString*)badgeValue
+-(void)_updateBadgeValue:(NSString*)badgeValue
 {
     CGFloat x = 0;
     CGFloat y = 0;
@@ -132,6 +150,7 @@ static float tabBarImageRatio = 0.65;
     CGFloat hR = 8;
     
     NSBadgeType badgeType = NSBadgeTypeDefault;
+    
     NSString *realShowValue = [self _badgeValueAndTypeForValue:badgeValue badgeType:&badgeType];
     if (badgeType == NSBadgeTypeDot) {
         h = 10;
@@ -153,21 +172,19 @@ static float tabBarImageRatio = 0.65;
     w = MIN(w, self.bounds.size.width - x);
     
     CGRect frame = CGRectMake(x, y, w, h);
-    self.badgeLabel.frame = frame;
-    self.badgeLabel.layer.cornerRadius = h/2;
-    self.badgeLabel.layer.masksToBounds = YES;
-    self.badgeLabel.backgroundColor = [self _badgeColor];
+    self.badgeButton.frame = frame;
+    self.badgeButton.layer.cornerRadius = h/2;
+    self.badgeButton.layer.masksToBounds = YES;
+    self.badgeButton.backgroundColor = [self _badgeColor];
     if (badgeType == NSBadgeTypeDefault) {
-        self.badgeLabel.text = NSSTRING_SAFE_GET_NONULL_VAL(realShowValue);
-        self.badgeLabel.font = [self _badgeTitleFont];
-        self.badgeLabel.textColor = [self _badgeTitleColor];
-        self.badgeLabel.hidden = !IS_AVAILABLE_NSSTRNG(realShowValue);
+        [self _createUpdateBadgeButton:self.badgeButton badgeValue:realShowValue];
+        self.badgeButton.hidden = !IS_AVAILABLE_NSSTRNG(realShowValue);
     }
     else if (badgeType == NSBadgeTypeDot) {
-        self.badgeLabel.hidden = NO;
+        self.badgeButton.hidden = NO;
     }
     else {
-        self.badgeLabel.hidden = YES;
+        self.badgeButton.hidden = YES;
     }
 }
 
@@ -175,9 +192,13 @@ static float tabBarImageRatio = 0.65;
 {
     NSString *value = badgeValue;
     NSBadgeType type = NSBadgeTypeDefault;
-    if (self.badgeBlock) {
-        value = self.badgeBlock(self, badgeValue, &type);
+    
+    if (self.tabBarItem.badgeValueUpdateBlock) {
+        value = self.tabBarItem.badgeValueUpdateBlock(self.badgeButton, badgeValue, &type);
     }
+//    if (self.badgeValueUpdateBlock) {
+//        value = self.badgeValueUpdateBlock(self, self.badgeButton, badgeValue, &type);
+//    }
     if (badgeType) {
         *badgeType = type;
     }
@@ -201,21 +222,36 @@ static float tabBarImageRatio = 0.65;
 
 -(NSDictionary<NSString*,id>*)_badgeTextAttributes
 {
-    if (![self.tabBarItem respondsToSelector:@selector(badgeTextAttributesForState:)]) {
-        return nil;
+    NSDictionary *dict = nil;
+    if ([self.tabBarItem respondsToSelector:@selector(badgeTextAttributesForState:)]) {
+        dict = [self.tabBarItem badgeTextAttributesForState:self.state];
+        if (dict == nil) {
+            dict = [self.tabBarItem badgeTextAttributesForState:UIControlStateNormal];
+        }
+        if (dict == nil) {
+            dict = [self.tabBarItem badgeTextAttributesForState:UIControlStateSelected];
+        }
+        if (dict == nil) {
+            dict = [self.tabBarItem badgeTextAttributesForState:UIControlStateHighlighted];
+        }
+        if (dict == nil) {
+            dict = [self.tabBarItem badgeTextAttributesForState:UIControlStateSelected|UIControlStateHighlighted];
+        }
     }
-    NSDictionary *dict = [self.tabBarItem badgeTextAttributesForState:self.state];
-    if (dict == nil) {
-        dict = [self.tabBarItem badgeTextAttributesForState:UIControlStateNormal];
-    }
-    if (dict == nil) {
-        dict = [self.tabBarItem badgeTextAttributesForState:UIControlStateSelected];
-    }
-    if (dict == nil) {
-        dict = [self.tabBarItem badgeTextAttributesForState:UIControlStateHighlighted];
-    }
-    if (dict == nil) {
-        dict = [self.tabBarItem badgeTextAttributesForState:UIControlStateSelected|UIControlStateHighlighted];
+    else {
+        dict = [self.tabBarItem.badgeStateTextAttributes objectForKey:@(self.state)];
+        if (dict == nil) {
+            dict = [self.tabBarItem.badgeStateTextAttributes objectForKey:@(UIControlStateNormal)];
+        }
+        if (dict == nil) {
+            dict = [self.tabBarItem.badgeStateTextAttributes objectForKey:@(UIControlStateSelected)];
+        }
+        if (dict == nil) {
+            dict = [self.tabBarItem.badgeStateTextAttributes objectForKey:@(UIControlStateHighlighted)];
+        }
+        if (dict == nil) {
+            dict = [self.tabBarItem.badgeStateTextAttributes objectForKey:@(UIControlStateSelected|UIControlStateHighlighted)];
+        }
     }
     return dict;
 }
@@ -423,7 +459,7 @@ static float tabBarImageRatio = 0.65;
     
     [self setTitle:item.title forState:UIControlStateNormal];
     
-    [self _updateBadgeLabel:self.tabBarItem.badgeValue];
+    [self _updateBadgeValue:self.tabBarItem.badgeValue];
 }
 
 -(void)setSelected:(BOOL)selected

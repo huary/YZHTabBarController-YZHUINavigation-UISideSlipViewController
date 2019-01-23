@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger,NSBadgeType)
+{
+    //直接hidden
+    NSBadgeTypeNULL     = -1,
+    //会根据需要显示的badgeValue判断是否显示(IS_AVAILABLE_NSSTRNG(realShowValue))
+    NSBadgeTypeDefault  = 0,
+    //直接展示小圆圈
+    NSBadgeTypeDot      = 1,
+};
+
 typedef NS_ENUM(NSInteger,NSButtonImageTitleStyle)
 {
     NSButtonImageTitleStyleVertical      = 0,
@@ -39,6 +49,8 @@ CGRangeEqualToZero(CGRange r)
 }
 
 
+typedef NSString*(^TabBarItemBadgeBlock)(UIButton *badgeButton, NSString *badgeValue, NSBadgeType *badgeType);
+
 @interface UITabBarItem (UIButton)
 
 @property (nonatomic, assign) NSButtonImageTitleStyle buttonStyle;
@@ -57,4 +69,9 @@ CGRangeEqualToZero(CGRange r)
 
 /** 10.0以前设置badge的color */
 @property (nonatomic, strong) UIColor *badgeBackgroundColor;
+
+@property (nonatomic, copy) NSDictionary<NSNumber *,NSDictionary<NSString *,id>*> *badgeStateTextAttributes;
+
+@property (nonatomic, copy) TabBarItemBadgeBlock badgeValueUpdateBlock;
+
 @end

@@ -11,16 +11,6 @@
 
 @implementation UITabBarItem (UIButton)
 
-//@property (nonatomic, assign) NSButtonImageTitleStyle buttonStyle;
-//
-//@property (nonatomic, assign) CGSize buttonItemSize;
-//
-//@property (nonatomic, assign) CGFloat imageViewStartRatio;
-//@property (nonatomic, assign) CGFloat imageViewOffsetRatio;
-//
-//@property (nonatomic, assign) CGFloat titleLabelStartRatio;
-//@property (nonatomic, assign) CGFloat titleLabelOffsetRatio;
-
 -(void)setButtonStyle:(NSButtonImageTitleStyle)buttonStyle
 {
     objc_setAssociatedObject(self, @selector(buttonStyle), @(buttonStyle), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -125,6 +115,26 @@
 }
 
 -(UIColor*)badgeBackgroundColor
+{
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+-(void)setBadgeStateTextAttributes:(NSDictionary<NSNumber *,NSDictionary<NSString *,id> *> *)badgeStateTextAttributes
+{
+    objc_setAssociatedObject(self, @selector(badgeStateTextAttributes), badgeStateTextAttributes, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+-(NSDictionary<NSNumber *,NSDictionary<NSString *,id> *> *)badgeStateTextAttributes
+{
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+-(void)setBadgeValueUpdateBlock:(TabBarItemBadgeBlock)badgeValueUpdateBlock
+{
+    objc_setAssociatedObject(self, @selector(badgeValueUpdateBlock), badgeValueUpdateBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+-(TabBarItemBadgeBlock)badgeValueUpdateBlock
 {
     return objc_getAssociatedObject(self, _cmd);
 }
