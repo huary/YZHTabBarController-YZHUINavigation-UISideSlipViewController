@@ -150,30 +150,31 @@ static float tabBarImageRatio = 0.65;
     CGFloat hR = 8;
     
     NSBadgeType badgeType = NSBadgeTypeDefault;
-    
+    CGRect oldFrame = self.badgeButton.frame;
     NSString *realShowValue = [self _badgeValueAndTypeForValue:badgeValue badgeType:&badgeType];
-    if (badgeType == NSBadgeTypeDot) {
-        h = 10;
-        w = 10;
-        wR = 3;
+    if (CGRectEqualToRect(oldFrame, self.badgeButton.frame)) {
+        if (badgeType == NSBadgeTypeDot) {
+            h = 10;
+            w = 10;
+            wR = 3;
+        }
+        
+        UIImage *image = self.tabBarItem.image;
+        if (image) {
+            CGSize size = self.graphicsImageFrame.size;
+            CGRect imageRect = [self _getImageRectForContentRect:self.bounds];
+            
+            x = (imageRect.size.width - size.width)/2 + size.width - h/wR;
+            y = (imageRect.size.height - size.height)/2 - h/hR;
+        }
+        if (realShowValue.length > 2 && badgeType == NSBadgeTypeDefault) {
+            w = 32;
+        }
+        w = MIN(w, self.bounds.size.width - x);
+        self.badgeButton.frame = CGRectMake(x, y, w, h);
     }
     
-    UIImage *image = self.tabBarItem.image;
-    if (image) {
-        CGSize size = self.graphicsImageFrame.size;
-        CGRect imageRect = [self _getImageRectForContentRect:self.bounds];
-
-        x = (imageRect.size.width - size.width)/2 + size.width - h/wR;
-        y = (imageRect.size.height - size.height)/2 - h/hR;
-    }
-    if (realShowValue.length > 2 && badgeType == NSBadgeTypeDefault) {
-        w = 32;
-    }
-    w = MIN(w, self.bounds.size.width - x);
-    
-    CGRect frame = CGRectMake(x, y, w, h);
-    self.badgeButton.frame = frame;
-    self.badgeButton.layer.cornerRadius = h/2;
+    self.badgeButton.layer.cornerRadius = self.badgeButton.bounds.size.height/2;
     self.badgeButton.layer.masksToBounds = YES;
     self.badgeButton.backgroundColor = [self _badgeColor];
     if (badgeType == NSBadgeTypeDefault) {
